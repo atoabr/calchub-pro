@@ -237,6 +237,8 @@ table.t td.n{font-family:var(--f-num);font-variant-numeric:tabular-nums}
 .plan .sub{margin:0;font-size:13px}.plan ul{margin:6px 0 0;padding-left:18px;font-size:14px;display:grid;gap:4px;flex:1;align-content:start}.plan .cta{margin-top:10px;display:flex;gap:6px;flex-wrap:wrap}
 .cmp td.c{text-align:center}.cmp .yes{color:var(--ok);font-weight:700}.cmp .no{color:var(--muted)}
 .sciin{font-size:19px!important;height:50px}
+.sciwrap{position:relative}.scicaret{position:absolute;top:12px;bottom:12px;width:2px;background:var(--accent);pointer-events:none;animation:sciblink 1s step-end infinite}
+@keyframes sciblink{50%{opacity:0}}@media (prefers-reduced-motion:reduce){.scicaret{animation:none}}
 .sbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:2px}.sbar .sp{flex:1}.sbar .seg button{min-width:52px}
 .kbtog{display:none}@media (pointer:coarse){.kbtog{display:inline-flex}}
 .skp{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin-top:10px}
@@ -1995,7 +1997,7 @@ let sciFresh=false, sciSel=null, sciGood=null;
 const COARSE=(()=>{try{return matchMedia('(pointer:coarse)').matches}catch(e){return false}})();
 function sciForm(c){
   const mode=form.vals.mode||'deg', kb=S.sciKeyboard===true;
-  return `<div class="fld" id="f_expr"><label for="in_expr">Expression</label><input type="text" id="in_expr" data-k="expr" value="${esc(form.vals.expr??'')}" spellcheck="false" autocomplete="off" autocapitalize="off" ${COARSE&&!kb?'inputmode="none"':''} class="sciin" aria-describedby="sci_help">
+  return `<div class="fld" id="f_expr"><label for="in_expr">Expression</label><div class="sciwrap"><input type="text" id="in_expr" data-k="expr" value="${esc(form.vals.expr??'')}" spellcheck="false" autocomplete="off" autocapitalize="off" ${COARSE&&!kb?'inputmode="none"':''} class="sciin" aria-describedby="sci_help"><span class="scicaret" id="sciCaret" hidden aria-hidden="true"></span></div>
    <div class="sciout" id="sciOut" aria-live="polite"></div><div class="err" id="e_expr" aria-live="polite"></div></div>
   <div class="sbar"><div class="seg" role="group" aria-label="Angle unit"><button type="button" data-smode="deg" class="${mode==='deg'?'on':''}">DEG</button><button type="button" data-smode="rad" class="${mode==='rad'?'on':''}">RAD</button></div>
    <span class="muted" style="font-size:12.5px">${mode==='deg'?'Angles in degrees':'Angles in radians'}</span><span class="sp"></span>
@@ -2009,17 +2011,26 @@ function sciHistHTML(){const h=S.sciHist||[];if(!h.length)return '';
   return `<div class="shist"><div class="shh"><b>History</b><button type="button" class="link" data-act="scihclear" style="font-size:12.5px">Clear</button></div>${h.map((x,k)=>`<button type="button" data-sh="${k}" title="Use this calculation again"><span>${esc(x.e)}</span><b>= ${esc(x.r)}</b></button>`).join('')}</div>`}
 const sciAnsStr=()=>S.sciAns==null?'':String(+(+S.sciAns).toPrecision(12));
 function sciCaret(inp){if(document.activeElement===inp)return [inp.selectionStart,inp.selectionEnd];return sciSel||[inp.value.length,inp.value.length]}
-function sciSet(inp,v,caret){inp.value=v;form.vals.expr=v;sciSel=[caret,caret];if(!COARSE||inp.getAttribute('inputmode')==='none'){try{inp.focus({preventScroll:true})}catch(e){}}try{inp.setSelectionRange(caret,caret)}catch(e){}renderResult()}
+function sciShowCaret(){const inp=$('#in_expr'),k=$('#sciCaret');if(!inp||!k)return;
+  if(document.activeElement===inp||!sciSel||sciFresh){k.hidden=true;return}
+  const cs=getComputedStyle(inp),c=sciShowCaret.c||(sciShowCaret.c=document.createElement('canvas').getContext('2d'));c.font=`${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+  const pos=Math.min(sciSel[0],inp.value.length),x=parseFloat(cs.paddingLeft)+parseFloat(cs.borderLeftWidth)+c.measureText(inp.value.slice(0,pos)).width-inp.scrollLeft;
+  k.style.left=Math.max(parseFloat(cs.paddingLeft),Math.min(x,inp.clientWidth))+'px';k.hidden=false;k.style.animation='none';void k.offsetWidth;k.style.animation=''}
+function sciMove(inp,c){sciSel=[c,c];try{if(!COARSE||inp.getAttribute('inputmode')==='none')inp.focus({preventScroll:true});inp.setSelectionRange(c,c)}catch(e){}
+  // keep the caret in view for long expressions
+  if(document.activeElement!==inp){const cs=getComputedStyle(inp),ctx=sciShowCaret.c||(sciShowCaret.c=document.createElement('canvas').getContext('2d'));ctx.font=`${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;const w=ctx.measureText(inp.value.slice(0,c)).width,room=inp.clientWidth-2*parseFloat(cs.paddingLeft);if(w-inp.scrollLeft>room)inp.scrollLeft=w-room+4;else if(w<inp.scrollLeft)inp.scrollLeft=Math.max(0,w-4)}
+  sciShowCaret()}
+function sciSet(inp,v,caret){inp.value=v;form.vals.expr=v;renderResult();sciMove(inp,caret)}
 function sciInsert(t){
   const inp=$('#in_expr');if(!inp)return;
   if(t===':eq')return sciEquals();
   if(t===':clr'){sciFresh=false;return sciSet(inp,'',0)}
   let v=inp.value,[a,b]=sciCaret(inp);if(a==null||a>v.length)a=b=v.length;
-  if(t===':left'||t===':right'){sciFresh=false;const c=t===':left'?Math.max(0,a-1):Math.min(v.length,b+1);sciSel=[c,c];try{if(!COARSE||inp.getAttribute('inputmode')==='none')inp.focus({preventScroll:true});inp.setSelectionRange(c,c)}catch(e){}return}
+  if(t===':left'||t===':right'){sciFresh=false;const c=t===':left'?(a!==b?a:Math.max(0,a-1)):(a!==b?b:Math.min(v.length,b+1));sciMove(inp,c);return}
   if(t===':del'){sciFresh=false;if(a!==b){return sciSet(inp,v.slice(0,a)+v.slice(b),a)}if(a===0)return;
     let k=1;const m=/(asin|acos|atan|sinh|cosh|tanh|sqrt|cbrt|round|floor|ceil|sin|cos|tan|log|exp|abs|nCr|nPr|ln|√|∛)\($|pi$| [×÷+−] $/.exec(v.slice(0,a));if(m)k=m[0].length;
     const gone=v.slice(a-k,a),tail=gone.endsWith('(')&&v[b]===')'?1:0;return sciSet(inp,v.slice(0,a-k)+v.slice(b+tail),a-k)}   // an emptied function loses its ')' too
-  if(t===')'&&a===b&&v[a]===')'&&!sciFresh){const c=a+1;sciSel=[c,c];try{if(!COARSE||inp.getAttribute('inputmode')==='none')inp.focus({preventScroll:true});inp.setSelectionRange(c,c)}catch(e){}return}   // step over an auto-added ')'
+  if(t===')'&&a===b&&v[a]===')'&&!sciFresh){sciMove(inp,a+1);return}   // step over an auto-added ')'
   if(t===':ans'){if(S.sciAns==null){toast('Press = first to keep an answer');return}t=sciAnsStr()}
   const isOp=/^( [×÷+−] |\^2?|!|%)$/.test(t);
   if(sciFresh){sciFresh=false;if(isOp&&S.sciAns!=null)v=sciAnsStr();else if(!isOp)v='';a=b=v.length}
@@ -2034,18 +2045,24 @@ function sciEquals(){
   const r=last.results[0],e=($('#in_expr').value||'').trim();if(!e)return;
   S.sciAns=r.value;const rs=plain(fmtVal(r).main);
   S.sciHist=[{e,r:rs},...(S.sciHist||[]).filter(x=>x.e!==e)].slice(0,8);save();
-  sciFresh=true;const h=$('#sciHist');if(h)h.innerHTML=sciHistHTML();
+  sciFresh=true;const h=$('#sciHist');if(h)h.innerHTML=sciHistHTML();sciShowCaret();
   const p=$('#result .prim');if(p){p.classList.remove('flash');void p.offsetWidth;p.classList.add('flash')}
 }
 document.addEventListener('mousedown',e=>{if(e.target.closest('.skp button,[data-smode]'))e.preventDefault()});
+let sciRep=null,sciRepeated=false;const sciStop=()=>{clearTimeout(sciRep);clearInterval(sciRep);sciRep=null};
+document.addEventListener('pointerdown',e=>{const k=e.target.closest('[data-sk=":left"],[data-sk=":right"],[data-sk=":del"]');if(!k)return;sciRepeated=false;sciStop();
+  sciRep=setTimeout(()=>{sciRep=setInterval(()=>{sciRepeated=true;sciInsert(k.dataset.sk)},90)},450)});
+['pointerup','pointercancel','pointerleave'].forEach(ev=>document.addEventListener(ev,sciStop,true));
+document.addEventListener('focusin',e=>{if(e.target.id==='in_expr')sciShowCaret()});document.addEventListener('focusout',e=>{if(e.target.id==='in_expr')setTimeout(sciShowCaret,0)});
 document.addEventListener('click',e=>{
-  const k=e.target.closest('[data-sk]');if(k){sciInsert(k.dataset.sk);return}
+  const k=e.target.closest('[data-sk]');if(k){if(sciRepeated){sciRepeated=false;return}sciInsert(k.dataset.sk);return}
   const m=e.target.closest('[data-smode]');if(m&&form&&form.id==='scientific'){form.vals.mode=m.dataset.smode;document.querySelectorAll('[data-smode]').forEach(b=>b.classList.toggle('on',b===m));const lab=m.parentElement.nextElementSibling;if(lab)lab.textContent=m.dataset.smode==='deg'?'Angles in degrees':'Angles in radians';renderResult();return}
   const h=e.target.closest('[data-sh]');if(h){const x=(S.sciHist||[])[+h.dataset.sh];const inp=$('#in_expr');if(x&&inp){sciFresh=false;sciSet(inp,x.e,x.e.length)}return}
 });
 document.addEventListener('change',e=>{if(e.target.id==='sciMore'&&e.target.value){const v=e.target.value;e.target.value='';sciInsert(v)}});
 document.addEventListener('keydown',e=>{if(e.target.id==='in_expr'&&e.key==='Enter'){e.preventDefault();sciEquals()}});
 ['keyup','click','select','input'].forEach(ev=>document.addEventListener(ev,e=>{if(e.target.id==='in_expr'){sciSel=[e.target.selectionStart,e.target.selectionEnd];if(ev==='input')sciFresh=false}}));
+addEventListener('resize',()=>sciShowCaret());
 function doSave(){modal(`<h2 style="font-size:18px">Save calculation</h2><div class="fld"><label for="sv_name">Name</label><input type="text" id="sv_name" maxlength="80" value="${esc(calc(last.calc).title+' — '+new Date().toLocaleDateString())}"></div><p class="muted" style="margin:0;font-size:13px">${esc(summary())}</p><div style="display:flex;gap:8px"><button class="btn pri" data-act="dosave">Save</button><button class="btn" data-act="close">Cancel</button></div>`)}
 
 applyTheme();setPh();productInit();
