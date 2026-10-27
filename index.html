@@ -1,7 +1,7 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="CalcHub Pro — 106 engineering, building-services, pipeline, finance, jewelry and gemstone calculators with formulas, code editions, working and PDF reports. By Engr. Abrar Hussain, Best Quality First Inc.">
-<meta property="og:title" content="CalcHub Pro — every calculation, with the formula on the page"><meta property="og:description" content="106 calculators for engineers and trades, with formulas, standards and PDF calculation reports."><meta property="og:type" content="website">
+<meta name="description" content="CalcHub Pro — 159 engineering, building-services, pipeline, finance, jewelry and gemstone calculators with formulas, code editions, working and PDF reports. By Engr. Abrar Hussain, Best Quality First Inc.">
+<meta property="og:title" content="CalcHub Pro — every calculation, with the formula on the page"><meta property="og:description" content="159 calculators for engineers and trades, with formulas, standards and PDF calculation reports."><meta property="og:type" content="website">
 <meta name="theme-color" content="#14181D"><link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon-192.png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="CalcHub Pro">
@@ -271,6 +271,16 @@ a.btn{text-decoration:none}
 .ptfx{display:flex;flex-direction:column;min-width:0}.ptfx small{font-size:11.5px;color:var(--muted)}.ptfx b{font:600 20px var(--f-num);overflow-x:auto;white-space:nowrap}
 .ptmm{font:600 18px var(--f-num);color:var(--accent);white-space:nowrap}.ptmm.wait{color:var(--muted);font-weight:500;font-size:14px}
 .ptkeys button{height:38px;border:1px solid var(--line);border-radius:7px;background:var(--surface);color:var(--ink);font:500 14px var(--f-num);cursor:pointer;touch-action:manipulation}.ptkeys button:hover{border-color:var(--line-strong)}
+.pick{margin-top:6px;height:34px;font-size:13px;color:var(--muted);background:var(--sunk);border-color:transparent;width:auto;max-width:100%}
+.rtab tr.chk td{font-weight:600}.rtab tr.chk.ok td:last-child{color:var(--ok)}.rtab tr.chk.warn td:last-child{color:var(--warn-ink)}.rtab tr.chk.bad td:last-child{color:var(--bad)}
+.warnbox{margin:10px 0;padding:10px 12px;border-radius:8px;background:var(--warn-soft);color:var(--warn-ink);font-size:13.5px}.warnbox p{margin:0}.warnbox p+p{margin-top:6px}
+.h2a{display:inline-flex;gap:14px;font-family:var(--f-ui);text-transform:none;letter-spacing:0}.h2a .link{font-size:13px}
+.exbox{margin:0 0 12px;padding:10px 12px;border-radius:8px;font-size:13px;line-height:1.5}.exbox.ok{background:var(--ok-soft);color:var(--ok)}.exbox.bad{background:var(--bad-soft);color:var(--bad)}
+.diag{margin:0 0 12px;border:1px solid var(--line);border-radius:8px;padding:6px 10px;background:var(--surface)}.diag summary{cursor:pointer;font-size:12.5px;color:var(--muted);font-family:var(--f-num);text-transform:uppercase;letter-spacing:.06em}
+.dg{display:block;width:100%;max-width:420px;height:auto;margin:6px auto 2px}.dg text{font:500 11px var(--f-num);fill:var(--accent)}
+.dgs{stroke:var(--ink);stroke-width:2;fill:var(--sunk)}.dgl{stroke:var(--accent);stroke-width:1.5;fill:none}.dgd{stroke:var(--muted);stroke-width:1.2;fill:none}.dgf{fill:var(--muted)}.dgw{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.2}
+.refnav{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 14px}.refnav .pill{text-decoration:none;color:var(--ink);padding:6px 10px;font-size:13px}.refnav .dim{opacity:.45}
+.reft{margin-bottom:14px}.reft .t td.n{white-space:nowrap}
 .xval{font:500 13px var(--f-num);color:var(--accent);margin-top:4px;min-height:0}.xval:empty{display:none}
 .sciout{font:600 22px var(--f-num);text-align:right;margin-top:6px;color:var(--ink);min-height:28px;overflow-x:auto;white-space:nowrap}.sciout.wait{color:var(--muted)}
 @keyframes flash{0%{background:var(--accent-soft)}100%{}}.prim.flash{animation:flash .6s ease-out}
@@ -520,11 +530,11 @@ def({id:'loan-emi',cat:'financial',title:'Loan / EMI',kw:'emi installment monthl
     return{results:[R('emi','Monthly payment',emi,{kind:'money',primary:true}),R('total','Total paid',tot,{kind:'money'}),R('interest','Total interest',tot-v.P,{kind:'money'}),R('n','Payments',n,{kind:'int'})],
       formula:'EMI = P × r × (1 + r)ⁿ ÷ ((1 + r)ⁿ − 1), r = annual rate ÷ 12',steps:[`r = ${fmtSig(v.rate)} ÷ 1200 = ${fmtSig(r,6)}`,`n = ${n} monthly payments`,`EMI = ${fmtSig(v.P,10)} × ${fmtSig(r,6)} × (1 + ${fmtSig(r,6)})^${n} ÷ ((1 + ${fmtSig(r,6)})^${n} − 1) = ${cents(emi).toFixed(2)}`],assumptions:['Fixed rate, payments at the end of each month, no fees.','Totals use the payment rounded to cents; the last payment at a real lender may differ slightly.']}}});
 def({id:'mortgage',cat:'financial',title:'Mortgage',kw:'home loan house down payment property tax insurance',
-  inputs:[num('price','Home price',{money:true,def:250000,min:0}),num('down','Down payment (%)',{def:20,min:0,max:100}),num('rate','Annual interest rate (%)',{def:6.5,min:0,max:100}),num('years','Term (years)',{def:30,min:1,max:50,int:true}),num('tax','Property tax per year',{money:true,def:0,min:0}),num('ins','Home insurance per year',{money:true,def:0,min:0})],
+  inputs:[num('price','Home price',{money:true,def:250000,min:0}),num('down','Down payment (%)',{def:20,min:0,max:100}),num('rate','Annual interest rate (%)',{def:6.5,min:0,max:100}),num('years','Term (years)',{def:30,min:1,max:50,int:true}),num('tax','Property tax per year',{money:true,def:0,min:0}),num('ins','Home insurance per year',{money:true,def:0,min:0}),sel('comp','Interest compounding',[['m','Monthly (US and most countries)'],['s','Semi-annual (Canadian fixed-rate mortgages)']])],
   compute(v){need(v.price>0,'Home price must be above zero.','price');const loan=v.price*(1-v.down/100);need(loan>0,'Down payment covers the full price; no loan needed.','down');
-    const n=v.years*12,r=v.rate/1200,pi=amort(loan,r,n),extra=(v.tax+v.ins)/12,tot=cents(pi)*n;
+    const n=v.years*12,r=v.comp==='s'?Math.pow(1+v.rate/200,1/6)-1:v.rate/1200,pi=amort(loan,r,n),extra=(v.tax+v.ins)/12,tot=cents(pi)*n;
     return{results:[R('pi','Principal and interest per month',pi,{kind:'money',primary:true}),R('monthly','Total monthly (with tax and insurance)',cents(pi)+extra,{kind:'money'}),R('loan','Loan amount',loan,{kind:'money'}),R('interest','Total interest over the term',tot-loan,{kind:'money'})],
-      formula:'M = L × r × (1 + r)ⁿ ÷ ((1 + r)ⁿ − 1), L = price × (1 − down%)',steps:[`L = ${fmtSig(v.price,10)} × (1 − ${fmtSig(v.down)}%) = ${fmtSig(loan,10)}`,`r = ${fmtSig(r,6)}, n = ${n}`,`M = ${cents(pi).toFixed(2)}`],assumptions:['Fixed-rate loan; tax and insurance spread evenly across 12 months; PMI not included.']}}});
+      formula:`M = L × r × (1 + r)ⁿ ÷ ((1 + r)ⁿ − 1), L = price × (1 − down%), ${v.comp==='s'?'r = (1 + annual rate ÷ 2)^(1/6) − 1 (semi-annual compounding)':'r = annual rate ÷ 12'}`,steps:[`L = ${fmtSig(v.price,10)} × (1 − ${fmtSig(v.down)}%) = ${fmtSig(loan,10)}`,`r = ${fmtSig(r,6)}, n = ${n}`,`M = ${cents(pi).toFixed(2)}`],assumptions:['Fixed-rate loan; tax and insurance spread evenly across 12 months; PMI not included.']}}});
 def({id:'compound',cat:'financial',title:'Compound interest',kw:'savings investment future value growth',
   inputs:[num('P','Starting amount',{money:true,def:1000,min:0}),num('rate','Annual interest rate (%)',{def:5,min:-100,max:100}),num('years','Years',{def:10,min:0}),sel('n','Compounding',[['1','Yearly'],['2','Half-yearly'],['4','Quarterly'],['12','Monthly'],['365','Daily']],'1'),num('C','Deposit each compounding period',{money:true,def:0,min:0})],
   compute(v){const n=+v.n,i=v.rate/100/n,N=n*v.years;const g=Math.pow(1+i,N);const fvP=v.P*g,fvC=i===0?v.C*N:v.C*(g-1)/i,fv=fvP+fvC,dep=v.P+v.C*N;
@@ -728,6 +738,10 @@ function runCalc(id, raw={}){
     } else v[inp.key]=x===undefined?inp.def:x;
   }
   const out=c.compute(v);
+  if(!(out.refs&&out.refs.length)&&c.refs)out.refs=c.refs;
+  if(c.extraAssumptions)out.assumptions=[...(out.assumptions||[]),...c.extraAssumptions];
+  if(c.check)for(const k of (c.check(v,out)||[]).filter(Boolean))out.results.push(R(k.key,k.label,k.text,{kind:'text',check:k.ok===true?'ok':k.ok==='warn'?'warn':'bad'}));
+  if(c.warn){const w=(c.warn(v,out)||[]).filter(Boolean);if(w.length)out.warnings=w}
   for(const r of out.results){ if(r.kind!=='text'&&r.kind!==undefined&&r.kind!=='int'&&r.kind!=='money'&&r.kind!=='pct'&&r.kind!=='num') continue;
     if(typeof r.value==='number'&&!Number.isFinite(r.value)) throw new ValErr('These inputs do not give a finite result. Check for zeros.'); }
   return {...out, calc:c.id, version:c.version, disclaimer:c.disclaimer};
@@ -1211,6 +1225,601 @@ def({id:'el-lux',cat:'electrical',title:'Lighting design (lumen method)',kw:'lig
     return{results:[R('N','Luminaires needed',N,{kind:'int',primary:true}),R('n','Exact number',n,{sig:4}),R('Eact','Maintained illuminance with that number',Eact,{unitText:'lux'}),R('fc','In foot-candles',Eact/10.7639,{unitText:'fc'})],formula:'N = E × A ÷ (Φ × UF × MF)',steps:[`N = ${fmtSig(v.E)} × ${fmtSig(v.A)} ÷ (${fmtSig(v.phi)} × ${fmtSig(v.UF)} × ${fmtSig(v.MF)}) = ${fmtSig(n)}`],refs:['Lumen (zonal-cavity) method; CIBSE / IES lighting handbooks','EN 12464-1 illuminance recommendations']}}});
 
 /* ================================================================
+   CalcHub Pro — additional calculators (part 1): general, financial,
+   unit converters, electrical, civil, building, chemical, CAD.
+   ================================================================ */
+UNITS.volume.cm3=1e-6; UNIT_LABEL.cm3='cm³';
+const gcd=(a,b)=>b?gcd(b,a%b):a;
+function fracStr(x,den){const s=x<0?'−':'',a=Math.abs(x);let w=Math.floor(a),n=Math.round((a-w)*den);if(n===den){w++;n=0}const g=n?gcd(n,den):1;return n?`${s}${w?w+' ':''}${n/g}/${den/g}`:`${s}${w}`}
+
+/* ---------------- GENERAL ---------------- */
+def({id:'frac-inch',cat:'general',title:'Fractions and inches',kw:'fraction inch tape measure 1/16 feet inches add subtract mixed numbers',
+  inputs:[text('expr','Expression','3 1/2 + 2 3/4',{help:'Mixed numbers like 3 1/2 or 3-1/2, feet with \' (5\' 3 1/4"), and + − × ÷. Result is in inches.'}),sel('den','Round to the nearest',[['16','1/16 in'],['8','1/8 in'],['32','1/32 in'],['64','1/64 in'],['4','1/4 in']])],
+  compute(v){let s=String(v.expr||'').replace(/["″]/g,' ').replace(/[×x]/g,'*').replace(/÷/g,'/').trim();need(s,'Type a measurement, for example 3 1/2 + 2 3/4.','expr');
+    s=s.replace(/(\d+(?:\.\d+)?)\s*['′]\s*(?=\d)/g,'($1*12)+').replace(/(\d+(?:\.\d+)?)\s*['′]/g,'($1*12)');
+    s=s.replace(/(\d+)[\s-]+(\d+)\/(\d+)/g,'($1+$2/$3)');
+    let x;try{x=evalExpr(s,'deg')}catch(e){throw new ValErr('Check the expression: '+e.message.replace(' Use * for multiplication.',''),'expr')}
+    const den=+v.den,ft=Math.trunc(x/12),inch=x-ft*12;
+    return{results:[R('frac','Result',fracStr(x,den)+' in',{kind:'text',primary:true}),R('dec','Decimal inches',x,{sig:6,unitText:'in'}),R('mm','Millimetres',x*25.4,{sig:6,unitText:'mm'}),R('ftin','Feet and inches',`${ft}′ ${fracStr(inch,den)}″`,{kind:'text'})],
+      formula:'Mixed numbers are converted to decimals, calculated, then rounded to the nearest fraction · 1 in = 25.4 mm',steps:[`Expression evaluated as ${s} = ${fmtSig(x,8)} in`,`Nearest 1/${den} in: ${fracStr(x,den)} in`],refs:['1 in = 25.4 mm exactly (NIST SP 811)']}}});
+def({id:'right-tri',cat:'general',title:'Right triangle solver',kw:'pythagoras hypotenuse right angle triangle sides angle trigonometry',
+  inputs:[num('a','Side a (opposite angle A)',{dim:'length',unit:'m',imp:'ft',def:3,opt:true}),num('b','Side b (adjacent to angle A)',{dim:'length',unit:'m',imp:'ft',def:4,opt:true}),num('c','Hypotenuse c',{dim:'length',unit:'m',imp:'ft',opt:true}),num('A','Angle A (degrees)',{opt:true,help:'Enter any two values (at least one side); leave the rest empty.'})],
+  compute(v){let {a,b,c,A}=v;const h=x=>Number.isFinite(x);const ar=A*Math.PI/180;
+    need([a,b,c,A].filter(h).length>=2,'Enter two values, at least one of them a side.','a');need(h(a)||h(b)||h(c),'Enter at least one side.','a');if(h(A))need(A>0&&A<90,'Angle A must be between 0 and 90°.','A');
+    if(h(a)&&h(b)){c=Math.hypot(a,b)}else if(h(a)&&h(c)){need(c>a,'The hypotenuse must be the longest side.','c');b=Math.sqrt(c*c-a*a)}else if(h(b)&&h(c)){need(c>b,'The hypotenuse must be the longest side.','c');a=Math.sqrt(c*c-b*b)}
+    else if(h(A)&&h(a)){c=a/Math.sin(ar);b=a/Math.tan(ar)}else if(h(A)&&h(b)){a=b*Math.tan(ar);c=b/Math.cos(ar)}else if(h(A)&&h(c)){a=c*Math.sin(ar);b=c*Math.cos(ar)}
+    need(a>0&&b>0&&c>0,'Sides must be above zero.','a');const Ad=Math.atan2(a,b)*180/Math.PI;
+    return{results:[R('c','Hypotenuse c',c,{dim:'length',primary:true}),R('a','Side a',a,{dim:'length'}),R('b','Side b',b,{dim:'length'}),R('A','Angle A',Ad,{sig:6,unitText:'°'}),R('B','Angle B',90-Ad,{sig:6,unitText:'°'}),R('area','Area',a*b/2,{dim:'area'}),R('per','Perimeter',a+b+c,{dim:'length'})],
+      formula:'c² = a² + b² · sin A = a/c · cos A = b/c · tan A = a/b',steps:[`a = ${fmtSig(a,6)}, b = ${fmtSig(b,6)}, c = ${fmtSig(c,6)} m`,`A = atan(a/b) = ${fmtSig(Ad,6)}°, B = 90° − A`],refs:['Pythagorean theorem and right-triangle trigonometry']}}});
+def({id:'time-calc',cat:'general',title:'Time and hours worked',kw:'hours worked timesheet duration time between clock overtime pay',
+  inputs:[text('s','Start time','08:30',{help:'24-hour (17:15) or 12-hour (5:15 pm). An end time earlier than the start counts as overnight.'}),text('e','End time','17:15'),num('brk','Unpaid break (minutes)',{def:30,min:0}),num('rate','Hourly rate (optional)',{money:true,opt:true,min:0})],
+  compute(v){const p=(t,k)=>{const m=String(t||'').trim().toLowerCase().match(/^(\d{1,2})(?::(\d{2}))?\s*(am|pm)?$/);need(m,'Enter a time like 08:30 or 5:15 pm.',k);let H=+m[1],M=+(m[2]||0);need(M<60&&H<=(m[3]?12:23),'Enter a valid time.',k);if(m[3]==='pm'&&H<12)H+=12;if(m[3]==='am'&&H===12)H=0;return H*60+M};
+    const a=p(v.s,'s'),b=p(v.e,'e');let d=b-a;const over=d<0;if(over)d+=1440;d-=v.brk;need(d>=0,'The break is longer than the time worked.','brk');const hrs=d/60;
+    const out=[R('h','Hours worked',hrs,{sig:4,unitText:'h',primary:true}),R('hm','Hours and minutes',`${Math.floor(d/60)} h ${String(d%60).padStart(2,'0')} min`,{kind:'text'})];
+    if(Number.isFinite(v.rate))out.push(R('pay','Pay',hrs*v.rate,{kind:'money'}));
+    return{results:out,formula:'hours = (end − start − break) ÷ 60',steps:[`${over?'Overnight shift: ':''}${b-a+(over?1440:0)} min − ${v.brk} min break = ${d} min`],refs:['Clock arithmetic (24-hour time, ISO 8601)']}}});
+
+/* ---------------- FINANCIAL ---------------- */
+def({id:'markup',cat:'financial',title:'Markup and margin',kw:'markup margin profit selling price cost gross margin',
+  inputs:[num('cost','Cost',{money:true,def:80,min:0}),sel('find','I know',[['price','Selling price'],['mu','Markup %'],['mg','Margin %']]),num('x','Value',{def:100,help:'The selling price, markup % or margin %, as chosen above.'})],
+  compute(v){need(v.cost>0,'Cost must be above zero.','cost');let price;if(v.find==='price')price=v.x;else if(v.find==='mu')price=v.cost*(1+v.x/100);else{need(v.x<100,'Margin must be below 100 %.','x');price=v.cost/(1-v.x/100)}
+    need(price>0,'The selling price must be above zero.','x');const pr=price-v.cost;
+    return{results:[R('price','Selling price',price,{kind:'money',primary:true}),R('profit','Gross profit',pr,{kind:'money'}),R('mu','Markup (on cost)',pr/v.cost*100,{kind:'pct'}),R('mg','Margin (on price)',pr/price*100,{kind:'pct'})],
+      formula:'markup = profit ÷ cost · margin = profit ÷ price',steps:[`profit = ${fmtSig(price,10)} − ${fmtSig(v.cost,10)} = ${fmtSig(pr,10)}`],refs:['Standard pricing definitions: markup on cost, gross margin on selling price']}}});
+def({id:'break-even',cat:'financial',title:'Break-even point',kw:'break even units fixed costs variable cost contribution margin',
+  inputs:[num('F','Fixed costs (per period)',{money:true,def:50000,min:0}),num('p','Price per unit',{money:true,def:25,min:0}),num('vc','Variable cost per unit',{money:true,def:15,min:0}),num('tp','Target profit (optional)',{money:true,opt:true,min:0})],
+  compute(v){const cm=v.p-v.vc;need(cm>0,'The price must be above the variable cost.','p');const u=v.F/cm,out=[R('u','Break-even units',u,{sig:6,primary:true}),R('rev','Break-even revenue',u*v.p,{kind:'money'}),R('cm','Contribution per unit',cm,{kind:'money'}),R('cmr','Contribution margin ratio',cm/v.p*100,{kind:'pct'})];
+    if(Number.isFinite(v.tp))out.push(R('ut','Units for the target profit',(v.F+v.tp)/cm,{sig:6}));
+    return{results:out,formula:'units = fixed costs ÷ (price − variable cost)',steps:[`${fmtSig(v.F,10)} ÷ (${fmtSig(v.p)} − ${fmtSig(v.vc)}) = ${fmtSig(u,6)} units`],refs:['Cost–volume–profit analysis']}}});
+def({id:'npv',cat:'financial',title:'NPV, IRR and payback',kw:'net present value internal rate of return payback discounted cash flow investment project',
+  inputs:[num('I0','Initial investment',{money:true,def:10000,min:0}),area_('cf','Yearly cash flows (one per year)','3000 3500 4000 4500',{help:'Net cash in for years 1, 2, 3 … separated by spaces or new lines.'}),num('r','Discount rate (%)',{def:8,min:-99})],
+  compute(v){const cf=parseList(v.cf,'cf'),r=v.r/100;const npvAt=k=>-v.I0+cf.reduce((s,c,t)=>s+c/Math.pow(1+k,t+1),0);const npv=npvAt(r);
+    let irr=NaN;if(npvAt(-0.99)>0&&npvAt(10)<0){let lo=-0.99,hi=10;for(let k=0;k<200;k++){const m=(lo+hi)/2;if(npvAt(m)>0)lo=m;else hi=m}irr=(lo+hi)/2}
+    const pay=(disc)=>{let c=-v.I0;for(let t=0;t<cf.length;t++){const x=disc?cf[t]/Math.pow(1+r,t+1):cf[t];if(c+x>=0)return t+(-c)/x;c+=x}return NaN};
+    const out=[R('npv','Net present value',npv,{kind:'money',primary:true}),R('irr','Internal rate of return',irr*100,{kind:'pct'}),R('pb','Simple payback',pay(false),{sig:3,unitText:'years'}),R('dpb','Discounted payback',pay(true),{sig:3,unitText:'years'}),R('pi','Profitability index',v.I0>0?(npv+v.I0)/v.I0:NaN,{sig:4})];
+    return{results:out,formula:'NPV = −I₀ + Σ CFₜ ÷ (1 + r)ᵗ · IRR: the rate where NPV = 0',steps:cf.slice(0,10).map((c,t)=>`Year ${t+1}: ${fmtSig(c,10)} ÷ ${fmtSig(Math.pow(1+r,t+1),6)} = ${fmtSig(c/Math.pow(1+r,t+1),8)}`),
+      assumptions:['Cash flows arrive at the end of each year. IRR is not shown when the cash flows change sign more than once or never pay back.'],refs:['Discounted cash flow analysis (standard engineering economics)']}}});
+def({id:'depreciation',cat:'financial',title:'Depreciation',kw:'depreciation straight line declining balance sum of years book value asset',
+  inputs:[num('cost','Asset cost',{money:true,def:50000,min:0}),num('salv','Salvage value',{money:true,def:5000,min:0}),num('life','Useful life (years)',{def:5,min:1,max:50,int:true}),sel('m','Method',[['sl','Straight line'],['ddb','Double-declining balance'],['syd','Sum-of-years’ digits']]),num('yr','Show year',{def:1,min:1,int:true})],
+  compute(v){need(v.salv<v.cost,'Salvage value must be below the cost.','salv');need(v.yr<=v.life,'The year must be within the useful life.','yr');const n=v.life,base=v.cost-v.salv;const dep=[];let bv=v.cost;
+    for(let t=1;t<=n;t++){let d=v.m==='sl'?base/n:v.m==='syd'?base*(n-t+1)/(n*(n+1)/2):Math.min(bv*2/n,bv-v.salv);if(v.m==='ddb'&&t===n)d=bv-v.salv;dep.push(d);bv-=d}
+    const bvAt=v.cost-dep.slice(0,v.yr).reduce((a,b)=>a+b,0);
+    return{results:[R('d','Depreciation in year '+v.yr,dep[v.yr-1],{kind:'money',primary:true}),R('bv','Book value at end of year '+v.yr,bvAt,{kind:'money'}),R('d1','First-year depreciation',dep[0],{kind:'money'}),R('sched','Schedule',dep.map((d,t)=>`Y${t+1} ${fmtMoney(d)}`).join(' · '),{kind:'text'})],
+      formula:v.m==='sl'?'D = (cost − salvage) ÷ life':v.m==='syd'?'Dₜ = (cost − salvage) × remaining life ÷ (n(n+1)/2)':'Dₜ = book value × 2 ÷ life, not below salvage',steps:[`Depreciable base = ${fmtSig(base,10)}`],
+      assumptions:['Full-year convention. Tax depreciation (CCA in Canada, MACRS in the US) follows separate rules.'],refs:['Standard accounting depreciation methods']}}});
+
+/* ---------------- UNIT CONVERTERS ---------------- */
+for(const [dim,title,unit,dv] of [['flow','Flow rate','L/s',1],['power','Power','kW',1],['force','Force','kN',1],['moment','Torque and moment','N·m',100],['density','Density','kg/m3',1000],['kvisc','Kinematic viscosity','cSt',1]]){
+  def({id:'conv-'+dim,cat:'units',title:title+' converter',kw:Object.keys(UNITS[dim]).join(' ')+' '+title.toLowerCase(),conv:dim,
+    inputs:[num('x','Value',{dim,unit,imp:unit,def:dv})],
+    compute(v){return{results:Object.keys(UNITS[dim]).map((u,k)=>R('u_'+u.replace(/[^\w]/g,'_'),ulabel(u),fromSI(v.x,dim,u),{primary:k===0,sig:6,unitText:ulabel(u)})),formula:'value in SI × factor',steps:['Converted to SI first, then to each unit.'],refs:['Conversion factors: NIST Special Publication 811 (2008), Appendix B']}}});
+}
+
+/* ---------------- ELECTRICAL ---------------- */
+const NEC_GROUP=[[3,1],[6,0.8],[9,0.7],[20,0.5],[30,0.45],[40,0.4],[Infinity,0.35]];
+def({id:'el-derate',cat:'electrical',title:'Cable ampacity derating',kw:'ampacity derating ambient temperature correction grouping bundling adjustment factor conductors',disclaimer:ENG,
+  inputs:[num('Ib','Table ampacity',{dim:'current',unit:'A',def:30,min:0,help:'From the ampacity table for the conductor and insulation, at 30 °C ambient.'}),sel('tc','Conductor temperature rating',[['75','75 °C'],['60','60 °C'],['90','90 °C']]),num('ta','Ambient temperature',{dim:'temp',unit:'C',imp:'F',def:40}),num('n','Current-carrying conductors in the raceway or cable',{def:6,min:1,int:true})],
+  compute(v){const Tc=+v.tc,Ta=v.ta-273.15;need(Ta<Tc,'Ambient must be below the conductor rating.','ta');const kt=Math.sqrt((Tc-Ta)/(Tc-30)),kg=NEC_GROUP.find(([m])=>v.n<=m)[1],I=v.Ib*kt*kg;
+    return{results:[R('I','Corrected ampacity',I,{unitText:'A',primary:true,sig:4}),R('kt','Temperature correction factor',kt,{sig:3}),R('kg','Adjustment factor for conductor count',kg,{sig:3})],
+      formula:'I = I_table × √((Tc − Ta) ÷ (Tc − 30)) × adjustment factor',steps:[`kt = √((${Tc} − ${fmtSig(Ta)}) ÷ (${Tc} − 30)) = ${fmtSig(kt,4)}`,`${v.n} conductors → adjustment ${kg}`,`I = ${fmtSig(v.Ib)} × ${fmtSig(kt,4)} × ${kg} = ${fmtSig(I,4)} A`],
+      assumptions:['Table ambient 30 °C (86 °F). Terminal ratings (often 75 °C) can limit the usable ampacity.'],refs:['NEC 2023 §310.15(B) temperature correction equation and Table 310.15(C)(1) adjustment factors','Canada: CSA C22.1 Rule 4-004 and Tables 5A/5C give the equivalent factors']}}});
+const STD_OCPD=[15,20,25,30,35,40,45,50,60,70,80,90,100,110,125,150,175,200,225,250,300,350,400,450,500,600,700,800,1000,1200,1600,2000,2500,3000,4000,5000,6000];
+def({id:'el-breaker',cat:'electrical',title:'Breaker and fuse size',kw:'breaker size fuse overcurrent protection continuous load 125% standard ampere rating',disclaimer:ENG,
+  inputs:[num('I','Load current',{dim:'current',unit:'A',def:32,min:0}),sel('cont','Continuous load (3 hours or more)',[['yes','Yes — size at 125 %'],['no','No']])],
+  compute(v){need(v.I>0,'Load current must be above zero.','I');const req=v.cont==='yes'?v.I*1.25:v.I,std=STD_OCPD.find(x=>x>=req);
+    return{results:[R('ocpd','Next standard breaker or fuse',std?std+' A':'Above 6000 A',{kind:'text',primary:true}),R('req','Minimum rating',req,{unitText:'A',sig:4}),R('cond','Minimum conductor ampacity',req,{unitText:'A',sig:4})],
+      formula:'rating ≥ load × 1.25 (continuous) → next standard rating',steps:[`${fmtSig(v.I)} A × ${v.cont==='yes'?'1.25':'1.00'} = ${fmtSig(req,4)} A → ${std} A`],
+      assumptions:['Motor branch circuits, transformers and HVAC equipment follow their own sizing rules (NEC Articles 430, 450, 440).'],refs:['NEC 2023 §210.20(A) and §215.3 (125 % for continuous loads); §240.6(A) standard ampere ratings']}}});
+def({id:'el-battery',cat:'electrical',title:'Battery and UPS runtime',kw:'battery runtime ups backup amp hours inverter load hours depth of discharge',disclaimer:ENG,
+  inputs:[num('Ah','Battery capacity (Ah)',{def:100,min:0}),num('V','Battery bank voltage',{dim:'voltage',unit:'V',def:12,min:0}),num('dod','Usable depth of discharge (%)',{def:80,min:1,max:100,help:'Lithium (LiFePO₄) about 80–90 %; lead-acid about 50 %.'}),num('eff','Inverter efficiency (%)',{def:90,min:10,max:100}),num('P','Load',{dim:'power',unit:'W',imp:'W',def:200,min:0})],
+  compute(v){need(v.P>0,'Load must be above zero.','P');const E=v.Ah*v.V*v.dod/100,h=E*v.eff/100/v.P;
+    return{results:[R('h','Runtime',h,{sig:3,unitText:'hours',primary:true}),R('m','Runtime in minutes',h*60,{sig:3,unitText:'min'}),R('E','Usable energy',E,{sig:4,unitText:'Wh'})],
+      formula:'runtime = Ah × V × DoD × η ÷ load',steps:[`${fmtSig(v.Ah)} Ah × ${fmtSig(v.V)} V × ${fmtSig(v.dod/100)} = ${fmtSig(E,4)} Wh usable`,`× ${fmtSig(v.eff/100)} ÷ ${fmtSig(v.P)} W = ${fmtSig(h,3)} h`],
+      assumptions:['Rated capacity at the battery’s standard discharge rate; high loads and cold temperatures reduce it (Peukert effect, not included).'],refs:['Energy balance; battery capacity per IEC 61427 / IEEE 1188 conventions']}}});
+def({id:'el-solar',cat:'electrical',title:'Solar PV system size',kw:'solar pv panels array size kw battery off grid peak sun hours',disclaimer:ENG,
+  inputs:[num('E','Daily energy use (kWh/day)',{def:10,min:0}),num('psh','Peak sun hours (h/day)',{def:4,min:0.5,max:12,help:'From a solar map such as NREL PVWatts or Natural Resources Canada; use the worst month for off-grid.'}),num('loss','System losses (%)',{def:20,min:0,max:60,help:'Wiring, inverter, temperature and soiling; 14–25 % is typical.'}),num('pw','Panel rating (W)',{def:400,min:1}),num('days','Battery autonomy (days, optional)',{opt:true,min:0}),num('bv','Battery bank voltage (optional)',{dim:'voltage',unit:'V',opt:true}),num('dod','Battery depth of discharge (%)',{def:80,min:1,max:100})],
+  compute(v){need(v.E>0,'Daily energy must be above zero.','E');const kw=v.E/(v.psh*(1-v.loss/100)),n=Math.ceil(kw*1000/v.pw);
+    const out=[R('kw','Array size',kw,{sig:3,unitText:'kWp',primary:true}),R('n','Panels needed',n,{kind:'int'}),R('akw','Installed array',n*v.pw/1000,{sig:3,unitText:'kWp'})];
+    if(v.days>0){const kwh=v.E*v.days/(v.dod/100);out.push(R('bkwh','Battery capacity',kwh,{sig:3,unitText:'kWh'}));if(v.bv>0)out.push(R('bah','Battery capacity at bank voltage',kwh*1000/v.bv,{sig:4,unitText:'Ah'}))}
+    return{results:out,formula:'kWp = daily kWh ÷ (peak sun hours × (1 − losses)) · battery kWh = daily kWh × days ÷ DoD',steps:[`${fmtSig(v.E)} ÷ (${fmtSig(v.psh)} × ${fmtSig(1-v.loss/100)}) = ${fmtSig(kw,3)} kWp → ${n} × ${fmtSig(v.pw)} W`],
+      assumptions:['A first sizing; confirm with an hourly simulation (e.g. NREL PVWatts) and local electrical code rules.'],refs:['Peak-sun-hour sizing method (NREL PVWatts documentation); battery autonomy per IEEE 1562']}}});
+
+/* ---------------- CIVIL ---------------- */
+const MIXES=[['m20','M20 nominal 1 : 1.5 : 3',1,1.5,3],['m15','M15 nominal 1 : 2 : 4',1,2,4],['m10','M10 nominal 1 : 3 : 6',1,3,6],['m25','M25 nominal 1 : 1 : 2',1,1,2]];
+def({id:'concrete-mix',cat:'civil',title:'Concrete mix quantities',kw:'concrete mix cement bags sand aggregate nominal mix 1:2:4 m20 materials',disclaimer:ENG,
+  inputs:[num('V','Wet concrete volume',{dim:'volume',unit:'m3',imp:'yd3',def:1,min:0}),sel('mix','Mix (cement : sand : aggregate)',MIXES.map(m=>[m[0],m[1]])),num('wc','Water–cement ratio',{def:0.5,min:0.3,max:0.8}),sel('bag','Cement bag',[['50','50 kg'],['42.6','94 lb (US)'],['40','40 kg']]),num('dry','Dry volume factor',{def:1.54,min:1.3,max:1.7,help:'Dry materials take about 54 % more volume than the finished concrete.'})],
+  compute(v){const m=MIXES.find(x=>x[0]===v.mix),sum=m[2]+m[3]+m[4],Vd=v.V*v.dry,c=Vd*m[2]/sum,cm=c*1440;
+    return{results:[R('bags','Cement bags',cm/+v.bag,{sig:4,primary:true}),R('cem','Cement',cm,{dim:'mass',show:['kg','lb']}),R('sand','Sand',Vd*m[3]/sum,{dim:'volume',show:['m3','ft3']}),R('agg','Coarse aggregate',Vd*m[4]/sum,{dim:'volume',show:['m3','ft3']}),R('w','Water',cm*v.wc,{sig:4,unitText:'L'})],
+      formula:'dry volume = wet volume × 1.54 · each material = dry volume × its part ÷ sum of parts · cement density 1,440 kg/m³',steps:[`Dry volume = ${fmtSig(v.V)} × ${v.dry} = ${fmtSig(Vd,4)} m³`,`Cement = ${fmtSig(Vd,4)} × ${m[2]}/${sum} × 1440 = ${fmtSig(cm,4)} kg`],
+      assumptions:['Nominal (volume-batched) mix for small works. Structural concrete should use a designed mix (ACI 211.1, CSA A23.1) with tested strength.'],refs:['IS 456:2000 Table 9 nominal mix proportions; dry-volume factor 1.54 (site practice)']}}});
+def({id:'earthwork',cat:'civil',title:'Earthwork volume (average end area)',kw:'cut fill earthwork excavation volume cross section stations average end area swell',disclaimer:ENG,
+  inputs:[area_('A','Cross-section areas at each station (m² or ft²)','12 15 18 14',{help:'One area per station, in order, separated by spaces.'}),num('L','Distance between stations',{dim:'length',unit:'m',imp:'ft',def:20,min:0}),sel('au','Area units',[['m2','m²'],['ft2','ft²']]),num('sw','Swell (%)',{def:25,min:0,max:100,help:'Loose volume increase when dug: sand 10–15 %, common earth 20–30 %, rock 50–65 %.'})],
+  compute(v){const a=parseList(v.A,'A').map(x=>toSI(x,'area',v.au));need(a.length>=2,'Enter at least two areas.','A');let V=0;for(let k=0;k<a.length-1;k++)V+=(a[k]+a[k+1])/2*v.L;
+    return{results:[R('V','Bank (in-place) volume',V,{dim:'volume',primary:true,show:['m3','yd3']}),R('Vl','Loose volume to haul',V*(1+v.sw/100),{dim:'volume',show:['m3','yd3']})],
+      formula:'V = Σ (Aᵢ + Aᵢ₊₁) ÷ 2 × L',steps:[`${a.length-1} segments × ${fmtSig(v.L)} m → V = ${fmtSig(V,6)} m³`],assumptions:['Average end area slightly overestimates volume between very different sections; the prismoidal formula is more exact.'],refs:['Average end area method (AASHTO / standard surveying practice)']}}});
+def({id:'rational',cat:'civil',title:'Storm runoff (rational method)',kw:'rational method runoff stormwater peak flow q=cia drainage catchment',disclaimer:ENG,
+  inputs:[num('C','Runoff coefficient C',{def:0.9,min:0,max:1}),num('i','Rainfall intensity (mm/h)',{def:50,min:0,help:'For the design storm with a duration equal to the time of concentration, from local IDF curves.'}),num('A','Catchment area',{dim:'area',unit:'ha',imp:'acre',def:1,min:0})],
+  compute(v){const Q=v.C*v.i/3.6e6*v.A;
+    return{results:[R('Q','Peak runoff',Q,{dim:'flow',primary:true,show:['L/s','m3/s','gpm']})],formula:'Q = C × i × A (Q m³/s = C × i mm/h × A ha ÷ 360)',steps:[`Q = ${v.C} × ${fmtSig(v.i)} mm/h × ${fmtSig(v.A/1e4,4)} ha ÷ 360 = ${fmtSig(Q,4)} m³/s`],
+      assumptions:['Small catchments (generally under about 80 ha / 200 acres). Larger areas need hydrograph methods.'],refs:['Rational method (ASCE Manual of Practice 77; Canadian MTO Drainage Manual)']}}});
+def({id:'section',cat:'civil',title:'Section properties',kw:'moment of inertia second moment area section modulus radius of gyration rectangle tube pipe hollow',disclaimer:ENG,
+  inputs:[sel('sh','Shape',[['rect','Solid rectangle'],['circ','Solid circle'],['tube','Round tube (pipe)'],['rhs','Rectangular hollow section']]),num('b','Width b (or outside diameter)',{dim:'length',unit:'mm',imp:'in',def:100,min:0}),num('h','Depth h (rectangles)',{dim:'length',unit:'mm',imp:'in',def:200,opt:true}),num('t','Wall thickness t (hollow shapes)',{dim:'length',unit:'mm',imp:'in',opt:true})],
+  compute(v){let A,I,c;const {b,h,t}=v;
+    if(v.sh==='rect'){need(h>0,'Enter the depth h.','h');A=b*h;I=b*h**3/12;c=h/2}
+    else if(v.sh==='circ'){A=Math.PI*b*b/4;I=Math.PI*b**4/64;c=b/2}
+    else if(v.sh==='tube'){need(t>0&&2*t<b,'Enter a wall thickness less than half the diameter.','t');const d=b-2*t;A=Math.PI*(b*b-d*d)/4;I=Math.PI*(b**4-d**4)/64;c=b/2}
+    else{need(h>0,'Enter the depth h.','h');need(t>0&&2*t<Math.min(b,h),'Enter a wall thickness less than half the smaller side.','t');A=b*h-(b-2*t)*(h-2*t);I=(b*h**3-(b-2*t)*(h-2*t)**3)/12;c=h/2}
+    return{results:[R('I','Second moment of area (about the bending axis)',I,{dim:'inertia',primary:true,show:['cm4','mm4','in4']}),R('S','Elastic section modulus',I/c,{dim:'volume',show:['cm3','in3']}),R('A','Area',A,{dim:'area',show:['mm2','in2']}),R('r','Radius of gyration',Math.sqrt(I/A),{dim:'length',show:['mm','in']})],
+      formula:'rectangle I = bh³/12 · circle I = πd⁴/64 · S = I ÷ (h/2) · r = √(I/A)',steps:[`I = ${fmtSig(I*1e8,6)} cm⁴, S = ${fmtSig(I/c*1e6,6)} cm³`],assumptions:['Square corners for hollow rectangles; rolled and cold-formed sections have corner radii, so use the manufacturer’s tables for design.'],refs:['Mechanics of materials; formulas as in AISC Steel Construction Manual Part 17']}}});
+
+/* ---------------- ARCHITECTURE AND BUILDING ---------------- */
+def({id:'drywall',cat:'building',title:'Drywall sheets and screws',kw:'drywall gypsum board plasterboard sheets screws walls ceiling 4x8',disclaimer:ENG,
+  inputs:[num('A','Wall and ceiling area to cover',{dim:'area',unit:'m2',imp:'ft2',def:60,min:0}),num('open','Openings to subtract',{dim:'area',unit:'m2',imp:'ft2',def:4,min:0}),sel('sz','Sheet size',[['1.2x2.4','1.2 × 2.4 m'],['4x8','4 × 8 ft'],['4x12','4 × 12 ft'],['1.2x3.0','1.2 × 3.0 m']]),num('waste','Waste (%)',{def:10,min:0,max:50})],
+  compute(v){const sh={'1.2x2.4':2.88,'4x8':32*0.09290304,'4x12':48*0.09290304,'1.2x3.0':3.6}[v.sz],net=Math.max(0,v.A-v.open),n=Math.ceil(net*(1+v.waste/100)/sh);
+    return{results:[R('n','Sheets',n,{kind:'int',primary:true}),R('net','Net area',net,{dim:'area'}),R('scr','Screws (about 1 per 0.1 m²)',Math.ceil(net*10),{kind:'int'}),R('tape','Joint tape (about 1.25 m per m²)',net*1.25,{dim:'length',show:['m','ft']})],
+      formula:'sheets = ⌈net area × (1 + waste) ÷ sheet area⌉',steps:[`Sheet = ${fmtSig(sh,4)} m², net = ${fmtSig(net,4)} m² → ${n} sheets`],assumptions:['Screw and tape allowances are typical for 400–600 mm (16–24 in) framing; follow the board maker’s fastening schedule.'],refs:['ASTM C840 / GA-216 application practice (fastener spacing)']}}});
+def({id:'roofing',cat:'building',title:'Roofing squares and shingles',kw:'roof area shingles bundles squares pitch roofing materials',disclaimer:ENG,
+  inputs:[num('fp','Roof footprint (plan area incl. overhangs)',{dim:'area',unit:'m2',imp:'ft2',def:150,min:0}),num('p','Pitch (rise in 12)',{def:6,min:0,max:24}),num('waste','Waste (%)',{def:10,min:0,max:30,help:'10 % for simple gables; 15 % or more for hips and valleys.'}),num('bps','Bundles per square',{def:3,min:1,max:5,int:true})],
+  compute(v){const f=Math.sqrt(1+(v.p/12)**2),A=v.fp*f,sq=A*(1+v.waste/100)/9.290304;
+    return{results:[R('sq','Squares (100 ft² each)',sq,{sig:3,primary:true}),R('b','Shingle bundles',Math.ceil(sq*v.bps),{kind:'int'}),R('A','Sloped roof area',A,{dim:'area',show:['m2','ft2']}),R('f','Pitch factor',f,{sig:4})],
+      formula:'area = footprint × √(1 + (pitch ÷ 12)²) · squares = area × (1 + waste) ÷ 100 ft²',steps:[`factor = ${fmtSig(f,4)}, area = ${fmtSig(A,5)} m² = ${fmtSig(A/0.09290304,5)} ft²`],refs:['Roofing square = 100 ft² (9.29 m²); 3 bundles per square for most asphalt shingles (manufacturer data)']}}});
+def({id:'insulation',cat:'building',title:'Wall and roof R-value build-up',kw:'r value u value insulation layers thermal resistance wall assembly conductivity',disclaimer:ENG,
+  inputs:[area_('ly','Layers: thickness (mm) and conductivity k (W/m·K), one per line','12.5 0.25\n140 0.04\n12 0.13',{help:'For example 140 mm mineral wool k 0.035–0.04; 12.5 mm gypsum k 0.25; brick k about 0.7.'}),sel('el','Element',[['wall','Wall (horizontal heat flow)'],['roof','Roof or ceiling (heat flow up)'],['floor','Floor (heat flow down)']])],
+  compute(v){const lines=String(v.ly||'').split(/\n/).map(s=>s.trim()).filter(Boolean);need(lines.length,'Enter at least one layer.','ly');let Rs=0;const st=[];
+    for(const ln of lines){const [t,k]=ln.split(/[\s,;]+/).map(Number);need(t>0&&k>0,`Check this line: "${ln}". Use thickness then k.`,'ly');const r=t/1000/k;Rs+=r;st.push(`${t} mm ÷ ${k} = ${fmtSig(r,3)} m²·K/W`)}
+    const film={wall:[0.13,0.04],roof:[0.10,0.04],floor:[0.17,0.04]}[v.el],Rt=Rs+film[0]+film[1];
+    return{results:[R('U','U-value',1/Rt,{sig:3,unitText:'W/m²·K',primary:true}),R('Rt','Total R (with surface films)',Rt,{sig:3,unitText:'m²·K/W'}),R('Rus','Total R (US)',Rt/0.1761101838,{sig:3,unitText:'ft²·°F·h/BTU'}),R('Rl','Layers only',Rs,{sig:3,unitText:'m²·K/W'})],
+      formula:'R = Σ t/k + Rsi + Rse · U = 1/R',steps:[...st,`Surface films Rsi ${film[0]} + Rse ${film[1]} → R = ${fmtSig(Rt,4)}`],assumptions:['Layers act in series; framing (thermal bridging) lowers the real U-value, often by 10–25 %.'],refs:['ISO 6946:2017 surface resistances and calculation method']}}});
+
+/* ---------------- CHEMICAL ---------------- */
+def({id:'solution',cat:'chemical',title:'Solution preparation (%, ppm)',kw:'solution preparation percent weight volume ppm mg/l make up dissolve grams',disclaimer:ENG,
+  inputs:[sel('m','Concentration type',[['ww','% by mass (w/w)'],['wv','% mass per volume (w/v, g/100 mL)'],['ppm','ppm in water (mg/L)']]),num('c','Concentration',{def:5,min:0}),num('tot','Total amount of solution',{def:500,min:0,help:'Grams for % w/w; millilitres for % w/v; litres for ppm.'})],
+  compute(v){let g,unit,st;if(v.m==='ww'){need(v.c<100,'Must be below 100 %.','c');g=v.c/100*v.tot;st=`${fmtSig(v.c)} % × ${fmtSig(v.tot)} g = ${fmtSig(g,5)} g solute; solvent ${fmtSig(v.tot-g,5)} g`}
+    else if(v.m==='wv'){g=v.c/100*v.tot;st=`${fmtSig(v.c)} g/100 mL × ${fmtSig(v.tot)} mL = ${fmtSig(g,5)} g, then make up to ${fmtSig(v.tot)} mL`}else{g=v.c*v.tot/1000;st=`${fmtSig(v.c)} mg/L × ${fmtSig(v.tot)} L = ${fmtSig(g*1000,5)} mg = ${fmtSig(g,5)} g`}
+    const out=[R('g','Solute to weigh',g,{sig:5,unitText:'g',primary:true})];if(v.m==='ww')out.push(R('s','Solvent',v.tot-g,{sig:5,unitText:'g'}));
+    return{results:out,formula:'w/w: m = % × total mass · w/v: m = (g/100 mL) × volume · ppm: m = mg/L × L',steps:[st],assumptions:['ppm here means mg per litre of dilute water solution (density about 1 kg/L).'],refs:['IUPAC: mass fraction and mass concentration definitions']}}});
+const CP=[['water','Water',4186],['ice','Ice',2050],['air','Air',1005],['steel','Steel',490],['aluminium','Aluminium',897],['copper','Copper',385],['concrete','Concrete',880],['oil','Mineral oil',1900],['custom','Other — enter below',NaN]];
+def({id:'heat',cat:'chemical',title:'Heat energy (q = m c ΔT)',kw:'specific heat energy to heat water time kwh btu heating',disclaimer:ENG,
+  inputs:[num('m','Mass',{dim:'mass',unit:'kg',imp:'lb',def:100,min:0}),sel('mat','Material',CP.map(x=>[x[0],x[1]+(Number.isFinite(x[2])?` (${x[2]} J/kg·K)`:'')])),num('cx','Specific heat (only for "Other"), J/kg·K',{opt:true,min:0}),num('dT','Temperature change (K or °C)',{def:40}),num('P','Heater power (optional, gives time)',{dim:'power',unit:'kW',imp:'BTU/h',opt:true,min:0})],
+  compute(v){const c=v.mat==='custom'?v.cx:CP.find(x=>x[0]===v.mat)[2];need(c>0,'Enter the specific heat.','cx');const q=v.m*c*v.dT;
+    const out=[R('q','Heat energy',q,{dim:'energy',primary:true,show:['kJ','kWh','BTU']})];if(v.P>0)out.push(R('t','Time at that power',q/v.P/3600,{sig:3,unitText:'h'}));
+    return{results:out,formula:'q = m × c × ΔT',steps:[`q = ${fmtSig(v.m)} kg × ${c} × ${fmtSig(v.dT)} = ${fmtSig(q/1000,5)} kJ`],assumptions:['No phase change and no heat loss.'],refs:['Specific heats at about 25 °C (CRC Handbook of Chemistry and Physics, rounded)']}}});
+def({id:'buffer',cat:'chemical',title:'Buffer pH (Henderson–Hasselbalch)',kw:'buffer ph pka henderson hasselbalch acetate phosphate ratio',disclaimer:ENG,
+  inputs:[num('pKa','pKa of the weak acid',{def:4.76,help:'Acetic acid 4.76 · carbonic (H₂CO₃/HCO₃⁻) 6.35 · phosphate (H₂PO₄⁻/HPO₄²⁻) 7.20 · ammonium 9.25 · at 25 °C.'}),sel('find','Find',[['pH','pH from the concentrations'],['ratio','Base : acid ratio for a target pH']]),num('A','Base (conjugate) concentration [A⁻]',{dim:'conc',unit:'mol/L',def:0.1,opt:true,min:0}),num('HA','Acid concentration [HA]',{dim:'conc',unit:'mol/L',def:0.1,opt:true,min:0}),num('pH','Target pH',{opt:true})],
+  compute(v){if(v.find==='pH'){need(v.A>0&&v.HA>0,'Enter both concentrations.','A');const pH=v.pKa+Math.log10(v.A/v.HA);return{results:[R('pH','pH',pH,{sig:4,primary:true}),R('r','[A⁻] : [HA]',v.A/v.HA,{sig:4})],formula:'pH = pKa + log₁₀([A⁻] ÷ [HA])',steps:[`pH = ${v.pKa} + log₁₀(${fmtSig(v.A)} ÷ ${fmtSig(v.HA)}) = ${fmtSig(pH,4)}`],assumptions:['Works best within about pKa ± 1 and at concentrations well above 0.001 mol/L.'],refs:['Henderson–Hasselbalch equation']}}
+    need(Number.isFinite(v.pH),'Enter the target pH.','pH');const r=Math.pow(10,v.pH-v.pKa);
+    return{results:[R('r','[A⁻] : [HA] needed',r,{sig:4,primary:true}),R('fa','Fraction as base',r/(1+r)*100,{kind:'pct'})],formula:'[A⁻]/[HA] = 10^(pH − pKa)',steps:[`10^(${v.pH} − ${v.pKa}) = ${fmtSig(r,4)}`],assumptions:['Works best within about pKa ± 1.'],refs:['Henderson–Hasselbalch equation']}}});
+
+/* ---------------- CAD AND DRAFTING ---------------- */
+def({id:'bearing-dist',cat:'cad',title:'Distance and bearing between two points',kw:'bearing azimuth distance coordinates northing easting survey inverse',
+  inputs:[num('E1','Point 1 — easting (x)',{dim:'length',unit:'m',imp:'ft',def:1000}),num('N1','Point 1 — northing (y)',{dim:'length',unit:'m',imp:'ft',def:2000}),num('E2','Point 2 — easting (x)',{dim:'length',unit:'m',imp:'ft',def:1100}),num('N2','Point 2 — northing (y)',{dim:'length',unit:'m',imp:'ft',def:2100})],
+  compute(v){const dE=v.E2-v.E1,dN=v.N2-v.N1,d=Math.hypot(dE,dN);need(d>0,'The two points are the same.','E2');let az=Math.atan2(dE,dN)*180/Math.PI;if(az<0)az+=360;
+    const dms=x=>{const D=Math.floor(x),m=(x-D)*60,M=Math.floor(m),S=(m-M)*60;return `${D}° ${String(M).padStart(2,'0')}′ ${S.toFixed(1).padStart(4,'0')}″`};
+    const q=az<=90?['N',az,'E']:az<=180?['S',180-az,'E']:az<=270?['S',az-180,'W']:['N',360-az,'W'];
+    return{results:[R('d','Distance',d,{dim:'length',primary:true}),R('az','Azimuth (from north, clockwise)',az,{sig:7,unitText:'°'}),R('azd','Azimuth (D° M′ S″)',dms(az),{kind:'text'}),R('qb','Quadrant bearing',`${q[0]} ${dms(q[1])} ${q[2]}`,{kind:'text'}),R('dE','ΔE',dE,{dim:'length'}),R('dN','ΔN',dN,{dim:'length'})],
+      formula:'distance = √(ΔE² + ΔN²) · azimuth = atan2(ΔE, ΔN)',steps:[`ΔE = ${fmtSig(dE,8)}, ΔN = ${fmtSig(dN,8)}`,`azimuth = ${fmtSig(az,8)}°`],refs:['Coordinate geometry “inverse” (standard surveying practice)']}}});
+def({id:'triangle',cat:'cad',title:'Triangle solver (any triangle)',kw:'triangle solver law of cosines law of sines sss sas asa angles sides area',
+  inputs:[sel('k','I know',[['sss','Three sides (SSS)'],['sas','Two sides and the angle between (SAS)'],['asa','Two angles and the side between (ASA)']]),num('a','Side a',{dim:'length',unit:'m',imp:'ft',def:5,opt:true}),num('b','Side b',{dim:'length',unit:'m',imp:'ft',def:6,opt:true}),num('c','Side c',{dim:'length',unit:'m',imp:'ft',def:7,opt:true}),num('A','Angle A (degrees, opposite a)',{opt:true}),num('B','Angle B (degrees, opposite b)',{opt:true}),num('C','Angle C (degrees, opposite c)',{opt:true,help:'SAS uses a, b and C. ASA uses A, B and c.'})],
+  compute(v){let {a,b,c,A,B,C}=v;const rd=x=>x*Math.PI/180,dg=x=>x*180/Math.PI;
+    if(v.k==='sss'){need(a>0&&b>0&&c>0,'Enter all three sides.','a');need(a+b>c&&a+c>b&&b+c>a,'These sides cannot form a triangle.','a');A=dg(Math.acos((b*b+c*c-a*a)/(2*b*c)));B=dg(Math.acos((a*a+c*c-b*b)/(2*a*c)));C=180-A-B}
+    else if(v.k==='sas'){need(a>0&&b>0&&C>0&&C<180,'Enter sides a and b and angle C.','C');c=Math.sqrt(a*a+b*b-2*a*b*Math.cos(rd(C)));A=dg(Math.acos((b*b+c*c-a*a)/(2*b*c)));B=180-A-C}
+    else{need(A>0&&B>0&&A+B<180&&c>0,'Enter angles A and B (sum under 180°) and side c.','A');C=180-A-B;a=c*Math.sin(rd(A))/Math.sin(rd(C));b=c*Math.sin(rd(B))/Math.sin(rd(C))}
+    const area=0.5*a*b*Math.sin(rd(C));
+    return{results:[R('area','Area',area,{dim:'area',primary:true}),R('a','Side a',a,{dim:'length'}),R('b','Side b',b,{dim:'length'}),R('c','Side c',c,{dim:'length'}),R('A','Angle A',A,{sig:6,unitText:'°'}),R('B','Angle B',B,{sig:6,unitText:'°'}),R('C','Angle C',C,{sig:6,unitText:'°'})],
+      formula:'c² = a² + b² − 2ab cos C · a/sin A = b/sin B = c/sin C · area = ½ ab sin C',steps:[`A = ${fmtSig(A,6)}°, B = ${fmtSig(B,6)}°, C = ${fmtSig(C,6)}°`],refs:['Law of cosines and law of sines']}}});
+
+/* ================================================================
+   CalcHub Pro — additional calculators (part 2): mechanical, pipelines,
+   building services, fire protection, jewelry, stone.
+   ================================================================ */
+const GRAV=9.80665;
+/* water at 1 atm: [°C, density kg/m³, vapour pressure kPa] (IAPWS, rounded) */
+const WATER_TP=[[0,999.84,0.611],[10,999.70,1.228],[20,998.21,2.339],[30,995.65,4.246],[40,992.22,7.384],[50,988.03,12.35],[60,983.20,19.95],[70,977.76,31.20],[80,971.79,47.41],[90,965.31,70.18],[100,958.35,101.42]];
+const waterAt=(tc,col)=>{need(tc>=0&&tc<=100,'Water temperature must be between 0 and 100 °C.','T');for(let k=0;k<WATER_TP.length-1;k++){const [a,b]=[WATER_TP[k],WATER_TP[k+1]];if(tc<=b[0]){const f=(tc-a[0])/(b[0]-a[0]);return a[col]+f*(b[col]-a[col])}}return WATER_TP[10][col]};
+
+/* ---------------- MECHANICAL ---------------- */
+def({id:'bearing-life',cat:'mechanical',title:'Rolling bearing life (L10)',kw:'bearing life l10 dynamic load rating hours iso 281 ball roller',disclaimer:ENG,
+  inputs:[num('C','Basic dynamic load rating C',{dim:'force',unit:'kN',imp:'lbf',def:30,min:0,help:'From the bearing catalogue.'}),num('P','Equivalent dynamic load P',{dim:'force',unit:'kN',imp:'lbf',def:5,min:0}),sel('ty','Bearing type',[['ball','Ball bearing (p = 3)'],['roller','Roller bearing (p = 10/3)']]),num('N','Speed (rpm)',{def:1500,min:0}),sel('rel','Reliability',[['1','90 % (L10)'],['0.64','95 %'],['0.47','97 %'],['0.25','99 %']])],
+  compute(v){need(v.P>0,'Load must be above zero.','P');const p=v.ty==='ball'?3:10/3,L10=Math.pow(v.C/v.P,p),Ln=L10*+v.rel,h=v.N>0?Ln*1e6/(60*v.N):NaN;
+    return{results:[R('h','Life in operating hours',h,{sig:4,unitText:'h',primary:true}),R('L','Life',Ln,{sig:4,unitText:'million revolutions'}),R('L10','Basic rating life L10',L10,{sig:4,unitText:'million revolutions'})],
+      formula:'L10 = (C ÷ P)^p million revolutions · Lₙₘ = a₁ L10 · hours = L × 10⁶ ÷ (60 N)',steps:[`(${fmtSig(v.C/1000)} ÷ ${fmtSig(v.P/1000)})^${fmtSig(p,3)} = ${fmtSig(L10,4)}`,`× a₁ ${v.rel} = ${fmtSig(Ln,4)} → ${fmtSig(h,4)} h at ${v.N} rpm`],
+      assumptions:['Standard lubrication and contamination (a_ISO = 1). Poor lubrication or contamination shortens life considerably.'],refs:['ISO 281:2007 — rolling bearings, dynamic load ratings and rating life (a₁ reliability factors)']}}});
+def({id:'weld',cat:'mechanical',title:'Fillet weld strength',kw:'fillet weld strength throat electrode e70 e60 lrfd asd aisc capacity',disclaimer:ENG,
+  inputs:[num('a','Leg size',{dim:'length',unit:'mm',imp:'in',def:6,min:0}),num('L','Weld length',{dim:'length',unit:'mm',imp:'in',def:100,min:0}),sel('fe','Electrode',[['482.6','E70 (Fexx 70 ksi)'],['413.7','E60 (Fexx 60 ksi)'],['551.6','E80 (Fexx 80 ksi)']])],
+  compute(v){const t=0.7071*v.a,Rn=0.6*(+v.fe*1e6)*t*v.L;
+    return{results:[R('lrfd','Design strength φRn (LRFD, φ = 0.75)',0.75*Rn,{dim:'force',primary:true,show:['kN','kip']}),R('asd','Allowable strength Rn/Ω (ASD, Ω = 2.00)',Rn/2,{dim:'force',show:['kN','kip']}),R('Rn','Nominal strength Rn',Rn,{dim:'force',show:['kN','kip']}),R('t','Effective throat',t,{dim:'length',show:['mm','in']})],
+      formula:'Rn = 0.60 Fexx × (0.707 a) × L',steps:[`throat = 0.707 × ${fmtSig(v.a*1000)} mm = ${fmtSig(t*1000,4)} mm`,`Rn = 0.6 × ${v.fe} MPa × ${fmtSig(t*1000,4)} × ${fmtSig(v.L*1000)} mm = ${fmtSig(Rn/1000,5)} kN`],
+      assumptions:['Load parallel to the weld; the base metal must also be checked. Transverse loading can be stronger (AISC J2-5).'],refs:['AISC 360-22 §J2.4 and Table J2.5 (fillet weld strength 0.60 Fexx on the effective throat)']}}});
+def({id:'beam-cases',cat:'mechanical',title:'Beam moments and deflections (cantilever and fixed)',kw:'cantilever beam fixed beam deflection moment point load udl end load',disclaimer:ENG,
+  inputs:[sel('cs','Case',[['cpt','Cantilever, point load at the free end'],['cudl','Cantilever, uniform load'],['fudl','Fixed both ends, uniform load'],['spt','Simply supported, point load at mid-span']]),num('L','Span',{dim:'length',unit:'m',imp:'ft',def:3,min:0}),num('P','Point load P',{dim:'force',unit:'kN',imp:'kip',def:10,opt:true}),num('w','Uniform load w',{dim:'lineload',unit:'kN/m',imp:'kip/ft',def:5,opt:true}),num('E','Elastic modulus',{dim:'pressure',unit:'GPa',imp:'ksi',def:200,min:0}),num('I','Second moment of area',{dim:'inertia',unit:'cm4',imp:'in4',def:2000,min:0})],
+  compute(v){const {L,P,w,E,I}=v,EI=E*I;let M,V,d,lim;
+    if(v.cs==='cpt'){need(P>0,'Enter the point load.','P');M=P*L;V=P;d=P*L**3/(3*EI);lim=180}
+    else if(v.cs==='cudl'){need(w>0,'Enter the uniform load.','w');M=w*L*L/2;V=w*L;d=w*L**4/(8*EI);lim=180}
+    else if(v.cs==='fudl'){need(w>0,'Enter the uniform load.','w');M=w*L*L/12;V=w*L/2;d=w*L**4/(384*EI);lim=360}
+    else{need(P>0,'Enter the point load.','P');M=P*L/4;V=P/2;d=P*L**3/(48*EI);lim=360}
+    const k=L/d;
+    return{results:[R('M','Maximum bending moment',M,{dim:'moment',primary:true,show:['kN·m','kip·ft']}),R('V','Maximum shear',V,{dim:'force',show:['kN','kip']}),R('d','Maximum deflection',d,{dim:'length',show:['mm','in']}),R('ratio','Deflection ratio',`L / ${Math.round(k)}`,{kind:'text'}),R('chk','Check: deflection',`${k>=lim?'Pass':'Check'} — L/${Math.round(k)} against L/${lim} (${lim===180?'cantilevers':'spans'})`,{kind:'text',check:k>=lim?'ok':'warn'})],
+      formula:{cpt:'M = PL · δ = PL³/(3EI)',cudl:'M = wL²/2 · δ = wL⁴/(8EI)',fudl:'M(ends) = wL²/12 · δ = wL⁴/(384EI)',spt:'M = PL/4 · δ = PL³/(48EI)'}[v.cs],steps:[`EI = ${fmtSig(EI/1e3,5)} kN·m²`,`δ = ${fmtSig(d*1000,4)} mm`],
+      assumptions:['Linear elastic, prismatic beam; self-weight not included unless added to w.'],refs:['Standard beam formulas as in AISC Steel Construction Manual Table 3-23']}}});
+def({id:'stress',cat:'mechanical',title:'Axial stress, strain and elongation',kw:'stress strain elongation axial load tension compression young modulus factor of safety',disclaimer:ENG,
+  inputs:[num('F','Axial force',{dim:'force',unit:'kN',imp:'kip',def:50}),num('A','Cross-sectional area',{dim:'area',unit:'mm2',imp:'in2',def:314,min:0,help:'A 20 mm round bar is 314 mm².'}),num('L','Length',{dim:'length',unit:'m',imp:'ft',def:1,min:0}),num('E','Elastic modulus',{dim:'pressure',unit:'GPa',imp:'ksi',def:200,min:0}),num('fy','Yield strength (optional)',{dim:'pressure',unit:'MPa',imp:'ksi',opt:true,min:0})],
+  compute(v){need(v.A>0,'Area must be above zero.','A');const s=v.F/v.A,e=s/v.E,d=e*v.L;const out=[R('s','Stress',s,{dim:'pressure',primary:true,show:['MPa','ksi']}),R('e','Strain',e*1e6,{sig:4,unitText:'µε (×10⁻⁶)'}),R('d','Elongation',d,{dim:'length',show:['mm','in']})];
+    if(v.fy>0)out.push(R('fos','Factor of safety against yield',v.fy/Math.abs(s),{sig:3}));
+    return{results:out,formula:'σ = F ÷ A · ε = σ ÷ E · δ = F L ÷ (A E)',steps:[`σ = ${fmtSig(v.F/1000)} kN ÷ ${fmtSig(v.A*1e6)} mm² = ${fmtSig(s/1e6,4)} MPa`,`δ = ${fmtSig(e,4)} × ${fmtSig(v.L)} m = ${fmtSig(d*1000,4)} mm`],assumptions:['Uniform stress, elastic range, no buckling (check slender members in compression).'],refs:['Hooke’s law (mechanics of materials)']}}});
+
+/* ---------------- GAS PIPELINES ---------------- */
+def({id:'gas-z',cat:'gaspipe',title:'Gas compressibility factor Z',kw:'z factor compressibility natural gas papay sutton pseudo critical gas deviation',disclaimer:ENG,
+  inputs:[num('G','Gas specific gravity (air = 1)',{def:0.65,min:0.55,max:1.5}),num('P','Pressure (absolute)',{dim:'pressure',unit:'kPa',imp:'psi',def:7000,min:0}),num('T','Temperature',{dim:'temp',unit:'C',imp:'F',def:15})],
+  compute(v){const G=v.G,Tpc=(169.2+349.5*G-74.0*G*G)/1.8,Ppc=(756.8-131.0*G-3.6*G*G)*6894.757293168,Tpr=v.T/Tpc,Ppr=v.P/Ppc;
+    const Z=1-3.53*Ppr/Math.pow(10,0.9813*Tpr)+0.274*Ppr*Ppr/Math.pow(10,0.8157*Tpr),M=28.9647*G,rho=v.P*M/1000/(Z*8.314462618*v.T);
+    return{results:[R('Z','Compressibility factor Z',Z,{sig:4,primary:true}),R('rho','Gas density at these conditions',rho,{dim:'density',show:['kg/m3','lb/ft3']}),R('Tpr','Pseudo-reduced temperature',Tpr,{sig:4}),R('Ppr','Pseudo-reduced pressure',Ppr,{sig:4}),R('Tpc','Pseudo-critical temperature',Tpc,{dim:'temp',show:['K','F']}),R('Ppc','Pseudo-critical pressure',Ppc,{dim:'pressure',show:['kPa','psi']})],
+      formula:'Sutton: Tpc = 169.2 + 349.5G − 74.0G² (°R), Ppc = 756.8 − 131.0G − 3.6G² (psia) · Papay: Z = 1 − 3.53 Ppr ÷ 10^(0.9813 Tpr) + 0.274 Ppr² ÷ 10^(0.8157 Tpr)',steps:[`Tpr = ${fmtSig(Tpr,4)}, Ppr = ${fmtSig(Ppr,4)}`,`Z = ${fmtSig(Z,4)}`],
+      assumptions:['Sweet natural gas. For H₂S or CO₂ above a few percent apply the Wichert–Aziz correction.'],refs:['Sutton (1985) pseudo-critical correlation; Papay (1968) Z-factor correlation, as in E. S. Menon, Gas Pipeline Hydraulics']}},
+  warn:(v,o)=>{const Tpr=o.results.find(r=>r.key==='Tpr').value,Ppr=o.results.find(r=>r.key==='Ppr').value;return[(Tpr<1.2||Tpr>3)&&'Tpr is outside about 1.2–3, where the Papay correlation is less reliable.',Ppr>15&&'Ppr is above about 15; use a full equation of state.']}});
+def({id:'hydrotest',cat:'gaspipe',title:'Hydrostatic test water volume',kw:'hydrotest hydrostatic test water volume pressurisation fill pipeline test pressure',disclaimer:ENG,
+  inputs:[num('D','Outside diameter',{dim:'length',unit:'mm',imp:'in',def:610,min:0}),num('t','Wall thickness',{dim:'length',unit:'mm',imp:'in',def:9.5,min:0}),num('L','Test section length',{dim:'length',unit:'km',imp:'mi',def:10,min:0}),num('dP','Test pressure (gauge)',{dim:'pressure',unit:'kPa',imp:'psi',def:10000,min:0}),num('E','Pipe elastic modulus',{dim:'pressure',unit:'GPa',imp:'ksi',def:207,min:0}),num('cw','Water compressibility (× 10⁻¹⁰ per Pa)',{def:4.6,min:3,max:6,help:'About 4.6 at 15 °C and 4.4 at 30 °C.'})],
+  compute(v){need(2*v.t<v.D,'Wall thickness must be less than half the diameter.','t');const Di=v.D-2*v.t,V=Math.PI*Di*Di/4*v.L,k=Di*(1-0.09)/(v.E*v.t)+v.cw*1e-10,dV=V*v.dP*k;
+    return{results:[R('V','Fill volume',V,{dim:'volume',primary:true,show:['m3','galUS']}),R('dV','Extra water to reach test pressure',dV,{dim:'volume',show:['m3','L','galUS']}),R('pct','Extra water as % of fill',dV/V*100,{kind:'pct'})],
+      formula:'V = π Dᵢ² L ÷ 4 · ΔV = V × ΔP × (Dᵢ(1 − ν²) ÷ (E t) + C_w), ν = 0.3',steps:[`Dᵢ = ${fmtSig(Di*1000,5)} mm, V = ${fmtSig(V,6)} m³`,`ΔV = ${fmtSig(dV,4)} m³`],
+      assumptions:['Air-free fill, steady temperature, restrained thin-wall pipe. Use this as the theoretical line on a pressure–volume plot.'],refs:['Pressure–volume relationship for hydrostatic testing (API RP 1110); ASME B31.8 §841.3 / B31.4 §437.4 test requirements']}}});
+
+/* ---------------- OIL PIPELINES ---------------- */
+def({id:'visc-conv',cat:'oilpipe',title:'Viscosity conversion (cSt, SSU, cP)',kw:'viscosity conversion centistokes ssu saybolt centipoise kinematic dynamic',
+  inputs:[num('nu','Kinematic viscosity',{dim:'kvisc',unit:'cSt',imp:'cSt',def:50,min:0}),num('sg','Specific gravity (water = 1)',{def:0.88,min:0.3,max:2})],
+  compute(v){const c=v.nu*1e6;need(c>=1.8,'The Saybolt conversion applies from about 1.8 cSt upward.','nu');const ssu=4.6324*c+(1.0+0.03264*c)/((3930.2+262.7*c+23.97*c*c+1.646*c*c*c)*1e-5);
+    return{results:[R('ssu','Saybolt Universal seconds at 100 °F',ssu,{sig:4,unitText:'SUS',primary:true}),R('cp','Dynamic viscosity',c*v.sg,{sig:4,unitText:'cP (mPa·s)'}),R('pas','Dynamic viscosity',c*v.sg/1000,{sig:4,unitText:'Pa·s'})],
+      formula:'SUS = 4.6324ν + (1 + 0.03264ν) ÷ ((3930.2 + 262.7ν + 23.97ν² + 1.646ν³) × 10⁻⁵) · μ (cP) = ν (cSt) × SG',steps:[`SUS = ${fmtSig(ssu,5)} for ν = ${fmtSig(c)} cSt`],refs:['ASTM D2161 — conversion of kinematic viscosity to Saybolt Universal viscosity (100 °F equation)']}}});
+
+/* ---------------- WATER PIPELINES ---------------- */
+def({id:'npsh',cat:'waterpipe',title:'NPSH available',kw:'npsh available net positive suction head cavitation pump suction lift vapour pressure',disclaimer:ENG,
+  inputs:[num('Ps','Pressure on the liquid surface (absolute)',{dim:'pressure',unit:'kPa',imp:'psi',def:101.325,min:0,help:'Open tank at sea level: 101.3 kPa (14.7 psia); lower at altitude.'}),num('T','Liquid temperature (water)',{dim:'temp',unit:'C',imp:'F',def:20}),num('hs','Static height of liquid above the pump centreline',{dim:'length',unit:'m',imp:'ft',def:2,help:'Negative for a suction lift (liquid below the pump).'}),num('hf','Suction pipe friction loss',{dim:'length',unit:'m',imp:'ft',def:1,min:0}),num('req','NPSH required by the pump (optional)',{dim:'length',unit:'m',imp:'ft',opt:true,min:0})],
+  compute(v){const tc=v.T-273.15,rho=waterAt(tc,1),pv=waterAt(tc,2)*1000,N=(v.Ps-pv)/(rho*GRAV)+v.hs-v.hf;const out=[R('N','NPSH available',N,{dim:'length',primary:true,show:['m','ft']}),R('pv','Vapour pressure',pv,{dim:'pressure',show:['kPa','psi']})];
+    if(v.req>0){const r=N/v.req;out.push(R('chk','Check: NPSH margin',`${r>=1.3?'Pass':r>=1.1?'Check':'Fail'} — NPSHa/NPSHr = ${fmtSig(r,3)} (1.1 minimum; 1.3 or more preferred)`,{kind:'text',check:r>=1.3?'ok':r>=1.1?'warn':'bad'}))}
+    return{results:out,formula:'NPSHa = (P_surface − P_vapour) ÷ (ρ g) + h_static − h_friction',steps:[`(${fmtSig(v.Ps/1000)} − ${fmtSig(pv/1000,4)}) kPa ÷ (${fmtSig(rho,5)} × 9.807) = ${fmtSig((v.Ps-pv)/(rho*GRAV),4)} m`,`+ ${fmtSig(v.hs)} − ${fmtSig(v.hf)} = ${fmtSig(N,4)} m`],
+      assumptions:['Water; vapour pressure and density interpolated from IAPWS values.'],refs:['ANSI/HI 9.6.1 — Rotodynamic pumps, guideline for NPSH margin (margin ratios about 1.1 to 2.5)','Water properties: IAPWS-95']}}});
+def({id:'tank-drain',cat:'waterpipe',title:'Tank drain time',kw:'tank drain time orifice torricelli emptying outlet discharge',disclaimer:ENG,
+  inputs:[num('Dt','Tank diameter (vertical cylinder)',{dim:'length',unit:'m',imp:'ft',def:2,min:0}),num('H','Water depth above the outlet',{dim:'length',unit:'m',imp:'ft',def:3,min:0}),num('d','Outlet diameter',{dim:'length',unit:'mm',imp:'in',def:50,min:0}),num('Cd','Discharge coefficient',{def:0.61,min:0.3,max:1,help:'Sharp-edged hole 0.61 · short pipe 0.82 · well-rounded nozzle 0.98.'})],
+  compute(v){const At=Math.PI*v.Dt**2/4,a=Math.PI*v.d**2/4,t=At/(v.Cd*a)*Math.sqrt(2*v.H/GRAV),Q0=v.Cd*a*Math.sqrt(2*GRAV*v.H);
+    return{results:[R('t','Time to empty',t/60,{sig:4,unitText:'min',primary:true}),R('Q0','Initial outflow',Q0,{dim:'flow',show:['L/s','gpm']}),R('V','Volume drained',At*v.H,{dim:'volume',show:['m3','galUS']})],
+      formula:'t = (A_tank ÷ (Cd × a)) × √(2H ÷ g) · Q₀ = Cd a √(2gH)',steps:[`A_tank = ${fmtSig(At,4)} m², a = ${fmtSig(a*1e4,4)} cm²`,`t = ${fmtSig(t,5)} s`],assumptions:['Free discharge to atmosphere, no outlet pipe friction, open tank.'],refs:['Torricelli’s law with discharge coefficient (standard fluid mechanics)']}}});
+const THRUST_F=[['90','90° bend'],['45','45° bend'],['22.5','22½° bend'],['11.25','11¼° bend'],['dead','Dead end, tee branch or closed valve']];
+def({id:'thrust',cat:'waterpipe',title:'Thrust block size',kw:'thrust block restraint bend tee dead end soil bearing water main force',disclaimer:ENG,
+  inputs:[num('P','Design or test pressure',{dim:'pressure',unit:'kPa',imp:'psi',def:1000,min:0}),num('D','Pipe outside diameter',{dim:'length',unit:'mm',imp:'in',def:300,min:0}),sel('f','Fitting',THRUST_F),num('sb','Allowable soil bearing',{dim:'pressure',unit:'kPa',imp:'psi',def:100,min:0,help:'Soft clay about 50 kPa (1,000 psf) · sand about 150 kPa (3,000 psf) · get the value from the geotechnical report.'}),num('sf','Safety factor',{def:1.5,min:1,max:3})],
+  compute(v){const A=Math.PI*v.D**2/4,T=v.f==='dead'?v.P*A:2*v.P*A*Math.sin(+v.f*Math.PI/360),Ab=T*v.sf/v.sb;
+    return{results:[R('T','Thrust force',T,{dim:'force',primary:true,show:['kN','lbf']}),R('Ab','Bearing area of block against soil',Ab,{dim:'area',show:['m2','ft2']})],formula:v.f==='dead'?'T = P × A':'T = 2 P A sin(θ ÷ 2) · block area = T × SF ÷ soil bearing',steps:[`A = ${fmtSig(A,4)} m², T = ${fmtSig(T/1000,5)} kN`,`Area = ${fmtSig(T/1000,5)} × ${v.sf} ÷ ${fmtSig(v.sb/1000)} = ${fmtSig(Ab,4)} m²`],
+      assumptions:['Undisturbed soil behind the block; velocity thrust neglected (small at normal velocities).'],refs:['AWWA M41 (ductile iron) and AWWA M23 (PVC) thrust restraint design; DIPRA Thrust Restraint Design for Ductile Iron Pipe']}}});
+const MANN_N=[['0.013','Finished concrete (n = 0.013)'],['0.009','PVC or HDPE (n = 0.009)'],['0.024','Corrugated metal (n = 0.024)'],['0.022','Earth, clean (n = 0.022)'],['0.030','Grassed channel (n = 0.030)'],['0.035','Natural stream, some weeds (n = 0.035)']];
+def({id:'manning',cat:'waterpipe',title:'Open channel flow (Manning)',kw:'manning open channel flow ditch canal trapezoidal rectangular normal depth froude',disclaimer:ENG,
+  inputs:[num('b','Bottom width',{dim:'length',unit:'m',imp:'ft',def:2,min:0}),num('y','Flow depth',{dim:'length',unit:'m',imp:'ft',def:1,min:0}),num('z','Side slope (horizontal : 1 vertical)',{def:0,min:0,max:10,help:'0 for a rectangular channel; 1.5 or 2 for typical earth ditches.'}),num('S','Bed slope (%)',{def:0.1,min:0.0001,max:50}),sel('n','Lining',MANN_N)],
+  compute(v){const {b,y,z}=v,A=(b+z*y)*y,P=b+2*y*Math.sqrt(1+z*z),Rh=A/P,T=b+2*z*y,n=+v.n,vel=Math.pow(Rh,2/3)*Math.sqrt(v.S/100)/n,Q=vel*A,Fr=vel/Math.sqrt(GRAV*A/T);
+    return{results:[R('Q','Flow',Q,{dim:'flow',primary:true,show:['m3/s','L/s','gpm']}),R('v','Velocity',vel,{dim:'speed',show:['m/s','ft/s']}),R('A','Flow area',A,{dim:'area',show:['m2','ft2']}),R('R','Hydraulic radius',Rh,{dim:'length',show:['m','ft']}),R('Fr','Froude number',Fr,{sig:3}),R('st','Flow state',Fr<1?'Subcritical (tranquil)':Fr>1?'Supercritical (rapid)':'Critical',{kind:'text'})],
+      formula:'Q = (1/n) A R^(2/3) S^(1/2) · R = A ÷ P · Fr = v ÷ √(g A/T)',steps:[`A = ${fmtSig(A,4)} m², P = ${fmtSig(P,4)} m, R = ${fmtSig(Rh,4)} m`,`v = ${fmtSig(vel,4)} m/s, Q = ${fmtSig(Q,4)} m³/s`],assumptions:['Uniform, steady flow (normal depth).'],refs:['Manning equation (SI form); roughness values from Chow, Open-Channel Hydraulics']}}});
+
+/* ---------------- PLUMBING ---------------- */
+def({id:'exp-tank',cat:'plumbing',title:'Expansion tank size (potable or hydronic)',kw:'expansion tank sizing thermal expansion water heater hydronic diaphragm acceptance volume',disclaimer:ENG,
+  inputs:[num('Vs','Water volume in the system',{dim:'volume',unit:'L',imp:'galUS',def:300,min:0,help:'Water heater plus piping, or the whole hydronic loop.'}),num('T1','Fill (cold) temperature',{dim:'temp',unit:'C',imp:'F',def:10}),num('T2','Maximum water temperature',{dim:'temp',unit:'C',imp:'F',def:60}),num('P1','Fill or supply pressure (gauge)',{dim:'pressure',unit:'kPa',imp:'psi',def:350,min:0,help:'Set the tank pre-charge to this pressure.'}),num('P2','Maximum operating pressure (gauge)',{dim:'pressure',unit:'kPa',imp:'psi',def:550,min:0,help:'Usually about 10 % below the relief valve setting.'}),sel('pm','Piping material',[['11.7','Steel (α = 11.7 × 10⁻⁶ /K)'],['17.1','Copper (α = 17.1 × 10⁻⁶ /K)'],['0','Plastic (pipe expansion ignored)']])],
+  compute(v){const t1=v.T1-273.15,t2=v.T2-273.15;need(t2>t1,'The maximum temperature must be above the fill temperature.','T2');need(v.P2>v.P1,'Maximum pressure must be above the fill pressure.','P2');
+    const v1=1/waterAt(t1,1),v2=1/waterAt(t2,1),a=+v.pm*1e-6,acc=v.Vs*((v2/v1-1)-3*a*(t2-t1)),P1a=v.P1+101325,P2a=v.P2+101325,Vt=acc/(1-P1a/P2a);
+    return{results:[R('Vt','Minimum total tank volume',Vt,{dim:'volume',primary:true,show:['L','galUS']}),R('acc','Expansion (acceptance) volume',acc,{dim:'volume',show:['L','galUS']}),R('ex','Water expansion',(v2/v1-1)*100,{kind:'pct'})],
+      formula:'V_t = V_s × [(v₂/v₁ − 1) − 3α ΔT] ÷ (1 − P₁/P₂), pressures absolute',steps:[`v₂/v₁ − 1 = ${fmtSig(v2/v1-1,4)} (water ${fmtSig(t1)} → ${fmtSig(t2)} °C)`,`acceptance = ${fmtSig(acc*1000,4)} L; P₁/P₂ = ${fmtSig(P1a/1000,5)}/${fmtSig(P2a/1000,5)} kPa abs`,`V_t = ${fmtSig(Vt*1000,4)} L`],
+      assumptions:['Diaphragm or bladder tank with pre-charge equal to the fill pressure. Pick the next larger catalogue size.'],refs:['ASHRAE Handbook — HVAC Systems and Equipment (2024), Hydronic Heating and Cooling: diaphragm expansion tank equation','Water specific volume: IAPWS-95']}}});
+def({id:'roof-drain',cat:'plumbing',title:'Roof drainage flow',kw:'roof drain storm drainage rainfall intensity gutter downspout flow roof area',disclaimer:ENG,
+  inputs:[num('A','Horizontal projected roof area',{dim:'area',unit:'m2',imp:'ft2',def:500,min:0,help:'Add half the area of any wall that drains onto the roof.'}),num('i','Rainfall intensity',{def:100,min:0,help:'Design rate from the code map: IPC uses the 100-year, 1-hour rainfall.'}),sel('iu','Intensity units',[['mm','mm/h'],['in','in/h']])],
+  compute(v){const i=v.iu==='in'?v.i*25.4:v.i,Q=i/1000/3600*v.A;
+    return{results:[R('Q','Design flow',Q,{dim:'flow',primary:true,show:['L/s','gpm']})],formula:'Q = i × A',steps:[`${fmtSig(i)} mm/h × ${fmtSig(v.A)} m² ÷ 3,600 = ${fmtSig(Q*1000,4)} L/s`],
+      assumptions:['Use the flow to select drains, leaders and gutters from the code tables.'],refs:['IPC 2024 Chapter 11 (storm drainage, §1106) — rainfall rate × horizontal projected area; NBC/NPC Canada Part 7 equivalent']}}});
+
+/* ---------------- HVAC ---------------- */
+def({id:'hv-oa',cat:'hvac',title:'Outdoor air ventilation (ASHRAE 62.1)',kw:'ventilation outdoor air ashrae 62.1 people area rate cfm per person breathing zone',disclaimer:ENG,
+  inputs:[num('Pz','Number of people',{def:20,min:0}),num('Az','Floor area',{dim:'area',unit:'m2',imp:'ft2',def:100,min:0}),num('Rp','People rate (L/s per person)',{def:2.5,min:0,help:'Office 2.5 · classroom (age 9+) 5.0 · retail 3.8 · restaurant dining 3.8 (from 62.1 Table 6-1; 1 L/s = 2.12 cfm).'}),num('Ra','Area rate (L/s per m²)',{def:0.3,min:0,help:'Office 0.3 · classroom 0.6 · retail 0.6 · restaurant dining 0.9.'}),num('Ez','Zone air distribution effectiveness',{def:1,min:0.5,max:1.2,help:'1.0 ceiling supply of cool air · 0.8 ceiling supply of warm air with ceiling return.'})],
+  compute(v){const Vbz=v.Rp*v.Pz+v.Ra*v.Az,Voz=Vbz/v.Ez;
+    return{results:[R('Voz','Zone outdoor airflow',Voz/1000,{dim:'flow',primary:true,show:['L/s','cfm','m3/h']}),R('Vbz','Breathing-zone outdoor airflow',Vbz/1000,{dim:'flow',show:['L/s','cfm']}),R('pp','Per person',Voz/Math.max(v.Pz,1),{sig:3,unitText:'L/s per person'})],
+      formula:'V_bz = R_p P_z + R_a A_z · V_oz = V_bz ÷ E_z',steps:[`${v.Rp} × ${v.Pz} + ${v.Ra} × ${fmtSig(v.Az,5)} = ${fmtSig(Vbz,5)} L/s`,`÷ ${v.Ez} = ${fmtSig(Voz,5)} L/s`],
+      assumptions:['Single-zone calculation. Multi-zone systems need the system ventilation efficiency step of 62.1.'],refs:['ANSI/ASHRAE Standard 62.1-2022, Ventilation Rate Procedure §6.2.2']}}});
+def({id:'hv-condensate',cat:'hvac',title:'Cooling coil condensate',kw:'condensate drain cooling coil water removal latent dehumidification',disclaimer:ENG,
+  inputs:[num('Q','Airflow through the coil',{dim:'flow',unit:'L/s',imp:'cfm',def:1000,min:0}),num('dW','Moisture removed (g water per kg dry air)',{def:3,min:0,help:'Entering minus leaving humidity ratio, from the Psychrometrics calculator.'})],
+  compute(v){const m=1.2*v.Q*v.dW/1000;
+    return{results:[R('lh','Condensate',m*3600,{sig:4,unitText:'L/h',primary:true}),R('gh','Condensate',m*3600/3.785411784,{sig:4,unitText:'US gal/h'}),R('ld','Per day of operation',m*86400,{sig:4,unitText:'L/day'}),R('lat','Latent load removed',m*2450,{dim:'power',show:['kW','BTU/h']})],
+      formula:'ṁ = ρ_air × Q × ΔW · 1 kg of water ≈ 1 L',steps:[`1.2 × ${fmtSig(v.Q,4)} m³/s × ${fmtSig(v.dW/1000)} = ${fmtSig(m*1000,4)} g/s`],assumptions:['Standard air density 1.2 kg/m³; latent heat 2,450 kJ/kg.'],refs:['ASHRAE Handbook — Fundamentals (2025), psychrometrics and coil processes']}}});
+def({id:'hv-ductloss',cat:'hvac',title:'Duct system pressure loss',kw:'duct pressure loss static pressure external fittings velocity pressure fan esp',disclaimer:ENG,
+  inputs:[num('fr','Friction rate (Pa per m)',{def:1,min:0,help:'From the Duct sizing calculator; 0.8–1.0 Pa/m is common.'}),num('L','Length of the longest run',{dim:'length',unit:'m',imp:'ft',def:40,min:0}),num('vel','Velocity in the run',{dim:'speed',unit:'m/s',imp:'ft/s',def:5,min:0}),num('C','Sum of fitting loss coefficients ΣC',{def:3,min:0,help:'Typical: smooth 90° elbow 0.2–0.3 · branch takeoff 0.5–1 · supply diffuser outlet 1.0. Use ASHRAE Duct Fitting Database values.'}),num('eq','Equipment and accessory losses',{dim:'pressure',unit:'Pa',imp:'inH2O',def:150,min:0,help:'Filters, coils, dampers, grilles from manufacturer data.'})],
+  compute(v){const pv=0.5*1.204*v.vel**2,f=v.fr*v.L,ft=v.C*pv,tot=f+ft+v.eq;
+    return{results:[R('tot','Total pressure loss',tot,{dim:'pressure',primary:true,show:['Pa','inH2O']}),R('f','Straight duct friction',f,{dim:'pressure',show:['Pa','inH2O']}),R('ft','Fittings',ft,{dim:'pressure',show:['Pa','inH2O']}),R('pv','Velocity pressure',pv,{dim:'pressure',show:['Pa','inH2O']})],
+      formula:'Δp = friction rate × L + ΣC × p_v + equipment · p_v = ½ ρ v²',steps:[`p_v = 0.5 × 1.204 × ${fmtSig(v.vel)}² = ${fmtSig(pv,4)} Pa`,`${fmtSig(f,4)} + ${fmtSig(ft,4)} + ${fmtSig(v.eq)} = ${fmtSig(tot,4)} Pa`],assumptions:['Standard air (1.204 kg/m³). Size the fan for this loss at the design airflow.'],refs:['ASHRAE Handbook — Fundamentals (2025), Duct Design: fitting losses as C × velocity pressure']}}});
+
+/* ---------------- FIRE PROTECTION ---------------- */
+const HOSE_C=[['15.5','1¾ in hose (C = 15.5)'],['24','1½ in hose (C = 24)'],['8','2 in hose (C = 8)'],['2','2½ in hose (C = 2)'],['0.8','3 in hose, 2½ in couplings (C = 0.8)'],['0.2','4 in supply hose (C = 0.2)'],['0.08','5 in supply hose (C = 0.08)']];
+def({id:'fp-hose',cat:'fire',title:'Fire hose friction loss and pump pressure',kw:'fire hose friction loss pump discharge pressure nozzle pressure fireground hydraulics',disclaimer:ENG,
+  inputs:[sel('C','Hose',HOSE_C),num('Q','Flow',{dim:'flow',unit:'gpm',imp:'gpm',def:150,min:0}),num('L','Hose length',{dim:'length',unit:'ft',imp:'ft',def:200,min:0}),num('NP','Nozzle pressure',{dim:'pressure',unit:'psi',imp:'psi',def:50,min:0,help:'Smooth-bore handline 50 psi · master stream 80 psi · most fog nozzles 100 psi (some 50 or 75).'}),num('el','Elevation of the nozzle above the pump',{dim:'length',unit:'ft',imp:'ft',def:0}),num('ap','Appliance losses',{dim:'pressure',unit:'psi',imp:'psi',def:0,min:0,help:'Wye or manifold about 10 psi; master stream device about 25 psi.'})],
+  compute(v){const q=v.Q/6.30901964e-5,l=v.L/0.3048,FL=+v.C*(q/100)**2*(l/100),el=v.el/0.3048*0.434,pdp=v.NP/6894.757293168+FL+el+v.ap/6894.757293168;
+    return{results:[R('pdp','Pump discharge pressure',pdp*6894.757293168,{dim:'pressure',primary:true,show:['psi','bar']}),R('FL','Hose friction loss',FL*6894.757293168,{dim:'pressure',show:['psi','bar']}),R('ep','Elevation pressure',el*6894.757293168,{dim:'pressure',show:['psi','bar']})],
+      formula:'FL = C × (Q ÷ 100)² × (L ÷ 100) · PDP = NP + FL + 0.434 × elevation + appliance losses',steps:[`FL = ${v.C} × (${fmtSig(q)} ÷ 100)² × (${fmtSig(l)} ÷ 100) = ${fmtSig(FL,4)} psi`,`PDP = ${fmtSig(v.NP/6894.757293168)} + ${fmtSig(FL,4)} + ${fmtSig(el,3)} + ${fmtSig(v.ap/6894.757293168)} = ${fmtSig(pdp,4)} psi`],
+      assumptions:['Coefficients are for typical modern hose; actual loss varies by brand and age, so flow-test your hose.'],refs:['IFSTA Pumping and Aerial Apparatus Driver/Operator Handbook — friction loss coefficients','Elevation 0.434 psi per foot of water']}}});
+def({id:'fp-fireflow',cat:'fire',title:'Needed fire flow (ISO method)',kw:'needed fire flow iso building construction class gpm water supply municipal',disclaimer:ENG,
+  inputs:[sel('C','Construction class',[['1.5','Wood frame (ISO class 1, C = 1.5)'],['1.0','Joisted masonry / ordinary (class 2, C = 1.0)'],['0.8','Non-combustible (class 3–4, C = 0.8)'],['0.6','Fire-resistive (class 5–6, C = 0.6)']]),num('A','Effective floor area',{dim:'area',unit:'ft2',imp:'ft2',def:10000,min:0,help:'Largest floor plus a share of other floors, per the ISO guide.'})],
+  compute(v){const a=v.A/0.09290304,F=18*(+v.C)*Math.sqrt(a),Fr=Math.max(500,Math.round(F/250)*250);
+    return{results:[R('Fr','Construction fire flow (rounded)',Fr*6.30901964e-5,{dim:'flow',primary:true,show:['gpm','L/s']}),R('F','Calculated',F*6.30901964e-5,{dim:'flow',show:['gpm','L/s']})],
+      formula:'C_i = 18 × F × √A_i (gpm, A in ft²), rounded to the nearest 250 gpm, minimum 500 gpm',steps:[`18 × ${v.C} × √${fmtSig(a,6)} = ${fmtSig(F,5)} gpm → ${Fr} gpm`],
+      assumptions:['Construction factor only. The full ISO method then adjusts for occupancy, exposure and communication, and IFC Appendix B (or the local water authority) may set the governing value.'],refs:['ISO (Insurance Services Office) Guide for Determination of Needed Fire Flow']}}});
+def({id:'fp-standpipe',cat:'fire',title:'Standpipe pressure at the base',kw:'standpipe pressure class i 100 psi elevation friction nfpa 14 riser',disclaimer:ENG,
+  inputs:[num('Po','Residual pressure needed at the most remote outlet',{dim:'pressure',unit:'psi',imp:'psi',def:100,min:0,help:'NFPA 14: 100 psi at the hydraulically most remote 2½ in outlet (Class I and III).'}),num('h','Height of that outlet above the supply',{dim:'length',unit:'ft',imp:'ft',def:75,min:0}),num('fl','Friction loss in the standpipe and fittings',{dim:'pressure',unit:'psi',imp:'psi',def:15,min:0})],
+  compute(v){const el=v.h/0.3048*0.433*6894.757293168,P=v.Po+el+v.fl;
+    return{results:[R('P','Pressure needed at the base or pump discharge',P,{dim:'pressure',primary:true,show:['psi','bar']}),R('el','Elevation loss',el,{dim:'pressure',show:['psi','bar']})],formula:'P_base = P_outlet + 0.433 × h + friction',steps:[`${fmtSig(v.Po/6894.757293168)} + 0.433 × ${fmtSig(v.h/0.3048)} + ${fmtSig(v.fl/6894.757293168)} = ${fmtSig(P/6894.757293168,4)} psi`],
+      assumptions:['Flow demand (for example 500 gpm for the first standpipe) is set by NFPA 14 and the building code.'],refs:['NFPA 14 (2024) — Installation of Standpipe and Hose Systems, minimum residual pressure']}}});
+
+/* ---------------- JEWELRY ---------------- */
+const METAL_D=[['24k','24k gold',19.32],['22k','22k yellow gold',17.8],['18ky','18k yellow gold',15.6],['18kw','18k white gold (palladium)',15.9],['14k','14k yellow gold',13.1],['10k','10k yellow gold',11.6],['ag925','Sterling silver 925',10.36],['pt950','Platinum 950',20.7],['pd950','Palladium 950',12.0],['brass','Brass',8.5]];
+def({id:'jw-metal',cat:'jewelry',title:'Metal weight from volume',kw:'metal weight volume density gold silver platinum grams dwt cad model',
+  inputs:[num('V','Volume',{dim:'volume',unit:'cm3',imp:'in3',def:1,min:0,help:'From the CAD model or by water displacement (1 mL = 1 cm³).'}),sel('m','Metal',METAL_D.map(x=>[x[0],`${x[1]} (${x[2]} g/cm³)`]))],
+  compute(v){const d=METAL_D.find(x=>x[0]===v.m)[2],g=v.V*1e6*d;
+    return{results:[R('g','Weight',g,{sig:4,unitText:'g',primary:true}),R('dwt','Pennyweight',g/1.55517384,{sig:4,unitText:'dwt'}),R('ozt','Troy ounces',g/31.1034768,{sig:4,unitText:'ozt'})],
+      formula:'weight = volume × density',steps:[`${fmtSig(v.V*1e6)} cm³ × ${d} g/cm³ = ${fmtSig(g,4)} g`],assumptions:['Typical alloy densities; exact values depend on the alloy recipe.'],refs:['Typical alloy densities (casting-grain suppliers’ data); 1 dwt = 1.55517384 g, 1 ozt = 31.1034768 g']}}});
+def({id:'jw-plating',cat:'jewelry',title:'Plating thickness and metal used',kw:'gold plating rhodium vermeil microns thickness mg metal used electroplating',
+  inputs:[num('A','Surface area to plate',{dim:'area',unit:'cm2',imp:'in2',def:10,min:0}),num('t','Thickness (µm)',{def:2.5,min:0,help:'Gold flash under 0.175 µm · gold plate about 0.5 µm · heavy gold plate 2.5 µm · vermeil (US FTC) at least 2.5 µm.'}),sel('m','Plating metal',[['19.3','Gold (19.3 g/cm³)'],['12.4','Rhodium (12.4 g/cm³)'],['10.5','Silver (10.5 g/cm³)'],['8.9','Nickel (8.9 g/cm³)']]),num('price','Metal price per gram (optional)',{money:true,opt:true,min:0})],
+  compute(v){const mg=v.A*1e4*v.t*1e-4*(+v.m)*1000;const out=[R('mg','Metal deposited',mg,{sig:4,unitText:'mg',primary:true})];if(Number.isFinite(v.price))out.push(R('c','Metal cost',mg/1000*v.price,{kind:'money'}));
+    return{results:out,formula:'mass = area × thickness × density',steps:[`${fmtSig(v.A*1e4)} cm² × ${v.t} µm × ${v.m} g/cm³ = ${fmtSig(mg,4)} mg`],assumptions:['Metal on the part only; bath losses and drag-out are extra.'],refs:['US FTC Jewelry Guides 16 CFR 23.4 (gold plate, vermeil thickness terms)']}}});
+def({id:'jw-scrap',cat:'jewelry',title:'Scrap gold value (several pieces)',kw:'scrap gold value buy melt karat grams payout pieces mixed',
+  inputs:[area_('items','Pieces: weight in grams and karat (or fineness), one per line','5.2 14k\n3.1 18k\n8.0 22k',{help:'For example “5.2 14k” or “3.1 750”.'}),num('price','Gold price per gram (24k, fine)',{money:true,def:100,min:0}),num('pay','Payout (% of melt value)',{def:85,min:0,max:100})],
+  compute(v){const lines=String(v.items||'').split(/\n/).map(s=>s.trim()).filter(Boolean);need(lines.length,'Enter at least one piece.','items');let fine=0,tot=0;const st=[];
+    for(const ln of lines){const m=ln.match(/^([\d.]+)\s*(?:g\b)?\s+([\d.]+)\s*(k|kt|karat)?$/i);need(m,`Check this line: "${ln}". Use weight then karat, e.g. 5.2 14k.`,'items');const w=+m[1],x=+m[2],pur=m[3]||x<=24?x/24:x/1000;need(pur>0&&pur<=1,`Check the purity in "${ln}".`,'items');fine+=w*pur;tot+=w;st.push(`${w} g × ${fmtSig(pur*100,4)} % = ${fmtSig(w*pur,4)} g fine`)}
+    const melt=fine*v.price;
+    return{results:[R('pay','Payout',melt*v.pay/100,{kind:'money',primary:true}),R('melt','Melt value',melt,{kind:'money'}),R('fine','Fine gold content',fine,{sig:4,unitText:'g'}),R('tot','Total weight',tot,{sig:4,unitText:'g'})],
+      formula:'fine gold = Σ weight × karat ÷ 24 · value = fine gold × price',steps:st,assumptions:['Nominal purity; real items are often slightly below nominal, and stones or solder add weight.'],refs:['Karat purity k/24 (ISO 9202:2019 fineness)']}}});
+
+/* ---------------- STONE ---------------- */
+def({id:'st-counter',cat:'stone',title:'Countertop slabs and cut-outs',kw:'countertop slab granite quartz sink cutout area slabs needed kitchen',disclaimer:ENG,
+  inputs:[area_('sec','Counter sections: length and depth, one per line','300 65\n180 65',{help:'In the units chosen below, e.g. “300 65”.'}),sel('u','Units',[['cm','cm'],['in','inches']]),num('nc','Number of cut-outs',{def:1,min:0,int:true}),text('cs','Cut-out size (length depth)','80 50'),text('slab','Slab size (length depth)','320 160'),num('waste','Waste (%)',{def:20,min:0,max:60,help:'15–25 % is typical, more for veined stone that must be book-matched.'})],
+  compute(v){const f=v.u==='cm'?0.01:0.0254,pair=(s,k)=>{const p=String(s||'').trim().split(/[\s×x*,]+/).map(Number);need(p.length===2&&p.every(x=>x>0),`Enter two numbers in "${s}".`,k);return p[0]*p[1]*f*f};
+    const lines=String(v.sec||'').split(/\n/).map(s=>s.trim()).filter(Boolean);need(lines.length,'Enter at least one counter section.','sec');const A=lines.reduce((s,l)=>s+pair(l,'sec'),0),Ac=v.nc*pair(v.cs,'cs'),As=pair(v.slab,'slab'),net=A-Ac,n=Math.ceil(A*(1+v.waste/100)/As);
+    return{results:[R('n','Slabs needed',n,{kind:'int',primary:true}),R('A','Counter area (to cut from slabs)',A,{dim:'area',show:['m2','ft2']}),R('net','Finished area (less cut-outs)',net,{dim:'area',show:['m2','ft2']}),R('As','Slab area',As,{dim:'area',show:['m2','ft2']})],
+      formula:'slabs = ⌈counter area × (1 + waste) ÷ slab area⌉',steps:[`Counter ${fmtSig(A,4)} m², slab ${fmtSig(As,4)} m² → ${n} slab${n>1?'s':''}`],assumptions:['Cut-outs still use slab material, so slabs are counted on the full counter area.'],refs:['Fabricator layout practice; common quartz slab 320 × 160 cm, granite 300 × 180 cm (varies by supplier)']}}});
+def({id:'st-agg-conv',cat:'stone',title:'Aggregate tonnes, m³ and yd³',kw:'aggregate conversion tonnes cubic yards cubic metres tons gravel sand density',
+  inputs:[num('q','Quantity',{def:10,min:0}),sel('qu','Quantity units',[['t','tonnes'],['ton','US tons'],['m3','m³'],['yd3','yd³']]),sel('mat','Material',AGG.filter(x=>Number.isFinite(x[2])).map(x=>[x[0],x[1]]))],
+  compute(v){const d=AGG.find(x=>x[0]===v.mat)[2],kg={t:1000,ton:907.18474}[v.qu],m3=kg?v.q*kg/d:v.q*({m3:1,yd3:0.764554857984}[v.qu]),t=m3*d/1000;
+    return{results:[R('t','Tonnes',t,{sig:4,primary:true,unitText:'t'}),R('ton','US tons',t*1000/907.18474,{sig:4,unitText:'US ton'}),R('m3','Cubic metres',m3,{sig:4,unitText:'m³'}),R('yd3','Cubic yards',m3/0.764554857984,{sig:4,unitText:'yd³'})],
+      formula:'mass = volume × bulk density',steps:[`${fmtSig(m3,5)} m³ × ${d} kg/m³ = ${fmtSig(t,5)} t`],assumptions:['Loose bulk density; compacted material is denser and wet material heavier.'],refs:['Typical aggregate bulk densities (supplier data sheets)']}}});
+
+/* ================================================================
+   CalcHub Pro — enrichment: sources, input help and assumptions for
+   the original calculators. Formulas are not changed here.
+   help: {inputKey: text}   refs: [...]   add: [extra assumptions]
+   ================================================================ */
+const ENRICH={
+ // GENERAL
+ 'scientific':{refs:['Mathematical signs and operator precedence: ISO 80000-2'],help:{mode:'Degrees for most engineering and surveying work; radians for calculus and physics formulas.'}},
+ 'percentage':{refs:['Percent = 1/100 (ISO 80000-1)'],help:{x:'The percentage for “X% of Y”, or the starting value for “% change”.',y:'The total for “X% of Y”, or the new value for “% change”.'}},
+ 'date-diff':{refs:['Gregorian calendar dates in ISO 8601 form (YYYY-MM-DD)'],add:['The end date is not counted: 1 Jan to 2 Jan is 1 day. Add 1 to count both days (for example, for hotel nights versus days on site).']},
+ 'average':{refs:['Mean, median, mode, population (σ) and sample (s) standard deviation — NIST/SEMATECH e-Handbook of Statistical Methods'],add:['Use the sample standard deviation (s) when the numbers are a sample of a larger group, for example test cubes from a pour.']},
+ // FINANCIAL
+ 'loan-emi':{refs:['Level-payment (annuity) amortization formula'],help:{rate:'The nominal annual rate quoted by the lender, before fees.',term:'Length of the loan; choose months or years below.'}},
+ 'mortgage':{refs:['Level-payment (annuity) amortization formula','Canada: Interest Act, s. 6 — blended-payment mortgages must state the rate compounded yearly or half-yearly; lenders use half-yearly'],help:{down:'Percent of the price paid up front. In Canada, below 20 % needs mortgage default insurance, which is not included here.',tax:'Yearly property tax; leave 0 to see the loan payment only.',comp:'Canadian fixed-rate mortgages compound semi-annually (Interest Act); US mortgages compound monthly.'}},
+ 'compound':{refs:['Compound interest and future value of an ordinary annuity'],help:{n:'How often interest is added: monthly for most savings accounts, yearly for many bonds.',C:'Optional regular deposit made at the end of each compounding period.'}},
+ 'simple':{refs:['Simple interest I = P × r × t'],help:{years:'Time in years; for 6 months enter 0.5.'},add:['Interest is not added to the principal; use Compound interest for that.']},
+ 'roi':{refs:['Return on investment and compound annual growth rate (CAGR)'],help:{years:'Optional. Gives the yearly growth rate (CAGR) so investments of different lengths can be compared.'}},
+ 'vat':{refs:['Tax-exclusive and tax-inclusive arithmetic'],help:{rate:'For example Ontario HST 13 %, Canada GST 5 %, UK VAT 20 %. Rates change; confirm with the tax authority.',mode:'“Net” if the amount is before tax; “gross” if tax is already included.'}},
+ 'discount':{refs:['Successive percentage discounts'],help:{d2:'Optional second discount, applied after the first (20 % then 10 % is 28 % in total, not 30 %).'}},
+ // UNIT CONVERTERS
+ 'conv-temp':{refs:['K = °C + 273.15 and °F = °C × 9/5 + 32 (exact; SI Brochure 2019, NIST SP 811)']},
+ 'conv-length':{refs:['Exact conversion factors: NIST Special Publication 811 (2008), Appendix B; 1 in = 25.4 mm exactly']},
+ 'conv-mass':{refs:['Exact conversion factors: NIST Special Publication 811 (2008), Appendix B; 1 lb = 0.45359237 kg exactly']},
+ 'conv-area':{refs:['Exact conversion factors: NIST Special Publication 811 (2008), Appendix B']},
+ 'conv-volume':{refs:['Exact conversion factors: NIST Special Publication 811 (2008), Appendix B; US gallon = 231 in³, UK gallon = 4.54609 L']},
+ 'conv-speed':{refs:['Exact conversion factors: NIST Special Publication 811 (2008), Appendix B; 1 knot = 1852 m/h']},
+ 'conv-pressure':{refs:['Conversion factors: NIST Special Publication 811 (2008), Appendix B; 1 atm = 101 325 Pa, 1 psi = 6894.757 Pa']},
+ 'conv-energy':{refs:['Conversion factors: NIST Special Publication 811 (2008), Appendix B; 1 kWh = 3.6 MJ, 1 BTU (IT) = 1055.056 J']},
+ // ELECTRICAL
+ 'ohms-law':{refs:['Ohm’s law V = I R and Joule’s law P = V I (DC or resistive AC)'],help:{V:'Enter any two of the four values and leave the others empty.'}},
+ 'power-1ph':{refs:['AC power: P = V I cos φ, S = V I, Q = S sin φ (IEEE Std 1459 definitions)'],help:{pf:'Heaters 1.0 · induction motors about 0.8–0.9 at full load · LED drivers 0.9 or higher.'}},
+ 'power-3ph':{refs:['Three-phase power: P = √3 V_L I_L cos φ (IEEE Std 1459 definitions)'],help:{V:'Line-to-line voltage, e.g. 208, 480 or 600 V in North America, 400 V in IEC countries.',pf:'Induction motors about 0.8–0.9 at full load; lower when lightly loaded.'}},
+ 'voltage-drop':{refs:['Conductor resistivity at 20 °C: copper 0.017241 Ω·mm²/m (IEC 60028), aluminium 0.028264 Ω·mm²/m (IEC 60889)','Recommended limits: NEC informational notes 3 % branch circuit and 5 % feeder plus branch; IEC 60364-5-52 Annex G 3 % lighting and 5 % other uses (public LV supply)'],help:{L:'One-way route length; the formula already includes the return conductor.',A:'Conductor cross-section in mm². 14 AWG = 2.08, 12 AWG = 3.31, 10 AWG = 5.26, 8 AWG = 8.37 mm².',V:'Nominal supply voltage, used to show the drop as a percentage.'}},
+ 'wire-size':{refs:['NEC Table 310.16 (2023), copper, 75 °C column','IEC 60364-5-52 Table B.52.4, copper PVC, installation method C','Canadian installations: CSA C22.1 (Canadian Electrical Code) Table 2 applies instead of NEC 310.16'],help:{maxvd:'3 % is the usual target for a branch circuit; 5 % for feeder plus branch.',cont:'Loads running 3 hours or more (lighting, heaters) are sized at 125 % under the NEC.'}},
+ 'resistors':{refs:['Series R = Σ Rᵢ and parallel 1/R = Σ 1/Rᵢ (Kirchhoff’s laws)'],help:{list:'Values in ohms separated by spaces, e.g. 100 220 470.'}},
+ // CIVIL
+ 'concrete':{refs:['Geometric volume with a waste allowance (ready-mix ordering practice)'],help:{waste:'5–10 % is typical for slabs and footings; more on uneven ground or for pumped concrete.',count:'Number of identical pieces, e.g. 12 footings or 6 columns.'}},
+ 'rebar':{refs:['Nominal mass from steel density 7,850 kg/m³ (the basis of ASTM A615 and BS 4449 nominal masses)'],help:{d:'Metric bar size. US equivalents: #3 = 9.5 mm, #4 = 12.7 mm, #5 = 15.9 mm, #6 = 19.1 mm, #8 = 25.4 mm.'}},
+ 'bricks':{refs:['Brick work sizes: UK 215 × 102.5 × 65 mm (BS EN 771-1); US modular 7⅝ × 3⅝ × 2¼ in; Canadian metric modular 190 × 90 × 57 mm'],help:{bl:'UK brick 215 mm · US modular 194 mm (7⅝ in) · Canadian modular 190 mm · concrete block 390 mm.',bh:'UK brick 65 mm · US modular 57 mm (2¼ in) · concrete block 190 mm.',waste:'5 % for plain walls; 10 % with many cuts or openings.'}},
+ 'slope':{refs:['Grade % = rise ÷ run × 100; angle = arctan(rise ÷ run)'],add:['Accessible ramps are limited to 1:12 (8.33 %) under the 2010 ADA Standards and most North American building codes.']},
+ 'beam':{refs:['Euler–Bernoulli beam theory; standard simple-span cases as in AISC Steel Construction Manual Table 3-23'],help:{E:'Steel 200 GPa · aluminium 69 GPa · concrete about 25–30 GPa · softwood timber about 9–12 GPa.',Iz:'Second moment of area of the section about the bending axis, from the section tables or the manufacturer.'}},
+ // ARCHITECTURE AND BUILDING
+ 'room':{refs:['Plane and solid geometry'],help:{H:'Floor to ceiling. Wall area excludes doors and windows.'}},
+ 'paint':{refs:['Coverage from manufacturers’ data sheets: typically 10–12 m²/L per coat for interior acrylic on smooth walls'],help:{cov:'10–12 m²/L for smooth walls; 6–8 m²/L for rough, porous or new plaster. Check the tin.',coats:'Two coats is usual; three for a strong colour change.'}},
+ 'flooring':{refs:['Area plus cutting waste (installer practice)'],help:{waste:'5–10 % for straight lay; 10–15 % for diagonal or herringbone layouts.',box:'Printed on the box, in m² or ft².'}},
+ 'stairs':{refs:['IBC 2024 §1011.5.2: riser 4–7 in (102–178 mm), tread at least 11 in (279 mm) for commercial stairs','IRC 2024 §R311.7.5: riser at most 7¾ in (196 mm), tread at least 10 in (254 mm) for homes','NBC Canada 2020 Table 9.8.4.1: private stairs rise 125–200 mm, run 255–355 mm'],help:{tr:'Comfortable stairs follow 2 × riser + tread ≈ 600–640 mm.',go:'Horizontal depth of each tread, nosing to nosing.'}},
+ 'roof':{refs:['Pitch = rise : run (often stated as X in 12); rafter length = run × √(1 + pitch²)'],help:{span:'Optional horizontal run of one rafter, to get its sloped length.'}},
+ 'scale':{refs:['Preferred drawing scales: ISO 5455 (1:1, 1:2, 1:5, 1:10 and multiples of 10)'],help:{n:'For 1:50 enter 50; for 1:100 enter 100.'}},
+ // CHEMICAL
+ 'molarity':{refs:['Amount concentration c = n ÷ V (IUPAC Gold Book)'],help:{M:'Molar mass of the solute; use the Molecular weight calculator to get it.',V:'Final volume of the solution, not the volume of solvent added.'}},
+ 'dilution':{refs:['Conservation of solute: C₁V₁ = C₂V₂'],help:{C1:'Any concentration unit, as long as C₁ and C₂ use the same one (mol/L, %, mg/L).'}},
+ 'ideal-gas':{refs:['Molar gas constant R = 8.314462618 J/(mol·K), exact since the 2019 SI redefinition'],help:{T:'Absolute temperature; °C + 273.15. Standard conditions are 273.15 K and 1 atm (IUPAC uses 100 kPa).'}},
+ 'ph':{refs:['pH = −log₁₀ a(H⁺) (IUPAC); ionic product of water Kw = 1.0 × 10⁻¹⁴ at 25 °C'],help:{x:'Concentrations in mol/L, e.g. 1e-3 for 0.001 M.'}},
+ 'flow':{refs:['Continuity equation Q = A × v'],help:{vel:'Water: about 0.6–2.5 m/s in building services; 1–3 m/s in pumped mains.',d:'Inside diameter, not nominal size.'}},
+ // CAD AND DRAFTING
+ 'cad-scale':{refs:['Drawing scales: ISO 5455; standard lettering heights 1.8, 2.5, 3.5, 5, 7, 10 mm: ISO 3098'],help:{txt:'Plotted text height: 2.5 mm for notes, 3.5 mm for titles is common (ISO 3098).'}},
+ 'polar':{refs:['x = r cos θ, y = r sin θ; θ measured counter-clockwise from the +x axis'],add:['Angles follow the mathematics convention (counter-clockwise from east). Survey bearings are measured clockwise from north.']},
+ 'angle':{refs:['1 rad = 180/π°; 1 gon (grad) = 0.9°; degrees–minutes–seconds: 1° = 60′ = 3600″']},
+ 'polyline':{refs:['Shoelace (Gauss) area formula for a simple polygon'],help:{pts:'One point per line as x,y, in order around the boundary. The shape closes back to the first point automatically.'}},
+ 'arc':{refs:['Circle geometry: arc s = rθ, chord c = 2r sin(θ/2), sagitta h = r(1 − cos(θ/2)), sector area r²θ/2'],help:{t:'Angle at the centre between the two ends of the arc.'}},
+};
+for(const c of CALCS){const e=ENRICH[c.id];if(!e)continue;
+  if(e.refs&&!(c.refs&&c.refs.length))c.refs=e.refs;
+  if(e.help)for(const i of c.inputs)if(e.help[i.key]&&!i.help)i.help=e.help[i.key];
+  if(e.add)c.extraAssumptions=e.add;}
+
+/* ================================================================
+   CalcHub Pro — assist layer: typical-value pickers, pass/fail code
+   checks and valid-range warnings. Values are given in each input's
+   base unit (the `unit` of the input). All checks work on SI values.
+   ================================================================ */
+const PICKS={
+ 'voltage-drop':{A:[['14 AWG',2.08],['12 AWG',3.31],['10 AWG',5.26],['8 AWG',8.37],['6 AWG',13.3],['4 AWG',21.2],['2 AWG',33.6],['1/0 AWG',53.5],['1.5 mm²',1.5],['2.5 mm²',2.5],['4 mm²',4],['6 mm²',6],['10 mm²',10],['16 mm²',16],['25 mm²',25],['35 mm²',35]]},
+ 'power-1ph':{pf:[['Resistive heater',1],['LED lighting with driver',0.95],['Induction motor, full load',0.85],['Induction motor, half load',0.75]]},
+ 'power-3ph':{pf:[['Resistive heater',1],['Induction motor, full load',0.85],['Induction motor, half load',0.75]]},
+ 'el-motor':{eff:[['IE3 4-pole 1.1 kW',84.1],['IE3 4-pole 4 kW',88.6],['IE3 4-pole 7.5 kW',90.4],['IE3 4-pole 15 kW',92.1],['IE3 4-pole 37 kW',93.9],['IE3 4-pole 75 kW',95.0]],pf:[['Small motor, full load',0.8],['Medium motor, full load',0.85],['Large motor, full load',0.88]]},
+ 'beam':{E:[['Structural steel',200],['Stainless steel',193],['Aluminium alloy',69],['Concrete C30/37 (Ecm)',33],['Softwood C24 (E0,mean)',11],['Glulam GL24h',11.5]]},
+ 'paint':{cov:[['Smooth interior wall',11],['Ceiling',10],['New plaster or porous surface',7],['Exterior masonry',6]]},
+ 'flooring':{waste:[['Straight lay',7],['Diagonal layout',12],['Herringbone',15]]},
+ 'concrete':{waste:[['Formed slab or footing',5],['Slab on uneven ground',8],['Pumped or complex pour',10]]},
+ 'bricks':{bl:[['UK brick',215],['US modular brick',194],['Canadian metric modular',190],['Concrete block',390]],bh:[['UK brick',65],['US modular brick',57],['Canadian metric modular',57],['Concrete block',190]]},
+ 'water-dw':{eps:[['PVC, PE or copper',0.0015],['New commercial steel',0.045],['Galvanized steel',0.15],['Cast iron',0.26],['Concrete (smooth to rough)',1]]},
+ 'oil-dp':{eps:[['New commercial steel',0.045],['Steel, light rust',0.15],['Cast iron',0.26]],rho:[['Water',998],['Gasoline',740],['Diesel',830],['Light crude, API 35',850],['Heavy crude, API 20',934]],nu:[['Water at 20 °C',1.0],['Gasoline (about)',0.6],['Diesel (about)',3],['Light crude (about)',10],['Heavy crude (about)',200]]},
+ 'hv-duct':{eps:[['Galvanized steel (ASHRAE)',0.09],['Flexible duct, fully extended (about)',0.9]]},
+ 'mech-bolt':{K:[['Unplated, black finish',0.30],['Zinc plated',0.20],['Lubricated',0.18],['Cadmium plated',0.16]]},
+ 'mech-spring':{G:[['Music wire',81.7],['Hard-drawn wire',80.0],['Chrome-vanadium',77.2],['Stainless steel 302',69.0]]},
+ 'gas-flow':{G:[['Natural gas (typical)',0.6],['Methane',0.554],['Nitrogen',0.967],['Air',1.0]],Eff:[['Clean, new pipe',0.95],['Average service',0.92],['Older or dirty pipe',0.88]]},
+ 'gas-velocity':{G:[['Natural gas (typical)',0.6],['Methane',0.554],['Nitrogen',0.967]],C:[['Continuous service, no solids (API RP 14E)',100],['Intermittent service (API RP 14E)',125]]},
+ 'gas-linepack':{},
+ 'fp-k':{K:[['K 2.8',2.8],['K 4.2',4.2],['K 5.6 (standard ½ in)',5.6],['K 8.0',8.0],['K 11.2',11.2],['K 14.0',14.0],['K 16.8',16.8],['K 25.2 (ESFR)',25.2]]},
+ 'fp-demand':{dens:[['Light hazard',0.10],['Ordinary hazard group 1',0.15],['Ordinary hazard group 2',0.20],['Extra hazard group 1',0.30],['Extra hazard group 2',0.40]],hose:[['Light hazard',100],['Ordinary hazard',250],['Extra hazard',500]]},
+ 'fp-friction':{C:[['Black steel, dry system',100],['Black steel, wet system',120],['Copper or stainless steel',140],['CPVC or plastic',150]]},
+ 'oil-pump':{ep:[['Small centrifugal pump',60],['Medium centrifugal pump',75],['Large centrifugal pump',85]]},
+ 'water-pump':{ep:[['Small centrifugal pump',60],['Medium centrifugal pump',75],['Large centrifugal pump',85]]},
+ 'fp-pump':{eta:[['Small fire pump',60],['Typical fire pump',70],['Large fire pump',80]]},
+};
+const HELP2={
+ 'hv-ach':{ach:'Air changes per hour. Use the rate your code or brief gives; ASHRAE 62.1 sets outdoor air per person and per m² instead.'},
+ 'hv-load':{dT:'Supply air to room air difference; about 8–11 K is typical for cooling.',dW:'From the Psychrometrics calculator: room minus supply humidity ratio.'},
+ 'hv-water':{dT:'Chilled water is often 5–6 K (10–12 °F); heating hot water 10–20 K.'},
+ 'hv-fan':{N2:'New speed, e.g. after a VFD change.'},
+ 'fp-hydrant':{S:'Pressure with no water flowing.',Rp:'Pressure at the test hydrant while the flow hydrant is open.',QF:'Measured flow from the flow hydrant (pitot reading converted to gpm).',Rt:'20 psi is the usual design residual for fire flow.'},
+ 'fp-pump':{eta:'Pump efficiency at the rated point, from the pump curve.'},
+ 'fp-k':{K:'Stamped on the sprinkler or in its data sheet.'},
+ 'el-xfmr':{gr:'Allowance for future load; 20–25 % is common.'},
+ 'el-fault':{Z:'From the transformer nameplate; typical 2–4 % small, 5.75 % for 1–2.5 MVA.'},
+ 'el-pfc':{pf2:'0.95 is a common target; utilities often charge below 0.9.'},
+ 'mech-torque-power':{N:'Shaft speed in revolutions per minute.'},
+ 'mech-shaft':{tau:'Allowable shear stress; 40 MPa is a conservative value for steel shafts with keyways.'},
+ 'mech-gear':{},
+ 'mech-cylinder':{d:'Rod diameter; needed for the retract force and speed.'},
+ 'oil-api':{},
+ 'jw-karat':{},
+ 'st-gem-weight':{},
+};
+const COMMON={'oil-pump':{em:'Motor efficiency; about 90–96 %.'},'water-pump':{em:'Motor efficiency; about 90–96 %.'}};
+const fmt1=(x,n=3)=>fmtSig(x,n);
+const CHECKS={
+ 'voltage-drop':(v,o)=>{const p=o.results.find(r=>r.key==='pct');if(!p||!Number.isFinite(p.value))return[];const x=p.value;
+   return[{key:'chk_vd',label:'Check: voltage drop',ok:x<=3?true:x<=5?'warn':false,text:x<=3?`Pass — ${fmt1(x)} % is within 3 % for a branch circuit`:x<=5?`Check — ${fmt1(x)} % is over 3 %; acceptable only if feeder plus branch stays within 5 %`:`Fail — ${fmt1(x)} % is over 5 %; use a larger conductor or a shorter run`}]},
+ 'stairs':(v,o)=>{const r=o.results.find(x=>x.key==='r');if(!r)return[];const R_=r.value*1000,T=v.go*1000;
+   const one=(key,name,rmin,rmax,tmin,tmax)=>{const okR=R_>=rmin&&R_<=rmax,okT=T>=tmin&&(!tmax||T<=tmax);return{key,label:`Check: ${name}`,ok:okR&&okT,text:`${okR&&okT?'Pass':'Fail'} — riser ${fmt1(R_)} mm (${rmin?rmin+'–'+rmax:'≤ '+rmax}), tread ${fmt1(T)} mm (${tmax?tmin+'–'+tmax:'≥ '+tmin})`}};
+   return[one('chk_ibc','IBC, commercial stairs',102,178,279,0),one('chk_irc','IRC, homes',0,196,254,0),one('chk_nbc','NBC Canada, private stairs',125,200,255,355)]},
+ 'slope':(v,o)=>{const p=o.results.find(x=>x.key==='pct');if(!p)return[];return[{key:'chk_ramp',label:'Check: accessible ramp',ok:p.value<=100/12+1e-9,text:p.value<=100/12+1e-9?`Pass — ${fmt1(p.value)} % is within 1:12 (8.33 %)`:`Fail — ${fmt1(p.value)} % is steeper than 1:12 (ADA 2010 §405.2)`}]},
+ 'roof':(v,o)=>{const pitch=v.rise/v.run*12;if(!Number.isFinite(pitch))return[];return[{key:'chk_shingle',label:'Check: asphalt shingles',ok:pitch>=4?true:pitch>=2?'warn':false,text:pitch>=4?`Pass — ${fmt1(pitch)} in 12 is at least 4:12`:pitch>=2?`Check — ${fmt1(pitch)} in 12 needs double underlayment (IRC R905.2.2, 2:12 to 4:12)`:`Fail — below 2:12; use a low-slope roof system`}]},
+ 'flow':(v,o)=>{const vel=v.find==='Q'?v.vel:(o.results.find(x=>x.key==='vel')||{}).value;if(!Number.isFinite(vel))return[];
+   return[{key:'chk_vel',label:'Check: water velocity',ok:vel>=0.6&&vel<=2.5?true:'warn',text:vel<0.6?`Check — ${fmt1(vel)} m/s is low; sediment can settle below about 0.6 m/s`:vel<=2.5?`Pass — ${fmt1(vel)} m/s is in the usual 0.6–2.5 m/s range`:`Check — ${fmt1(vel)} m/s is high; expect noise, erosion and water hammer above about 2.5 m/s`}]},
+ 'beam':(v,o)=>{const d=o.results.find(x=>x.key==='def');if(!d||!(d.value>0))return[];const k=v.L/d.value;return[{key:'chk_def',label:'Check: deflection',ok:k>=360?true:k>=240?'warn':false,text:k>=360?`Pass — L/${Math.round(k)} meets L/360 (typical live-load limit for floors)`:k>=240?`Check — L/${Math.round(k)} meets L/240 (roofs, total load) but not L/360 (floors)`:`Fail — L/${Math.round(k)} is more than L/240; use a stiffer section`}]},
+ 'fp-k':(v,o)=>{let P=v.find==='P'?(o.results.find(x=>x.key==='P')||{}).value:v.P;if(!Number.isFinite(P))return[];const psi=P/6894.757293168;
+   return[{key:'chk_pmin',label:'Check: minimum pressure',ok:psi>=7,text:psi>=7?`Pass — ${fmt1(psi)} psi is at least 7 psi (NFPA 13 minimum)`:`Fail — ${fmt1(psi)} psi is below the 7 psi (0.5 bar) minimum in NFPA 13`}]},
+ 'water-size':(v,o)=>{if(!Number.isFinite(v.v))return[];return[{key:'chk_v',label:'Check: design velocity',ok:v.v<=2.5?true:'warn',text:v.v<=2.5?`Pass — ${fmt1(v.v)} m/s is a usual design velocity`:`Check — ${fmt1(v.v)} m/s is high for water; 1–2.5 m/s is usual`}]},
+};
+const WARNS={
+ 'water-hw':(v,o)=>{const u=(o.results.find(x=>x.key==='u')||{}).value;return[u>3&&'Velocity is above 3 m/s. Hazen–Williams is less accurate here and surge risk rises; check with Darcy–Weisbach.',v.D<0.05&&'For pipes under 50 mm, Hazen–Williams is less accurate; use the Darcy–Weisbach calculator.']},
+ 'water-dw':(v,o)=>{const Re=(o.results.find(x=>x.key==='Re')||{}).value;return[Re>2000&&Re<4000&&'Flow is in the transition zone (Reynolds number 2,000–4,000). The friction factor is uncertain here; results can be off by 30 % or more.']},
+ 'oil-dp':(v,o)=>{const Re=(o.results.find(x=>x.key==='Re')||{}).value;return[Re>2000&&Re<4000&&'Flow is in the transition zone (Reynolds number 2,000–4,000). The friction factor is uncertain here; results can be off by 30 % or more.']},
+ 'ideal-gas':(v,o)=>[v.find!=='P'&&v.P>10*101325&&'Above about 10 atm, real gases depart from ideal behaviour. Use a compressibility factor (Z) for accurate results.'],
+ 'ph':(v,o)=>[(v.from==='H'||v.from==='OH')&&v.x>0.1&&'Above 0.1 mol/L, activity differs from concentration, so this pH is approximate.'],
+ 'pl-hunter':(v,o)=>[v.n<5&&'The Hunter method is for many fixtures. With fewer than 5, add up the fixture flows instead.'],
+ 'voltage-drop':(v,o)=>[v.A>50e-6&&'Above about 50 mm², cable reactance matters on AC; this resistive-only result understates the drop.'],
+ 'hv-duct':(v,o)=>{const u=(o.results.find(x=>x.key==='v')||{}).value;return[u>10&&'Duct velocity is above 10 m/s (about 2,000 fpm); expect noise in occupied spaces. Consider a larger duct.']},
+ 'concrete':(v,o)=>[!(v.waste>0)&&'No waste allowance. Ready-mix is usually ordered 5–10 % over the measured volume.'],
+ 'mortgage':(v,o)=>[v.comp==='s'&&v.down<20&&'Down payment under 20 %: Canadian lenders require mortgage default insurance; its premium is not included.'],
+ 'pl-septic':(v,o)=>{const V=(o.results.find(x=>x.key==='V')||{}).value;return[V<3.4&&'Many codes set a minimum tank size of about 3.4–3.8 m³ (900–1,000 US gal). Check the local rule.']},
+ 'el-lux':(v,o)=>[(v.UF>0.9||v.MF>0.95)&&'Utilisation and maintenance factors this high are unusual; check the luminaire data.'],
+};
+const EXTRA_ASSUM={'water-hw':['Hazen–Williams applies to water at ordinary temperatures (about 4–25 °C) in turbulent flow.'],'fp-friction':['Hazen–Williams as required by NFPA 13 for water-filled sprinkler pipe.']};
+for(const c of CALCS){
+  if(EXTRA_ASSUM[c.id])c.extraAssumptions=[...(c.extraAssumptions||[]),...EXTRA_ASSUM[c.id]];
+  const p=PICKS[c.id];if(p)for(const i of c.inputs)if(p[i.key])i.pick=p[i.key];
+  const h={...(HELP2[c.id]||{}),...(COMMON[c.id]||{})};for(const i of c.inputs)if(h[i.key]&&!i.help)i.help=h[i.key];
+  if(CHECKS[c.id])c.check=CHECKS[c.id];
+  if(WARNS[c.id])c.warn=WARNS[c.id];
+}
+
+/* ---------- labelled diagrams for geometry calculators (inline SVG, theme-aware) ---------- */
+const DG=(w,h,body,title)=>`<svg class="dg" viewBox="0 0 ${w} ${h}" role="img" aria-label="${title}"><title>${title}</title>${body}</svg>`;
+const T=(x,y,t,a='middle')=>`<text x="${x}" y="${y}" text-anchor="${a}">${t}</text>`;
+const ARW='<defs><marker id="dga" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 8 4 0 8z" class="dgf"/></marker></defs>';
+const DIM=(x1,y1,x2,y2)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" class="dgd" marker-start="url(#dga)" marker-end="url(#dga)"/>`;
+const DIAGRAMS={
+ 'beam':DG(340,150,ARW+`${[...Array(11)].map((_,k)=>`<line x1="${40+k*26}" y1="22" x2="${40+k*26}" y2="50" class="dgl" marker-end="url(#dga)"/>`).join('')}<line x1="40" y1="22" x2="300" y2="22" class="dgl"/>
+  <rect x="30" y="54" width="280" height="14" class="dgs"/><path d="M40 68 30 86h20z M300 68 290 86h20z" class="dgs"/>
+  ${T(170,15,'w — uniform load per metre')}${DIM(40,104,300,104)}${T(170,122,'L — span')}${T(40,140,'R')}${T(300,140,'R')}`,'Simply supported beam with span L and uniform load w'),
+ 'stairs':DG(340,182,ARW+`<path d="M30 150h50v-25h50v-25h50v-25h50v-25h50v-25h40" class="dgs" fill="none"/>
+  ${DIM(85,150,85,125)}${T(98,142,'r','start')}${DIM(80,118,130,118)}${T(105,112,'go')}
+  ${DIM(330,150,330,25)}${T(322,90,'total rise','end')}<line x1="30" y1="160" x2="320" y2="160" class="dgd"/>${T(175,177,'riser r · tread (going) go')}`,'Stair with riser r, tread go and total rise'),
+ 'roof':DG(340,160,ARW+`<path d="M30 130 170 40 310 130z" class="dgs" fill="none"/><line x1="170" y1="40" x2="170" y2="130" class="dgd" stroke-dasharray="4 3"/>
+  ${DIM(180,40,180,130)}${T(188,90,'rise','start')}${DIM(30,145,170,145)}${T(100,158,'run')}${T(80,78,'rafter',)}<path d="M62 130a32 32 0 0 0 -6 -17" class="dgd" fill="none"/>${T(70,124,'θ','start')}`,'Roof with rise, run, rafter and pitch angle'),
+ 'slope':DG(340,140,ARW+`<path d="M30 110h260v-60z" class="dgs" fill="none"/>${DIM(305,110,305,50)}${T(312,84,'rise','start')}${DIM(30,125,290,125)}${T(160,138,'run (horizontal)')}<path d="M80 110a50 50 0 0 0 -2 -11" class="dgd" fill="none"/>${T(92,104,'angle','start')}${T(150,72,'grade % = rise ÷ run × 100')}`,'Slope with rise, run, grade and angle'),
+ 'arc':DG(340,200,ARW+`<path d="M60 120A130 130 0 0 1 280 120" class="dgs" fill="none"/><line x1="60" y1="120" x2="280" y2="120" class="dgd"/><line x1="170" y1="120" x2="170" y2="66" class="dgd" stroke-dasharray="4 3"/>
+  <line x1="170" y1="190" x2="60" y2="120" class="dgd" stroke-dasharray="2 3"/><line x1="170" y1="190" x2="280" y2="120" class="dgd" stroke-dasharray="2 3"/>${T(170,58,'arc length s')}${T(170,138,'chord c')}${T(176,96,'h (sagitta)','start')}${T(110,162,'r')}${T(170,184,'θ')}`,'Circular arc with radius r, angle θ, chord c and sagitta h'),
+ 'polar':DG(340,170,ARW+`<line x1="40" y1="140" x2="320" y2="140" class="dgd" marker-end="url(#dga)"/><line x1="60" y1="160" x2="60" y2="15" class="dgd" marker-end="url(#dga)"/>
+  <line x1="60" y1="140" x2="240" y2="50" class="dgs"/><circle cx="240" cy="50" r="4" class="dgf"/><line x1="240" y1="50" x2="240" y2="140" class="dgd" stroke-dasharray="4 3"/><line x1="60" y1="50" x2="240" y2="50" class="dgd" stroke-dasharray="4 3"/>
+  ${T(150,85,'r')}<path d="M100 140a40 40 0 0 0 -4 -18" class="dgd" fill="none"/>${T(108,133,'θ','start')}${T(150,158,'x')}${T(50,98,'y','end')}${T(316,155,'+x','end')}`,'Polar coordinates r and θ and Cartesian x and y'),
+ 'mech-belt':DG(340,150,`<circle cx="90" cy="75" r="30" class="dgs" fill="none"/><circle cx="250" cy="75" r="55" class="dgs" fill="none"/><line x1="90" y1="45" x2="250" y2="20" class="dgs"/><line x1="90" y1="105" x2="250" y2="130" class="dgs"/>
+  <line x1="90" y1="75" x2="250" y2="75" class="dgd" stroke-dasharray="4 3"/>${T(170,70,'C — centre distance')}${T(90,79,'D1')}${T(250,79,'D2')}${T(90,145,'driver, N1')}`,'Belt drive with pulleys D1 and D2 and centre distance C'),
+ 'pl-drain':DG(340,150,ARW+`<circle cx="120" cy="75" r="60" class="dgs" fill="none"/><path d="M62 92A60 60 0 0 0 178 92z" class="dgw"/>${DIM(200,15,200,135)}${T(208,79,'D','start')}${DIM(230,92,230,135)}${T(238,118,'depth of flow','start')}${T(120,122,'flow')}`,'Part-full pipe with diameter D and depth of flow'),
+ 'el-conduit':DG(340,150,`<circle cx="110" cy="75" r="62" class="dgs" fill="none"/>${[[90,55],[130,55],[110,88],[80,95],[140,95],[110,40]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="17" class="dgw"/>`).join('')}
+  ${T(200,55,'Conduit inside diameter','start')}${T(200,95,'Cable outside diameter','start')}${T(200,115,'fill = Σ cable areas ÷','start')}${T(200,130,'conduit area','start')}`,'Conduit cross-section with cables'),
+ 'mech-cylinder':DG(340,140,ARW+`<rect x="30" y="40" width="190" height="60" class="dgs" fill="none"/><rect x="150" y="45" width="12" height="50" class="dgw"/><rect x="162" y="62" width="150" height="16" class="dgs"/>
+  ${DIM(20,40,20,100)}${T(14,74,'D','end')}${DIM(320,62,320,78)}${T(326,74,'d','start')}${T(90,75,'P (pressure)')}${T(240,120,'extend force = P × πD²/4')}`,'Hydraulic cylinder with bore D and rod d'),
+ 'concrete':DG(340,160,ARW+`<path d="M60 100 180 130 300 90 180 60z" class="dgw"/><path d="M60 100v18l120 30v-18zM180 148l120-40V90" class="dgs" fill="none"/><path d="M60 100 180 130 300 90 180 60z" class="dgs" fill="none"/>
+  ${T(110,140,'L')}${T(255,128,'W')}${T(46,112,'D','end')}${T(180,30,'V = L × W × D')}`,'Slab with length L, width W and thickness D'),
+ 'room':DG(340,170,`<path d="M70 140h170l60-30H130z" class="dgw"/><path d="M70 40h170l60-30H130zM70 40v100M240 40v100M300 10v100" class="dgs" fill="none"/><path d="M70 140h170l60-30" class="dgs" fill="none"/>
+  ${T(155,158,'L')}${T(282,134,'W')}${T(60,94,'H','end')}`,'Room with length L, width W and height H'),
+ 'hv-duct':DG(340,140,ARW+`<circle cx="80" cy="70" r="45" class="dgs" fill="none"/>${DIM(35,130,125,130)}${T(80,124,'D')}<rect x="180" y="45" width="130" height="50" class="dgs" fill="none"/>${DIM(180,112,310,112)}${T(245,128,'width = aspect ratio × height')}${DIM(325,45,325,95)}${T(318,74,'h','end')}${T(170,75,'≡')}`,'Round duct and equivalent rectangular duct'),
+ 'jw-ring':DG(340,140,ARW+`<circle cx="110" cy="70" r="55" class="dgs" fill="none"/><circle cx="110" cy="70" r="40" class="dgs" fill="none"/>${DIM(70,70,150,70)}${T(110,64,'inside diameter')}${T(200,60,'Ring size from inside','start')}${T(200,78,'diameter or circumference','start')}${T(200,96,'(ISO 8653, US, UK)','start')}`,'Ring with inside diameter'),
+ 'right-tri':DG(340,160,ARW+`<path d="M60 130h220V30z" class="dgs" fill="none"/><path d="M265 130v-15h15" class="dgd" fill="none"/>${T(170,148,'b (adjacent)')}${T(290,84,'a (opposite)','start')}${T(160,72,'c (hypotenuse)','end')}<path d="M100 130a40 40 0 0 0 -3 -16" class="dgd" fill="none"/>${T(108,124,'A','start')}`,'Right triangle with sides a, b, hypotenuse c and angle A'),
+ 'triangle':DG(340,160,`<path d="M50 130h240L200 30z" class="dgs" fill="none"/>${T(170,148,'c')}${T(255,78,'a','start')}${T(115,74,'b','end')}${T(40,136,'A','end')}${T(300,136,'B','start')}${T(200,22,'C')}`,'Triangle with sides a, b, c opposite angles A, B, C'),
+ 'section':DG(340,150,ARW+`<rect x="40" y="25" width="60" height="100" class="dgw"/>${DIM(40,138,100,138)}${T(70,149,'b')}${DIM(20,25,20,125)}${T(14,79,'h','end')}<circle cx="230" cy="75" r="50" class="dgw"/><circle cx="230" cy="75" r="40" class="dgs" fill="none"/>${DIM(180,138,280,138)}${T(230,149,'D')}${T(285,40,'t','start')}<line x1="40" y1="75" x2="100" y2="75" class="dgd" stroke-dasharray="4 3"/>${T(150,79,'neutral axis')}`,'Rectangle b × h and tube D × t cross-sections'),
+ 'manning':DG(340,150,ARW+`<path d="M40 30 100 110h140l60-80" class="dgs" fill="none"/><path d="M70 70 100 110h140l30-40z" class="dgw"/>${DIM(100,128,240,128)}${T(170,144,'b — bottom width')}${DIM(310,70,310,110)}${T(304,94,'y','end')}${T(64,96,'1','end')}${T(82,112,'z')}${T(170,62,'water surface')}`,'Channel with bottom width b, depth y and side slope z:1'),
+ 'beam-cases':DG(340,130,ARW+`<rect x="40" y="20" width="10" height="80" class="dgs"/><rect x="50" y="52" width="250" height="14" class="dgs"/><line x1="300" y1="10" x2="300" y2="48" class="dgl" marker-end="url(#dga)"/>${T(300,8,'P','middle')}${DIM(50,88,300,88)}${T(175,106,'L — length')}${T(60,124,'fixed end','start')}`,'Cantilever beam with point load P at length L'),
+};
+
+/* ================================================================
+   CalcHub Pro — reference library. Facts with their source; no code
+   tables are copied. Each table: {id, title, src, note?, head, rows}
+   ================================================================ */
+const REF_TABLES=(()=>{
+  const r3=x=>+x.toFixed(3);
+  // carbon steel pipe, ASME B36.10M: NPS, OD in, Sch 40 wall in, Sch 80 wall in
+  const PIPE=[['1/2',0.840,0.109,0.147],['3/4',1.050,0.113,0.154],['1',1.315,0.133,0.179],['1-1/4',1.660,0.140,0.191],['1-1/2',1.900,0.145,0.200],['2',2.375,0.154,0.218],['2-1/2',2.875,0.203,0.276],['3',3.500,0.216,0.300],['4',4.500,0.237,0.337],['5',5.563,0.258,0.375],['6',6.625,0.280,0.432],['8',8.625,0.322,0.500],['10',10.750,0.365,0.594],['12',12.750,0.406,0.688],['14',14.000,0.438,0.750],['16',16.000,0.500,0.844],['18',18.000,0.562,0.938],['20',20.000,0.594,1.031],['24',24.000,0.688,1.219]];
+  const AWG=[['18',0.823],['16',1.31],['14',2.08],['12',3.31],['10',5.26],['8',8.37],['6',13.3],['4',21.2],['3',26.7],['2',33.6],['1',42.4],['1/0',53.5],['2/0',67.4],['3/0',85.0],['4/0',107.2],['250 kcmil',127],['350 kcmil',177],['500 kcmil',253]];
+  const MET=[1.5,2.5,4,6,10,16,25,35,50,70,95,120,150,185,240];
+  return [
+   {id:'pipe',title:'Steel pipe dimensions (Schedule 40 and 80)',src:'ASME B36.10M — Welded and Seamless Wrought Steel Pipe (dimensions are physical facts; check the current edition for tolerances)',
+    head:['NPS (in)','OD (in)','OD (mm)','Sch 40 wall (in)','Sch 40 ID (in)','Sch 40 ID (mm)','Sch 80 wall (in)','Sch 80 ID (in)','Sch 80 ID (mm)'],
+    rows:PIPE.map(([n,od,w4,w8])=>[n,od.toFixed(3),(od*25.4).toFixed(1),w4.toFixed(3),r3(od-2*w4).toFixed(3),((od-2*w4)*25.4).toFixed(1),w8.toFixed(3),r3(od-2*w8).toFixed(3),((od-2*w8)*25.4).toFixed(1)])},
+   {id:'awg',title:'Copper conductor sizes (AWG/kcmil and metric)',src:'AWG areas per ASTM B258; DC resistance at 20 °C from copper resistivity 0.017241 Ω·mm²/m (IEC 60028). Stranded conductors run about 2 % higher.',
+    head:['Size','Area (mm²)','Solid diameter (mm)','DC resistance at 20 °C (Ω/km)'],
+    rows:[...AWG.map(([n,a])=>[n+(/kcmil/.test(n)?'':' AWG'),a,(Math.sqrt(4*a/Math.PI)).toFixed(2),(17.241/a).toFixed(3)]),...MET.map(a=>[a+' mm²',a,(Math.sqrt(4*a/Math.PI)).toFixed(2),(17.241/a).toFixed(3)])]},
+   {id:'bolts',title:'Bolt threads and tensile stress areas',src:'ISO 724 / ISO 898-1 (metric coarse threads, stress area As) and ASME B1.1 (UNC). Tapping drills are common workshop sizes.',
+    head:['Thread','Pitch','Stress area As','Tapping drill'],
+    rows:[['M3','0.5 mm','5.03 mm²','2.5 mm'],['M4','0.7 mm','8.78 mm²','3.3 mm'],['M5','0.8 mm','14.2 mm²','4.2 mm'],['M6','1.0 mm','20.1 mm²','5.0 mm'],['M8','1.25 mm','36.6 mm²','6.8 mm'],['M10','1.5 mm','58.0 mm²','8.5 mm'],['M12','1.75 mm','84.3 mm²','10.2 mm'],['M14','2.0 mm','115 mm²','12.0 mm'],['M16','2.0 mm','157 mm²','14.0 mm'],['M20','2.5 mm','245 mm²','17.5 mm'],['M24','3.0 mm','353 mm²','21.0 mm'],['M30','3.5 mm','561 mm²','26.5 mm'],['M36','4.0 mm','817 mm²','32.0 mm'],
+      ['1/4-20 UNC','20 TPI','0.0318 in²','#7 (5.1 mm)'],['5/16-18 UNC','18 TPI','0.0524 in²','F (6.5 mm)'],['3/8-16 UNC','16 TPI','0.0775 in²','5/16 in'],['1/2-13 UNC','13 TPI','0.1419 in²','27/64 in'],['5/8-11 UNC','11 TPI','0.226 in²','17/32 in'],['3/4-10 UNC','10 TPI','0.334 in²','21/32 in'],['1-8 UNC','8 TPI','0.606 in²','7/8 in']]},
+   {id:'materials',title:'Material properties (typical values at room temperature)',src:'Typical handbook values (ASM Handbook; manufacturers’ data). Use the specified grade’s certified values for design.',
+    head:['Material','Density (kg/m³)','Elastic modulus (GPa)','Yield strength (MPa)','Expansion (µm/m·K)','Thermal conductivity (W/m·K)'],
+    rows:[['Carbon steel (ASTM A36)',7850,200,'250 min',12,50],['Stainless steel 304',8000,193,'205 min',17.3,16],['Aluminium 6061-T6',2700,69,276,23.6,167],['Copper (annealed)',8960,117,'about 70',16.5,400],['Brass (C360)',8500,97,'about 140',20.5,115],['Grey cast iron',7200,'100 (varies)','—',10.8,50],['Titanium Ti-6Al-4V',4430,114,880,8.6,6.7],['Concrete (normal weight)',2400,'25–35','—',10,1.4],['Softwood timber (along grain)','450–550','9–12','—',4,0.12],['Glass (soda-lime)',2500,70,'—',9,1.0],['PVC (rigid)',1400,3,'about 50',52,0.19],['HDPE',950,'0.8–1.0','about 22',150,0.45],['Gold (pure)',19320,79,'—',14.2,318],['Silver (pure)',10490,83,'—',18.9,429],['Platinum',21450,168,'—',8.8,72]]},
+   {id:'water',title:'Water properties at atmospheric pressure',src:'IAPWS-95 formulation (values rounded); vapour pressure from IAPWS',
+    head:['Temperature (°C)','Density (kg/m³)','Kinematic viscosity (mm²/s)','Vapour pressure (kPa)'],
+    rows:[[0,999.8,1.787,0.611],[10,999.7,1.307,1.228],[20,998.2,1.004,2.339],[30,995.7,0.801,4.246],[40,992.2,0.658,7.384],[50,988.0,0.553,12.35],[60,983.2,0.475,19.95],[70,977.8,0.413,31.20],[80,971.8,0.365,47.41],[90,965.3,0.326,70.18],[100,958.4,0.294,101.42]]},
+   {id:'air',title:'Dry air at 101.325 kPa',src:'Ideal-gas density with M = 28.965 g/mol; viscosity from Sutherland’s law (rounded)',
+    head:['Temperature (°C)','Density (kg/m³)','Kinematic viscosity (mm²/s)'],
+    rows:[[-20,1.395,11.6],[0,1.293,13.3],[20,1.204,15.1],[40,1.127,17.0],[60,1.060,18.9],[80,1.000,20.9],[100,0.946,23.0]]},
+   {id:'bulk',title:'Bulk densities of building materials',src:'Typical supplier and handbook values; actual densities vary with moisture and compaction',
+    head:['Material','Density (kg/m³)','Density (lb/ft³)','Tonnes per m³','US tons per yd³'],
+    rows:[['Concrete, plain',2400],['Concrete, reinforced',2500],['Asphalt, compacted',2300],['Crushed stone (loose)',1600],['Pea gravel',1700],['Sand, dry',1600],['Sand, wet',1900],['Topsoil, loose',1300],['Clay, compacted',1800],['Brick masonry',1900],['Granite',2700],['Marble',2700],['Limestone',2500],['Water',1000]].map(([m,d])=>[m,d,(d*0.062428).toFixed(1),(d/1000).toFixed(2),(d*0.0008428).toFixed(2)])},
+   {id:'paper',title:'Drawing sheet sizes',src:'ISO 216 (A series) and ANSI/ASME Y14.1 (US sizes)',
+    head:['Sheet','Size (mm)','Size (in)'],
+    rows:[['A0','841 × 1189','33.1 × 46.8'],['A1','594 × 841','23.4 × 33.1'],['A2','420 × 594','16.5 × 23.4'],['A3','297 × 420','11.7 × 16.5'],['A4','210 × 297','8.3 × 11.7'],['ANSI A','216 × 279','8.5 × 11'],['ANSI B','279 × 432','11 × 17'],['ANSI C','432 × 559','17 × 22'],['ANSI D','559 × 864','22 × 34'],['ANSI E','864 × 1118','34 × 44']]},
+   {id:'karat',title:'Gold karat and fineness',src:'ISO 9202:2019 fineness; karat = 24 × fraction of gold',
+    head:['Karat','Gold content','Fineness (‰)','Common hallmark'],
+    rows:[['24k','99.9 %','999','999'],['22k','91.67 %','916.7','916'],['21k','87.5 %','875','875'],['18k','75.0 %','750','750'],['14k','58.33 %','583.3','585'],['10k','41.67 %','416.7','417'],['9k','37.5 %','375','375']]},
+   {id:'factors',title:'Common conversion factors',src:'NIST Special Publication 811 (2008), Appendix B — exact where marked',
+    head:['From','To','Multiply by'],
+    rows:[['inch','millimetre','25.4 (exact)'],['foot','metre','0.3048 (exact)'],['mile','kilometre','1.609344 (exact)'],['square foot','square metre','0.09290304 (exact)'],['acre','hectare','0.40468564224 (exact)'],['US gallon','litre','3.785411784 (exact)'],['UK gallon','litre','4.54609 (exact)'],['cubic foot','litre','28.316846592 (exact)'],['pound','kilogram','0.45359237 (exact)'],['psi','kilopascal','6.894757'],['bar','kilopascal','100 (exact)'],['inch of water (4 °C)','pascal','249.0889'],['BTU (IT)','kilojoule','1.055056'],['BTU/h','watt','0.2930711'],['ton of refrigeration','kilowatt','3.516853'],['horsepower (550 ft·lbf/s)','kilowatt','0.7456999'],['US gpm','litre per second','0.06309020'],['cfm','litre per second','0.4719474'],['°F difference','K difference','5/9 (exact)']]},
+  ];
+})();
+
+/* ================================================================
    GOLDEN TEST SET — independent reference values with sources.
    expect: { resultKey: [value, displayUnit|null, relTol] | 'text contains' }
    ================================================================ */
@@ -1291,6 +1900,10 @@ const GOLDEN = [
  {calc:'molar-mass', in:{f:'C6H12O6'}, expect:{M:[180.156,null,1e-4]}, ref:'Glucose 180.16 g/mol'},
  {calc:'molar-mass', in:{f:'CuSO4·5H2O'}, expect:{M:[249.68,null,1e-4]}, ref:'Copper(II) sulfate pentahydrate 249.68 g/mol'},
  {calc:'molar-mass', in:{f:'Ca(OH)2'}, expect:{M:[74.09,null,2e-4]}, ref:'Calcium hydroxide 74.09 g/mol'},
+ {calc:'mortgage', in:{price:500000,down:20,rate:5,years:25,tax:0,ins:0,comp:'s'}, expect:{pi:[2326.42]}, ref:'Canadian fixed-rate mortgage, semi-annual compounding: $400,000 at 5 % over 25 years = $2,326.42 a month (Interest Act convention)'},
+ {calc:'slope', in:{rise:1,run:12}, expect:{chk_ramp:'Pass'}, ref:'1:12 = 8.33 % is exactly the ADA 2010 maximum ramp slope'},
+ {calc:'stairs', in:{rise:3000,tr:175,go:280}, expect:{chk_ibc:'Pass',chk_nbc:'Pass'}, ref:'Riser 166.7 mm, tread 280 mm: within IBC 1011.5.2 (≤ 178, ≥ 279) and NBC 9.8.4.1 private stairs'},
+ {calc:'voltage-drop', in:{I:20,L:30,A:4,mat:'copper',ph:'1',V:230}, expect:{pct:[2.2488,null,1e-4],chk_vd:'Pass'}, ref:'2 × 30 m × 20 A × 0.017241 ÷ 4 mm² = 5.17 V = 2.25 % of 230 V'},
  {calc:'molar-mass', in:{f:'PdCl2'}, expect:{M:[177.32,null,1e-6]}, ref:'CIAAW 2024: Pd 106.42 + 2 × Cl 35.45 = 177.32 g/mol'},
  {calc:'molar-mass', in:{f:'Nd2O3'}, expect:{M:[336.477,null,1e-6]}, ref:'CIAAW 2024: 2 × 144.24 + 3 × 15.999 = 336.477 g/mol'},
  {calc:'molar-mass', in:{f:'H2O',mass:[36.03,'g']}, expect:{pct_O:[88.8093,null,1e-5],n:[2,'mol',1e-6]}, ref:'O mass fraction 15.999 ÷ 18.015 = 88.81 %; 36.03 g ÷ 18.015 g/mol = 2.000 mol'},
@@ -1383,6 +1996,78 @@ const GOLDEN = [
  {calc:'el-motor', in:{P:7.5,V:400,ph:'3',eff:90,pf:0.85}, expect:{I:[14.1507,null,1e-5]}, ref:'7500 ÷ (√3 × 400 × 0.90 × 0.85) = 14.15 A'},
  {calc:'el-pfc', in:{P:100,pf1:0.7,pf2:0.95}, expect:{kvar:[69.152,null,1e-5]}, ref:'100 × (tan acos 0.7 − tan acos 0.95) = 69.15 kvar'},
  {calc:'el-lux', in:{E:500,A:60,phi:4000,UF:0.6,MF:0.8}, expect:{N:[16],n:[15.625,null,1e-9]}, ref:'500 × 60 ÷ (4000 × 0.6 × 0.8) = 15.6 → 16 luminaires'},
+ // PHASE 5 — additional calculators (reference values computed independently in Python)
+ {calc:'frac-inch', in:{expr:'3 1/2 + 2 3/4',den:'16'}, expect:{frac:'6 1/4 in',mm:[158.75,null,1e-9]}, ref:'3½ + 2¾ = 6¼ in = 158.75 mm'},
+ {calc:'frac-inch', in:{expr:`5' 3 1/4"`,den:'16'}, expect:{dec:[63.25,null,1e-9]}, ref:'5 ft 3¼ in = 63.25 in'},
+ {calc:'right-tri', in:{a:3,b:4}, expect:{c:[5,'m',1e-9],A:[36.8699,null,1e-5],area:[6,'m2',1e-9]}, ref:'3–4–5 triangle: A = atan(3/4) = 36.87°'},
+ {calc:'right-tri', in:{a:5,A:30}, expect:{c:[10,'m',1e-9]}, ref:'c = a ÷ sin 30° = 10'},
+ {calc:'time-calc', in:{s:'08:30',e:'17:15',brk:30,rate:20}, expect:{h:[8.25],pay:[165]}, ref:'8 h 45 min − 30 min = 8.25 h; × 20 = 165'},
+ {calc:'time-calc', in:{s:'10:00 pm',e:'6:00 am',brk:0}, expect:{h:[8]}, ref:'Overnight 22:00 → 06:00 = 8 h'},
+ {calc:'markup', in:{cost:80,find:'price',x:100}, expect:{mu:[25],mg:[20]}, ref:'Profit 20: markup 20/80 = 25 %, margin 20/100 = 20 %'},
+ {calc:'markup', in:{cost:60,find:'mg',x:40}, expect:{price:[100]}, ref:'Price = 60 ÷ (1 − 0.40) = 100'},
+ {calc:'break-even', in:{F:50000,p:25,vc:15,tp:10000}, expect:{u:[5000],rev:[125000],ut:[6000]}, ref:'50,000 ÷ (25 − 15) = 5,000 units'},
+ {calc:'npv', in:{I0:10000,cf:'3000 3500 4000 4500',r:8}, expect:{npv:[2261.43],irr:[17.0937,null,1e-4],pb:[2.875,null,1e-9]}, ref:'Independent DCF: NPV at 8 % = 2,261.43; IRR = 17.09 %; payback 2 + 3,500/4,000 = 2.875 years'},
+ {calc:'depreciation', in:{cost:50000,salv:5000,life:5,m:'ddb',yr:2}, expect:{d:[12000],d1:[20000]}, ref:'DDB 40 %: 20,000 then 12,000'},
+ {calc:'depreciation', in:{cost:50000,salv:5000,life:5,m:'sl',yr:3}, expect:{d:[9000],bv:[23000]}, ref:'SL 45,000 ÷ 5 = 9,000/yr; book value after 3 years 23,000'},
+ {calc:'conv-flow', in:{x:1}, expect:{'u_gpm':[15.8503,null,1e-5]}, ref:'1 L/s = 15.850 US gpm (NIST SP 811)'},
+ {calc:'conv-power', in:{x:1}, expect:{'u_hp':[1.34102,null,1e-5]}, ref:'1 kW = 1.3410 hp (550 ft·lbf/s)'},
+ {calc:'conv-force', in:{x:1}, expect:{'u_lbf':[224.809,null,1e-5]}, ref:'1 kN = 224.81 lbf (NIST SP 811)'},
+ {calc:'conv-moment', in:{x:100}, expect:{'u_lbf_ft':[73.7562,null,1e-5]}, ref:'100 N·m = 73.756 lbf·ft'},
+ {calc:'conv-density', in:{x:1000}, expect:{'u_lb_ft3':[62.4280,null,1e-5]}, ref:'1000 kg/m³ = 62.428 lb/ft³'},
+ {calc:'conv-kvisc', in:{x:1}, expect:{'u_m2_s':[1e-6,null,1e-6]}, ref:'1 cSt = 1 mm²/s = 10⁻⁶ m²/s'},
+ {calc:'el-derate', in:{Ib:30,tc:'75',ta:40,n:6}, expect:{I:[21.166,null,1e-4],kt:[0.88192,null,1e-4]}, ref:'NEC 310.15(B): √((75 − 40)/(75 − 30)) = 0.882; 4–6 conductors 80 %'},
+ {calc:'el-breaker', in:{I:32,cont:'yes'}, expect:{ocpd:'40 A'}, ref:'32 × 1.25 = 40 A → 40 A standard rating (NEC 240.6(A))'},
+ {calc:'el-breaker', in:{I:41,cont:'no'}, expect:{ocpd:'45 A'}, ref:'Next standard rating above 41 A is 45 A'},
+ {calc:'el-battery', in:{Ah:100,V:12,dod:80,eff:90,P:200}, expect:{h:[4.32]}, ref:'100 × 12 × 0.8 × 0.9 ÷ 200 = 4.32 h'},
+ {calc:'el-solar', in:{E:10,psh:4,loss:20,pw:400,days:2,bv:48,dod:80}, expect:{kw:[3.125],n:[8],bkwh:[25],bah:[520.833,null,1e-5]}, ref:'10 ÷ (4 × 0.8) = 3.125 kWp → 8 × 400 W; battery 10 × 2 ÷ 0.8 = 25 kWh'},
+ {calc:'concrete-mix', in:{V:1,mix:'m15',wc:0.5,bag:'50',dry:1.54}, expect:{cem:[316.8,'kg',1e-9],bags:[6.336,null,1e-9],sand:[0.44,'m3',1e-9],agg:[0.88,'m3',1e-9]}, ref:'1.54 m³ dry × 1/7 × 1,440 = 316.8 kg cement (IS 456 nominal 1:2:4)'},
+ {calc:'earthwork', in:{A:'12 15 18 14',L:20,au:'m2',sw:25}, expect:{V:[920,'m3',1e-9],Vl:[1150,'m3',1e-9]}, ref:'(13.5 + 16.5 + 16) × 20 = 920 m³'},
+ {calc:'rational', in:{C:0.9,i:50,A:1}, expect:{Q:[0.125,'m3/s',1e-9]}, ref:'Q = 0.9 × 50 × 1 ÷ 360 = 0.125 m³/s'},
+ {calc:'section', in:{sh:'rect',b:100,h:200}, expect:{I:[6666.667,'cm4',1e-6],S:[666.667,'cm3',1e-6]}, ref:'bh³/12 = 100 × 200³ ÷ 12 = 66.67 × 10⁶ mm⁴'},
+ {calc:'section', in:{sh:'tube',b:100,t:5}, expect:{I:[168.8115,'cm4',1e-6],A:[1492.257,'mm2',1e-6]}, ref:'π(100⁴ − 90⁴)/64 = 168.8 cm⁴'},
+ {calc:'drywall', in:{A:60,open:4,sz:'1.2x2.4',waste:10}, expect:{n:[22]}, ref:'56 m² × 1.1 ÷ 2.88 = 21.4 → 22 sheets'},
+ {calc:'drywall', in:{A:60,open:4,sz:'4x8',waste:10}, expect:{n:[21]}, ref:'56 × 1.1 ÷ 2.973 m² = 20.7 → 21 sheets'},
+ {calc:'roofing', in:{fp:150,p:6,waste:10,bps:3}, expect:{sq:[19.8568,null,1e-5],b:[60],f:[1.118034,null,1e-6]}, ref:'6/12 pitch factor √1.25 = 1.118; 150 × 1.118 × 1.1 ÷ 9.2903 = 19.86 squares'},
+ {calc:'insulation', in:{ly:'12.5 0.25\n140 0.04\n12 0.13',el:'wall'}, expect:{U:[0.262308,null,1e-5],Rt:[3.81231,null,1e-5]}, ref:'ISO 6946: 0.05 + 3.5 + 0.0923 + 0.13 + 0.04 = 3.812 m²K/W'},
+ {calc:'solution', in:{m:'ww',c:5,tot:500}, expect:{g:[25],s:[475]}, ref:'5 % of 500 g = 25 g'},
+ {calc:'solution', in:{m:'ppm',c:50,tot:200}, expect:{g:[10]}, ref:'50 mg/L × 200 L = 10 g'},
+ {calc:'heat', in:{m:100,mat:'water',dT:40,P:3}, expect:{q:[4.651111,'kWh',1e-6],t:[1.550370,null,1e-5]}, ref:'100 × 4186 × 40 = 16.74 MJ = 4.651 kWh; at 3 kW 1.55 h'},
+ {calc:'buffer', in:{pKa:4.76,find:'pH',A:0.2,HA:0.1}, expect:{pH:[5.06103,null,1e-5]}, ref:'4.76 + log₁₀ 2 = 5.061'},
+ {calc:'buffer', in:{pKa:7.2,find:'ratio',pH:7.4}, expect:{r:[1.584893,null,1e-6]}, ref:'10^(7.4 − 7.2) = 1.585'},
+ {calc:'bearing-dist', in:{E1:1000,N1:2000,E2:1100,N2:2100}, expect:{d:[141.42136,'m',1e-7],az:[45,null,1e-9],qb:'N 45° 00′'}, ref:'ΔE = ΔN = 100: 141.42 m at N 45° E'},
+ {calc:'bearing-dist', in:{E1:1000,N1:2000,E2:900,N2:1900}, expect:{az:[225,null,1e-9]}, ref:'South-west at 45° = azimuth 225°'},
+ {calc:'triangle', in:{k:'sss',a:5,b:6,c:7}, expect:{area:[14.6969,'m2',1e-5],C:[78.46304,null,1e-6]}, ref:'Heron: √(9·4·3·2) = 14.70; C = acos(12/60) = 78.46°'},
+ {calc:'bearing-life', in:{C:30,P:5,ty:'ball',N:1500,rel:'1'}, expect:{L10:[216,null,1e-9],h:[2400,null,1e-9]}, ref:'ISO 281: (30/5)³ = 216 × 10⁶ rev = 2,400 h at 1,500 rpm'},
+ {calc:'bearing-life', in:{C:30,P:5,ty:'roller',N:1500,rel:'1'}, expect:{L10:[392.498,null,1e-6]}, ref:'(30/5)^(10/3) = 392.5 × 10⁶ rev'},
+ {calc:'weld', in:{a:6,L:100,fe:'482.6'}, expect:{lrfd:[92.1365,'kN',1e-5],asd:[61.4244,'kN',1e-5]}, ref:'AISC: 0.75 × 0.6 × 482.6 × 4.243 × 100 = 92.1 kN (≈ 1.392 kip/in per sixteenth)'},
+ {calc:'beam-cases', in:{cs:'cpt',L:3,P:10,w:5,E:200,I:2000}, expect:{M:[30,'kN·m',1e-9],d:[22.5,'mm',1e-9]}, ref:'PL = 30 kN·m; PL³/(3EI) = 22.5 mm'},
+ {calc:'beam-cases', in:{cs:'cudl',L:3,P:10,w:5,E:200,I:2000}, expect:{d:[12.65625,'mm',1e-9]}, ref:'wL⁴/(8EI) = 12.66 mm'},
+ {calc:'stress', in:{F:50,A:314,L:1,E:200}, expect:{s:[159.2357,'MPa',1e-6],d:[0.796178,'mm',1e-6]}, ref:'50 kN ÷ 314 mm² = 159.2 MPa; ε × 1 m = 0.796 mm'},
+ {calc:'gas-z', in:{G:0.65,P:7000,T:15}, expect:{Z:[0.827772,null,1e-5],Tpr:[1.420586,null,1e-5],Ppr:[1.515028,null,1e-5]}, ref:'Sutton + Papay computed independently: Z = 0.828'},
+ {calc:'hydrotest', in:{D:610,t:9.5,L:10,dP:10000,E:207,cw:4.6}, expect:{V:[2743.2466,'m3',1e-6],dV:[20.1213,'m3',1e-5]}, ref:'V = π × 0.591² ÷ 4 × 10,000 m; ΔV = V × 10 MPa × (Dᵢ 0.91 ÷ (E t) + 4.6 × 10⁻¹⁰)'},
+ {calc:'visc-conv', in:{nu:50,sg:0.88}, expect:{ssu:[232.5509,null,1e-6],cp:[44,null,1e-9]}, ref:'ASTM D2161: 50 cSt = 232.6 SUS (table value 231.9–232); μ = 50 × 0.88 = 44 cP'},
+ {calc:'npsh', in:{Ps:101.325,T:20,hs:2,hf:1}, expect:{N:[11.11186,'m',1e-5]}, ref:'(101.325 − 2.339) kPa ÷ (998.21 × 9.80665) + 2 − 1 = 11.11 m'},
+ {calc:'tank-drain', in:{Dt:2,H:3,d:50,Cd:0.61}, expect:{t:[34.1943,null,1e-5]}, ref:'(π ÷ (0.61 × 0.001963)) × √(6 ÷ 9.807) = 2,051.7 s = 34.19 min'},
+ {calc:'thrust', in:{P:1000,D:300,f:'90',sb:100,sf:1.5}, expect:{T:[99.96487,'kN',1e-6],Ab:[1.499473,'m2',1e-6]}, ref:'2 × 1 MPa × 0.0707 m² × sin 45° = 99.96 kN'},
+ {calc:'manning', in:{b:2,y:1,z:0,S:0.1,n:'0.013'}, expect:{Q:[3.064785,'m3/s',1e-6],v:[1.532392,'m/s',1e-6]}, ref:'A = 2, P = 4, R = 0.5: (1/0.013) × 0.5^⅔ × 0.001^½ × 2 = 3.065 m³/s'},
+ {calc:'manning', in:{b:2,y:1,z:2,S:0.1,n:'0.022'}, expect:{Q:[4.171692,'m3/s',1e-6]}, ref:'Trapezoid z = 2: A = 4, P = 6.472, n 0.022 → 4.17 m³/s'},
+ {calc:'exp-tank', in:{Vs:300,T1:10,T2:60,P1:350,P2:550,pm:'11.7'}, expect:{Vt:[14.68113,'L',1e-5],acc:[4.508081,'L',1e-5]}, ref:'ASHRAE diaphragm tank: water 999.70 → 983.20 kg/m³, steel α 11.7e-6, 451.3/651.3 kPa abs → 14.68 L'},
+ {calc:'roof-drain', in:{A:500,i:100,iu:'mm'}, expect:{Q:[13.88889,'L/s',1e-6]}, ref:'100 mm/h × 500 m² = 50 m³/h = 13.89 L/s'},
+ {calc:'roof-drain', in:{A:929.0304,i:4,iu:'in'}, expect:{Q:[0.0262193,'m3/s',1e-5]}, ref:'4 in/h on 10,000 ft²: 101.6 mm/h × 929.03 m² = 26.2 L/s'},
+ {calc:'hv-oa', in:{Pz:20,Az:100,Rp:2.5,Ra:0.3,Ez:0.8}, expect:{Voz:[100,'L/s',1e-9],Vbz:[80,'L/s',1e-9]}, ref:'ASHRAE 62.1 office: 2.5 × 20 + 0.3 × 100 = 80 L/s ÷ 0.8 = 100 L/s'},
+ {calc:'hv-condensate', in:{Q:1000,dW:3}, expect:{lh:[12.96,null,1e-9]}, ref:'1.2 × 1 m³/s × 0.003 = 3.6 g/s = 12.96 L/h'},
+ {calc:'hv-ductloss', in:{fr:1,L:40,vel:5,C:3,eq:150}, expect:{tot:[235.15,'Pa',1e-9],pv:[15.05,'Pa',1e-9]}, ref:'40 + 3 × 15.05 + 150 = 235.15 Pa'},
+ {calc:'fp-hose', in:{C:'15.5',Q:150,L:200,NP:50,el:0,ap:0}, expect:{pdp:[119.75,'psi',1e-6],FL:[69.75,'psi',1e-6]}, ref:'IFSTA: 15.5 × 1.5² × 2 = 69.75 psi; PDP 50 + 69.75 = 119.75 psi'},
+ {calc:'fp-fireflow', in:{C:'1.0',A:10000}, expect:{Fr:[1750,'gpm',1e-9],F:[1800,'gpm',1e-9]}, ref:'ISO: 18 × 1.0 × √10,000 = 1,800 → nearest 250 = 1,750 gpm'},
+ {calc:'fp-fireflow', in:{C:'1.5',A:10000}, expect:{Fr:[2750,'gpm',1e-9]}, ref:'18 × 1.5 × 100 = 2,700 → 2,750 gpm'},
+ {calc:'fp-standpipe', in:{Po:100,h:75,fl:15}, expect:{P:[147.475,'psi',1e-6]}, ref:'100 + 0.433 × 75 + 15 = 147.5 psi'},
+ {calc:'jw-metal', in:{V:1,m:'18ky'}, expect:{g:[15.6,null,1e-9]}, ref:'1 cm³ × 15.6 g/cm³'},
+ {calc:'jw-metal', in:{V:2.5,m:'ag925'}, expect:{g:[25.9,null,1e-9]}, ref:'2.5 cm³ × 10.36 g/cm³ = 25.9 g'},
+ {calc:'jw-plating', in:{A:10,t:2.5,m:'19.3'}, expect:{mg:[48.25,null,1e-9]}, ref:'10 cm² × 2.5 µm × 19.3 g/cm³ = 48.25 mg'},
+ {calc:'jw-scrap', in:{items:'5.2 14k\n3.1 18k\n8.0 22k',price:100,pay:85}, expect:{fine:[12.69167,null,1e-6],pay:[1078.79]}, ref:'Fine gold 3.033 + 2.325 + 7.333 = 12.692 g × 100 × 85 % = 1,078.79'},
+ {calc:'st-counter', in:{sec:'300 65\n180 65',u:'cm',nc:1,cs:'80 50',slab:'320 160',waste:20}, expect:{n:[1],A:[3.12,'m2',1e-9],net:[2.72,'m2',1e-9]}, ref:'1.95 + 1.17 = 3.12 m²; × 1.2 = 3.74 m² fits one 5.12 m² slab'},
+ {calc:'st-agg-conv', in:{q:10,qu:'t',mat:'crushed'}, expect:{m3:[6.25,null,1e-9],yd3:[8.174691,null,1e-6]}, ref:'10 t ÷ 1.6 t/m³ = 6.25 m³ = 8.17 yd³'},
+ {calc:'st-agg-conv', in:{q:10,qu:'yd3',mat:'crushed'}, expect:{t:[12.23288,null,1e-6]}, ref:'10 yd³ = 7.646 m³ × 1.6 = 12.23 t'},
 ];
 
 function runGolden(engine){
@@ -1436,6 +2121,7 @@ const IC={
  home:'<path d="M4 11 12 4l8 7M6 9.5V20h12V9.5"/>', sheet:'<path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M10 12h5M10 15.5h5M10 9h2"/>',
  history:'<path d="M3.5 12a8.5 8.5 0 1 0 2.5-6L3.5 8.5"/><path d="M3.5 3.5v5h5M12 7.5V12l3 2"/>', settings:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-2.7-1.1l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.6 1.6 0 0 0 3.9 14H3.8a2 2 0 1 1 0-4h.1A1.6 1.6 0 0 0 5 7.3l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.6 1.6 0 0 0 10.5 3.9V3.8a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 2.7 1.1l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0 1.1 2.7h.1a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.7 1z"/>',
  about:'<circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.6v.1"/>', admin:'<path d="M12 3 4.5 6v5.5c0 4.5 3.2 8 7.5 9.5 4.3-1.5 7.5-5 7.5-9.5V6z"/><path d="m9 12 2.2 2.2L15.5 10"/>',
+ book:'<path d="M5 4.5h9.5a3 3 0 0 1 3 3V20H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h9.5M9 8h5"/>',
  msg:'<path d="M4 5h16v11H10l-6 4.5z"/><path d="M8 9.5h8M8 12.5h5"/>',
  tag:'<path d="M3.5 12.5V4h8.5l8.5 8.5-8 8z"/><circle cx="8" cy="8.5" r="1.4"/>', help:'<circle cx="12" cy="12" r="8.5"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.4 2.3c-.6.3-.9.8-.9 1.4v.6M12 16.6v.1"/>',
  pdf:'<path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M12 11v6M9.5 14.5 12 17l2.5-2.5"/>', plus:'<path d="M12 5v14M5 12h14"/>'
@@ -1480,7 +2166,7 @@ function renderSide(){
   $('#side').innerHTML=nb('data-go="home"','home','Dashboard',view.name==='home')+
     GROUPS.map(([g,ids])=>`<h4>${g}</h4>`+ids.map(id=>{const c=catOf(id);return nb(`data-cat="${id}"`,id,esc(c.name),curCat===id,`<span class="ct">${n(id)}</span>`)}).join('')).join('')+
     `<h4>Your work</h4>`+nb('data-go="sheet"','sheet','Calculation sheet',view.name==='sheet'||view.name==='preview',S.sheet.length?`<span class="ct">${S.sheet.length}</span>`:'')+nb('data-go="history"','history','History & saved',view.name==='history')+nb('data-go="settings"','settings','Settings',view.name==='settings')+
-    `<h4>About</h4>`+nb('data-go="pricing"','tag','Plans',view.name==='pricing')+nb('data-go="about"','about','Formulas & sources',view.name==='about')+nb('data-go="help"','help','Help & policies',['help','privacy','terms','refunds'].includes(view.name))+nb('data-act="feedback"','msg','Send feedback',false)+nb('data-go="admin"','admin',CFG.adminTools?'Admin & formula tests':'Formula tests',view.name==='admin');
+    `<h4>Reference</h4>`+nb('data-go="ref"','book','Reference library',view.name==='ref',`<span class="ct">${REF_TABLES.length}</span>`)+`<h4>About</h4>`+nb('data-go="pricing"','tag','Plans',view.name==='pricing')+nb('data-go="about"','about','Formulas & sources',view.name==='about')+nb('data-go="help"','help','Help & policies',['help','privacy','terms','refunds'].includes(view.name))+nb('data-act="feedback"','msg','Send feedback',false)+nb('data-go="admin"','admin',CFG.adminTools?'Admin & formula tests':'Formula tests',view.name==='admin');
   $('#userBtn').innerHTML=accountButton();
   $('#sheetBtn').innerHTML=`${ico('sheet')}<span class="lbl">Sheet</span>${S.sheet.length?`<span class="count">${S.sheet.length}</span>`:''}`;
   $('#u_m').classList.toggle('on',S.settings.system==='metric');$('#u_i').classList.toggle('on',S.settings.system==='imperial');
@@ -1755,7 +2441,7 @@ function inputHTML(c,i){
   else if(i.type==='text') ctl=`<input type="text" id="${id}" data-k="${i.key}" value="${esc(v)}" spellcheck="false" style="font-family:var(--f-num)">`;
   else { const pre=i.money?`<span class="pre">${esc((new Intl.NumberFormat('en-US',{style:'currency',currency:S.settings.currency}).formatToParts(0).find(p=>p.type==='currency')||{}).value||'$')}</span>`:'';
     const us=i.dim?`<select data-u="${i.key}" id="u_${i.key}" aria-label="${esc(i.label)} unit">${Object.keys(UNITS[i.dim]).map(u=>`<option value="${esc(u)}" ${form.units[i.key]===u?'selected':''}>${esc(ulabel(u))}</option>`).join('')}</select>`:'';
-    ctl=`<div class="ig">${pre}<input type="text" inputmode="decimal" id="${id}" data-k="${i.key}" value="${esc(v)}" ${i.opt?'placeholder="optional"':''} autocomplete="off">${us}</div><div class="xval" id="x_${i.key}" aria-live="polite">${numHint(i,v)}</div>`; }
+    ctl=`<div class="ig">${pre}<input type="text" inputmode="decimal" id="${id}" data-k="${i.key}" value="${esc(v)}" ${i.opt?'placeholder="optional"':''} autocomplete="off">${us}</div><div class="xval" id="x_${i.key}" aria-live="polite">${numHint(i,v)}</div>${i.pick?`<select class="pick" data-pick="${i.key}" aria-label="Typical values for ${esc(i.label)}"><option value="">Typical values…</option>${i.pick.map(([l,val],k)=>`<option value="${k}">${esc(l)} — ${esc(fmtSig(val,6))}${i.unit?' '+esc(ulabel(i.unit)):''}</option>`).join('')}</select>`:''}`; }
   return `<div class="fld" id="f_${i.key}"><label for="${id}">${esc(i.label)}</label>${ctl}${i.help?`<div class="help">${esc(i.help)}</div>`:''}<div class="err" id="e_${i.key}" aria-live="polite"></div></div>`;
 }
 function vCalc(id){
@@ -1766,7 +2452,7 @@ function vCalc(id){
   return `<div class="crumbs"><button class="link" data-go="home">Dashboard</button> / <button class="link" data-cat="${k.id}">${esc(k.name)}</button></div>
   <div class="chead"><h1>${esc(c.title)}</h1><button class="star ${S.favs.includes(id)?'on':''}" data-act="fav" aria-pressed="${S.favs.includes(id)}" aria-label="Favourite">${S.favs.includes(id)?'★':'☆'}</button><span class="chip">v${esc(c.version)}</span>${c.disclaimer?'<span class="chip warn">Check with a licensed professional</span>':''}</div>
   <div class="guide">${c.id==='scientific'?'<span><b>1</b>Tap the keys or type an expression</span><span><b>2</b>The answer updates as you go</span><span><b>3</b>Press = to keep it in the history; download a PDF or add it to your sheet</span>':'<span><b>1</b>Enter values — sums like 12.5 + 3.75 work; change units beside each box</span><span><b>2</b>The result, formula and working update as you type</span><span><b>3</b>Download a PDF report or add it to your sheet</span>'}</div>
-  <div class="cgrid"><form class="card" id="cform" novalidate onsubmit="return false"><h2><span>Inputs</span><button class="link" type="button" data-act="reset" style="font-family:var(--f-ui);text-transform:none;letter-spacing:0;font-size:13px">Reset to defaults</button></h2><div class="fields">${c.id==='scientific'?sciForm(c):c.inputs.map(i=>inputHTML(c,i)+(c.id==='molar-mass'&&i.key==='f'?ptKeys():'')).join('')}</div></form>
+  <div class="cgrid"><form class="card" id="cform" novalidate onsubmit="return false"><h2><span>Inputs</span><span class="h2a">${GOLDEN.some(g=>g.calc===c.id)?'<button class="link" type="button" data-act="example">Verified example</button>':''}<button class="link" type="button" data-act="reset">Reset to defaults</button></span></h2><div id="exBox"></div>${DIAGRAMS[c.id]?`<details class="diag" ${S.diagClosed?'':'open'}><summary>Diagram</summary>${DIAGRAMS[c.id]}</details>`:''}<div class="fields">${c.id==='scientific'?sciForm(c):c.inputs.map(i=>inputHTML(c,i)+(c.id==='molar-mass'&&i.key==='f'?ptKeys():'')).join('')}</div></form>
   <section class="card res" aria-live="polite" id="result"></section></div>${PT_CALCS.has(c.id)?ptSection(c):''}`;
 }
 function renderResult(){
@@ -1784,9 +2470,9 @@ function renderResult(){
   if(c.id==='scientific'){sciGood=plain(fmtVal(prim[0]).main);const o=$('#sciOut');if(o){o.textContent='= '+sciGood;o.classList.remove('wait')}}
   const P=prim.map(r=>{const f=fmtVal(r);return `<div class="prim"><div class="lab">${esc(r.label)}</div><div class="val">${f.main}</div>${f.alt?`<div class="alt">= ${f.alt}</div>`:''}</div>`}).join('');
   const rows=c.conv?`<div class="convgrid">${rest.map(r=>`<div><small>${esc(r.label)}</small><b>${fmtVal(r).main}</b></div>`).join('')}</div>`
-    :rest.length?`<table class="rtab"><tbody>${rest.map(r=>{const f=fmtVal(r);return `<tr><td>${esc(r.label)}</td><td>${f.main}${f.alt?`<small>${f.alt}</small>`:''}</td></tr>`}).join('')}</tbody></table>`:'';
+    :rest.length?`<table class="rtab"><tbody>${rest.map(r=>{const f=fmtVal(r);return `<tr${r.check?` class="chk ${r.check}"`:''}><td>${esc(r.label)}</td><td>${f.main}${f.alt?`<small>${f.alt}</small>`:''}</td></tr>`}).join('')}</tbody></table>`:'';
   const refs=last.refs||refsOf(c);
-  el.innerHTML=`<h2><span>Result</span><span>${esc(catOf(c.cat).name)}</span></h2>${P}${rows}
+  el.innerHTML=`<h2><span>Result</span><span>${esc(catOf(c.cat).name)}</span></h2>${P}${last.warnings&&last.warnings.length?`<div class="warnbox" role="note">${last.warnings.map(w=>`<p>${esc(w)}</p>`).join('')}</div>`:''}${rows}
    <div class="blk"><h3>Formula</h3><div class="formula">${esc(last.formula)}</div></div>
    ${last.steps?.length?`<div class="blk"><h3>Working</h3><ol class="steps">${last.steps.map(s=>`<li>${esc(s)}</li>`).join('')}</ol></div>`:''}
    ${last.assumptions?.length?`<div class="blk"><h3>Assumptions</h3><ul class="notes">${last.assumptions.map(a=>`<li>${esc(a)}</li>`).join('')}</ul></div>`:''}
@@ -1802,7 +2488,7 @@ function snapshot(){ // freeze the current result as plain text for the sheet / 
   const inputs=c.inputs.map(i=>{let v=last.raw.vals[i.key];if(v===''||v===undefined)return null;if(i.type==='select')v=(i.options.find(o=>String(o[0])===String(v))||[,v])[1];
     if(i.type==='num'&&!isPlainNum(String(v).trim())){try{v=`${String(v).trim()} = ${fmtSig(numFrom(v,i.key,i.label),8)}`}catch(e){}}return [i.label,`${v}${last.raw.units[i.key]?' '+ulabel(last.raw.units[i.key]):''}`]}).filter(Boolean);
   const results=last.results.map(r=>{const f=fmtVal(r);return [r.label,plain(f.main)+(f.alt?'  (= '+plain(f.alt)+')':''),!!r.primary]});
-  return {id:uid(),calc:c.id,title:c.title,cat:catOf(c.cat).name,version:c.version,at:Date.now(),inputs,results,formula:last.formula,steps:last.steps||[],assumptions:last.assumptions||[],refs:(last.refs||refsOf(c)).map(edRef),edNote:(last.refs||refsOf(c)).some(r=>editionsOf(r).length),disclaimer:!!c.disclaimer,summary:summary()};
+  return {id:uid(),calc:c.id,title:c.title,cat:catOf(c.cat).name,version:c.version,at:Date.now(),inputs,results,formula:last.formula,steps:last.steps||[],assumptions:[...(last.warnings||[]).map(w=>'Warning: '+w),...(last.assumptions||[])],refs:(last.refs||refsOf(c)).map(edRef),edNote:(last.refs||refsOf(c)).some(r=>editionsOf(r).length),disclaimer:!!c.disclaimer,summary:summary()};
 }
 function summary(){const p=last.results.find(r=>r.primary)||last.results[0];return plain(p.label+': '+fmtVal(p).main)}
 
@@ -1986,20 +2672,24 @@ function search(q){const t=q.trim().toLowerCase();const box=$('#sres');if(!t){bo
 
 /* ---------- router ---------- */
 function go(name,arg){view={name,arg};closeModal();$('#sres').hidden=true;
-  const V={home:vHome,cat:()=>vCat(arg),calc:()=>vCalc(arg),sheet:vSheet,preview:()=>vPreview(),report:()=>vPreview(window._reportDoc),history:vHistory,settings:vSettings,about:vAbout,admin:vAdmin,shared:()=>vShared(arg),pricing:vPricing,privacy:vPrivacy,terms:vTerms,refunds:vRefunds,help:vHelp};
+  const V={home:vHome,cat:()=>vCat(arg),calc:()=>vCalc(arg),sheet:vSheet,preview:()=>vPreview(),report:()=>vPreview(window._reportDoc),history:vHistory,settings:vSettings,about:vAbout,admin:vAdmin,shared:()=>vShared(arg),pricing:vPricing,ref:vRef,privacy:vPrivacy,terms:vTerms,refunds:vRefunds,help:vHelp};
   $('#view').innerHTML=(V[name]||vHome)();renderSide();window.scrollTo(0,0);$('#mbar').hidden=true;if(name==='calc'){renderResult();watchResult()}}
 function rerender(){const y=window.scrollY;go(view.name,view.arg);window.scrollTo(0,y)}
 
 /* ---------- events ---------- */
 document.addEventListener('input',e=>{
-  const k=e.target.dataset.k;if(k&&form&&view.name==='calc'){form.vals[k]=e.target.value;clearTimeout(window._rt);window._rt=setTimeout(renderResult,120);return}
+  const k=e.target.dataset.k;if(k&&form&&view.name==='calc'){const eb=$('#exBox');if(eb)eb.innerHTML='';form.vals[k]=e.target.value;clearTimeout(window._rt);window._rt=setTimeout(renderResult,120);return}
   if(e.target.dataset.meta){S.sheetMeta[e.target.dataset.meta]=e.target.value.slice(0,120);clearTimeout(window._mt);window._mt=setTimeout(save,300);return}
   if(e.target.id==='q')search(e.target.value);
 });
+document.addEventListener('toggle',e=>{if(e.target.classList&&e.target.classList.contains('diag')){S.diagClosed=!e.target.open;save()}},true);
 document.addEventListener('change',e=>{
   const d=e.target.dataset;
   if(d.k&&form&&view.name==='calc'&&e.target.tagName==='SELECT'){form.vals[d.k]=e.target.value;renderResult()}
   else if(d.u&&form){const i=calc(form.id).inputs.find(x=>x.key===d.u);const old=form.units[d.u],nu=e.target.value,v=parseFloat(String(form.vals[d.u]).replace(/,/g,''));if(Number.isFinite(v)){form.vals[d.u]=String(+fmtSig(fromSI(toSI(v,i.dim,old),i.dim,nu),6).replace(/,/g,''));$('#in_'+d.u).value=form.vals[d.u]}form.units[d.u]=nu;renderResult()}
+  else if(d.pick&&form){const c=calc(form.id),i=c.inputs.find(x=>x.key===d.pick),k=e.target.value;e.target.value='';if(k===''||!i)return;let val=i.pick[+k][1];
+    if(i.dim&&form.units[i.key]&&form.units[i.key]!==i.unit)val=+fmtSig(fromSI(toSI(val,i.dim,i.unit),i.dim,form.units[i.key]),6).replace(/,/g,'');
+    form.vals[i.key]=String(val);const inp=$('#in_'+i.key);if(inp)inp.value=String(val);renderResult();toast(`${i.label}: ${i.pick[+k][0]}`)}
   else if(d.preview){S.preview=e.target.value||null;save();renderSide();toast(S.preview?'Previewing as '+PLAN_NAME[S.preview]:'Preview off');}
   else if(d.set){S.settings[d.set]=d.set==='sig'?+e.target.value:e.target.value;save();applyTheme();form=null;renderSide();toast('Settings saved')}
   else if(d.en){S.disabled[d.en]=!e.target.checked;S.audit.push({at:Date.now(),what:`${e.target.checked?'Enabled':'Disabled'} ${d.en}`});save();renderSide();toast(e.target.checked?'Calculator enabled':'Calculator disabled')}
@@ -2038,6 +2728,7 @@ document.addEventListener('click',async e=>{
     case'licremoveyes':await removeLicense();break;
     case'scikb':{S.sciKeyboard=!S.sciKeyboard;save();const inp=$('#in_expr');if(inp){if(S.sciKeyboard)inp.removeAttribute('inputmode');else inp.setAttribute('inputmode','none');el.textContent=S.sciKeyboard?'Use keypad':'Use keyboard';inp.blur();setTimeout(()=>inp.focus(),30)}break}
     case'scihclear':S.sciHist=[];save();{const h=$('#sciHist');if(h)h.innerHTML=''}break;
+    case'example':loadExample();break;
     case'toresult':{const r=$('#result');if(r)r.scrollIntoView({behavior:'smooth',block:'start'});break}
     case'save':if(!last)return;if(!gate('save'))return;doSave();break;
     case'dosave':{const name=$('#sv_name').value.trim().slice(0,80)||calc(last.calc).title;S.saves.push({id:uid(),calc:last.calc,version:last.version,name,vals:last.raw.vals,units:last.raw.units,summary:summary(),at:Date.now()});save();closeModal();toast('Saved to History');break}
@@ -2220,11 +2911,43 @@ document.addEventListener('click',e=>{
   const k=e.target.closest('[data-fk]');if(k&&form&&form.id==='molar-mass'){fieldInsert('f',k.dataset.fk);return}
 });
 ['keyup','click','select','input'].forEach(ev=>document.addEventListener(ev,e=>{const m=/^in_(f|q)$/.exec(e.target.id||'');if(m)fieldCaret[m[1]]=[e.target.selectionStart,e.target.selectionEnd]}));
+/* ---------- verified examples (the golden test cases) ---------- */
+function checkCase(g){const out=runCalc(g.calc,{...g.in});const parts=[];let ok=true;
+  for(const [k,exp] of Object.entries(g.expect)){const r=out.results.find(x=>x.key===k);if(!r){ok=false;continue}
+    if(typeof exp==='string'){const pass=String(r.value).includes(exp);ok=ok&&pass;parts.push(`${r.label}: ${r.value}`);continue}
+    const [ev,unit,tol=1e-9]=exp;let got=unit?fromSI(r.value,r.dim,unit):r.value;if(r.kind==='money')got=cents(got);
+    const pass=Math.abs(got-ev)<=Math.max(Math.abs(ev)*tol,1e-9);ok=ok&&pass;parts.push(`${r.label}: expected ${fmtSig(ev,8)}${unit?' '+ulabel(unit):''}, CalcHub ${fmtSig(got,8)}${unit?' '+ulabel(unit):''}`)}
+  return{ok,parts}}
+function loadExample(){const c=calc(form.id),cases=GOLDEN.filter(g=>g.calc===c.id);if(!cases.length)return;
+  window._exK=window._exK||{};const k=(window._exK[c.id]??-1)+1;window._exK[c.id]=k%cases.length;const g=cases[k%cases.length];
+  const vals={},units={};for(const i of c.inputs){const x=g.in[i.key];
+    if(x===undefined){vals[i.key]=i.type==='num'?'':String(i.def??'');if(i.dim)units[i.key]=i.unit;continue}
+    if(Array.isArray(x)){vals[i.key]=String(x[0]);units[i.key]=x[1]}else{vals[i.key]=String(x);if(i.dim)units[i.key]=i.unit}}
+  form=initForm(c,{vals,units});rerender();
+  const res=checkCase(g),box=$('#exBox');if(box)box.innerHTML=`<div class="exbox ${res.ok?'ok':'bad'}"><b>Verified example ${k%cases.length+1} of ${cases.length}</b> — ${esc(g.ref)}<br>${res.parts.map(esc).join(' · ')} <b>${res.ok?'✓ matches':'✗ does not match'}</b>${cases.length>1?' · press again for the next example':''}</div>`;}
+/* ---------- reference library ---------- */
+let refQ='';
+function refBody(t){const q=refQ.trim().toLowerCase();const rows=q&&!t.title.toLowerCase().includes(q)?t.rows.filter(r=>r.join(' ').toLowerCase().includes(q)):t.rows;
+  return rows.length?rows.map(r=>`<tr>${r.map((x,k)=>`<td${k?' class="n"':''}>${esc(x)}</td>`).join('')}</tr>`).join(''):''}
+function vRef(){
+  const q=refQ.trim().toLowerCase();
+  const shown=REF_TABLES.filter(t=>!q||t.title.toLowerCase().includes(q)||t.rows.some(r=>r.join(' ').toLowerCase().includes(q)));
+  return `<p class="eyebrow">Reference</p><h1 class="ptitle">Reference library</h1><p class="muted" style="margin:0 0 14px;max-width:70ch">Tables engineers and tradespeople check every day, each with its source. Search across all of them, or download any table as CSV.</p>
+   <div class="fld" style="max-width:520px;margin-bottom:6px"><label for="refq">Search the tables</label><input type="text" id="refq" data-refq="1" value="${esc(refQ)}" placeholder="2 in pipe, 12 AWG, M12, aluminium, 60 °C…" autocomplete="off"></div>
+   <div class="refnav">${REF_TABLES.map(t=>`<a href="#ref-${t.id}" class="pill${shown.includes(t)?'':' dim'}" data-reflink="${t.id}">${esc(t.title.replace(/ \(.*\)$/,''))}</a>`).join('')}</div>
+   ${shown.length?shown.map(t=>`<section class="panel reft" id="ref-${t.id}"><div class="chead" style="gap:10px"><h2 style="font-size:17px;margin:0">${esc(t.title)}</h2><button class="btn sm" data-refcsv="${t.id}" style="margin-left:auto">CSV</button></div>
+     <p class="muted" style="font-size:12.5px;margin:4px 0 8px">Source: ${esc(t.src)}</p><div class="tbl"><table class="t"><thead><tr>${t.head.map(h=>`<th>${esc(h)}</th>`).join('')}</tr></thead><tbody id="refb-${t.id}">${refBody(t)}</tbody></table></div></section>`).join('')
+   :`<div class="empty">Nothing matches “${esc(refQ)}”. Try a size (2 in, M12, 12 AWG) or a material.</div>`}`;
+}
+document.addEventListener('input',e=>{if(e.target.dataset&&e.target.dataset.refq){refQ=e.target.value;clearTimeout(window._rq);window._rq=setTimeout(()=>{const pos=e.target.selectionStart;go('ref');const i=$('#refq');if(i){i.focus();try{i.setSelectionRange(pos,pos)}catch(x){}}},180)}});
+document.addEventListener('click',async e=>{const b=e.target.closest('[data-refcsv]');if(b){const t=REF_TABLES.find(x=>x.id===b.dataset.refcsv);const q=v=>/[",\n]/.test(String(v))?'"'+String(v).replace(/"/g,'""')+'"':v;
+  const csv=[t.head,...t.rows].map(r=>r.map(q).join(',')).join('\n')+'\n\nSource: '+t.src;await offer(`calchub-${t.id}.csv`,csv,csv);return}
+  const l=e.target.closest('[data-reflink]');if(l){e.preventDefault();const s=$('#ref-'+l.dataset.reflink);if(s)s.scrollIntoView({behavior:'smooth',block:'start'})}});
 function doSave(){modal(`<h2 style="font-size:18px">Save calculation</h2><div class="fld"><label for="sv_name">Name</label><input type="text" id="sv_name" maxlength="80" value="${esc(calc(last.calc).title+' — '+new Date().toLocaleDateString())}"></div><p class="muted" style="margin:0;font-size:13px">${esc(summary())}</p><div style="display:flex;gap:8px"><button class="btn pri" data-act="dosave">Save</button><button class="btn" data-act="close">Cancel</button></div>`)}
 
 applyTheme();setPh();productInit();
 function routeHash(){const h=(location.hash||'').slice(1);
-if(['pricing','privacy','terms','refunds','help','about'].includes(h))go(h);else if(/^s\./.test(h))go('shared',h);else if(/^c\.[a-z0-9-]+$/.test(h)&&calc(h.slice(2)))go('calc',h.slice(2));else if(CATEGORIES.some(c=>c.id===h))go('cat',h);else if(h==='sheet')go('sheet');else go('home');}
+if(['pricing','privacy','terms','refunds','help','about','ref'].includes(h))go(h);else if(/^s\./.test(h))go('shared',h);else if(/^c\.[a-z0-9-]+$/.test(h)&&calc(h.slice(2)))go('calc',h.slice(2));else if(CATEGORIES.some(c=>c.id===h))go('cat',h);else if(h==='sheet')go('sheet');else go('home');}
 routeHash();window.addEventListener('hashchange',routeHash);
 </script>
 <script>if('serviceWorker' in navigator&&location.protocol==='https:'){navigator.serviceWorker.register('sw.js')}</script>
