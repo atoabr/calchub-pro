@@ -21,7 +21,7 @@ window.CALCHUB_CONFIG = {
   freePdfPerMonth: 3,
 
   // Shown on the Help, Privacy, Terms and Refund pages. Required before launch.
-  support: { email: '' },
+  support: { email: 'info@bestqualityfirstinc.com' },
   company: { name: 'Best Quality First Inc.', law: 'the Province of Ontario, Canada' },
 
   // Owner tools (switch calculators off, plan preview). Keep false on the public website.
