@@ -1,7 +1,7 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="CalcHub Pro — 105 engineering, building-services, pipeline, finance, jewelry and gemstone calculators with formulas, code editions, working and PDF reports. By Engr. Abrar Hussain, Best Quality First Inc.">
-<meta property="og:title" content="CalcHub Pro — every calculation, with the formula on the page"><meta property="og:description" content="105 calculators for engineers and trades, with formulas, standards and PDF calculation reports."><meta property="og:type" content="website">
+<meta name="description" content="CalcHub Pro — 106 engineering, building-services, pipeline, finance, jewelry and gemstone calculators with formulas, code editions, working and PDF reports. By Engr. Abrar Hussain, Best Quality First Inc.">
+<meta property="og:title" content="CalcHub Pro — every calculation, with the formula on the page"><meta property="og:description" content="106 calculators for engineers and trades, with formulas, standards and PDF calculation reports."><meta property="og:type" content="website">
 <meta name="theme-color" content="#14181D"><link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon-192.png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="CalcHub Pro">
@@ -15,6 +15,7 @@
 <style>
 /* Layout: engineer's calculation pad — grouped category rail, input sheet beside a result card that reads like a stamped calc sheet (formula, working, sources) */
 :root{
+  --pt-alkali:#FBE1D3; --pt-alkaline:#FCEDCB; --pt-transition:#DFE9F5; --pt-post:#E1EEDD; --pt-metalloid:#ECE6CF; --pt-nonmetal:#D6EFE6; --pt-halogen:#E4F2CC; --pt-noble:#EAE2F7; --pt-lanthanide:#F8DFEA; --pt-actinide:#F2DDEF; --pt-uncertain:#E9EAE6;
   --paper:#F3F4F1; --surface:#FFFFFF; --sunk:#ECEEEA; --line:#D9DCD6; --line-strong:#B9BEB6;
   --ink:#14181D; --muted:#5B636C; --accent:#0D5C8C; --accent-ink:#0A4A71; --accent-soft:#E2EEF6; --on-accent:#FFFFFF;
   --result:#FFF6E5; --result-ink:#7A4A06; --ok:#18794E; --ok-soft:#E3F3EA; --bad:#B42318; --bad-soft:#FDECEA; --warn-soft:#FFF3D6; --warn-ink:#7A5200;
@@ -23,12 +24,14 @@
   --f-num:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
   --shadow:0 1px 2px rgba(20,24,29,.06),0 8px 24px rgba(20,24,29,.06);
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--pt-alkali:#4F2E1F; --pt-alkaline:#4B3A15; --pt-transition:#1E314D; --pt-post:#213A26; --pt-metalloid:#3D3520; --pt-nonmetal:#143D31; --pt-halogen:#2C3C14; --pt-noble:#33264F; --pt-lanthanide:#4A2235; --pt-actinide:#43213F; --pt-uncertain:#2C2E2B;
+
   --paper:#0F1215; --surface:#171B20; --sunk:#12161A; --line:#2A3038; --line-strong:#3A424C;
   --ink:#E6E9EC; --muted:#98A1AB; --accent:#6CB4E8; --accent-ink:#9CCDF0; --accent-soft:#132B3C; --on-accent:#0F1215;
   --result:#2A2111; --result-ink:#F2C879; --ok:#5FD39A; --ok-soft:#10291D; --bad:#F2877C; --bad-soft:#341614; --warn-soft:#2D2410; --warn-ink:#F0CB76;
   --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25); color-scheme:dark}}
-:root[data-theme="dark"]{
+:root[data-theme="dark"]{--pt-alkali:#4F2E1F; --pt-alkaline:#4B3A15; --pt-transition:#1E314D; --pt-post:#213A26; --pt-metalloid:#3D3520; --pt-nonmetal:#143D31; --pt-halogen:#2C3C14; --pt-noble:#33264F; --pt-lanthanide:#4A2235; --pt-actinide:#43213F; --pt-uncertain:#2C2E2B;
+
   --paper:#0F1215; --surface:#171B20; --sunk:#12161A; --line:#2A3038; --line-strong:#3A424C;
   --ink:#E6E9EC; --muted:#98A1AB; --accent:#6CB4E8; --accent-ink:#9CCDF0; --accent-soft:#132B3C; --on-accent:#0F1215;
   --result:#2A2111; --result-ink:#F2C879; --ok:#5FD39A; --ok-soft:#10291D; --bad:#F2877C; --bad-soft:#341614; --warn-soft:#2D2410; --warn-ink:#F0CB76;
@@ -252,6 +255,22 @@ table.t td.n{font-family:var(--f-num);font-variant-numeric:tabular-nums}
 .shist>button:hover{background:var(--sunk)}.shist>button span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted)}.shist>button b{white-space:nowrap}
 .prim.pending .val{color:var(--muted)}
 a.btn{text-decoration:none}
+.ptcard{margin-top:16px}.ptwrap{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px}
+.ptgrid{display:grid;grid-template-columns:repeat(18,minmax(38px,1fr));gap:3px;min-width:720px}
+.pte{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;height:54px;border:1px solid transparent;border-radius:6px;cursor:pointer;color:var(--ink);padding:2px;line-height:1.1;touch-action:manipulation}
+.pte small{font:500 9.5px var(--f-num);color:var(--muted);align-self:flex-start;padding-left:3px}.pte b{font:700 15px var(--f-ui)}.pte i{font:400 9px var(--f-num);font-style:normal;color:var(--muted)}
+.pte:hover{border-color:var(--line-strong)}.pte:focus-visible{outline:2px solid var(--accent);outline-offset:1px}.pte.in{border:2px solid var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
+.ptgap{display:flex;align-items:center;justify-content:center;font:500 10px var(--f-num);color:var(--muted);border:1px dashed var(--line);border-radius:6px}
+.pt-alkali{background:var(--pt-alkali)}.pt-alkaline{background:var(--pt-alkaline)}.pt-transition{background:var(--pt-transition)}.pt-post{background:var(--pt-post)}.pt-metalloid{background:var(--pt-metalloid)}.pt-nonmetal{background:var(--pt-nonmetal)}.pt-halogen{background:var(--pt-halogen)}.pt-noble{background:var(--pt-noble)}.pt-lanthanide{background:var(--pt-lanthanide)}.pt-actinide{background:var(--pt-actinide)}.pt-uncertain{background:var(--pt-uncertain)}
+.ptleg{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12.5px;color:var(--muted);margin-top:8px}.ptleg span{display:inline-flex;align-items:center;gap:6px}.ptleg .sw{width:12px;height:12px;border-radius:3px;display:inline-block;border:1px solid var(--line)}
+.ptinfo{display:flex;gap:10px;align-items:center;min-height:46px;font-size:13.5px;margin:2px 0 10px;padding:8px 10px;background:var(--sunk);border-radius:8px}.pti{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:6px;flex:none;font-size:16px}
+.pthint{display:none;font-size:12px;color:var(--muted);margin:4px 0 0}@media (max-width:840px){.pthint{display:block}}
+.ptkeys{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:5px;margin-top:-4px}
+.ptcard .ptkeys{margin:8px 0 10px;grid-template-columns:repeat(auto-fill,minmax(44px,1fr))}
+.ptform{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.ptfx{display:flex;flex-direction:column;min-width:0}.ptfx small{font-size:11.5px;color:var(--muted)}.ptfx b{font:600 20px var(--f-num);overflow-x:auto;white-space:nowrap}
+.ptmm{font:600 18px var(--f-num);color:var(--accent);white-space:nowrap}.ptmm.wait{color:var(--muted);font-weight:500;font-size:14px}
+.ptkeys button{height:38px;border:1px solid var(--line);border-radius:7px;background:var(--surface);color:var(--ink);font:500 14px var(--f-num);cursor:pointer;touch-action:manipulation}.ptkeys button:hover{border-color:var(--line-strong)}
 .xval{font:500 13px var(--f-num);color:var(--accent);margin-top:4px;min-height:0}.xval:empty{display:none}
 .sciout{font:600 22px var(--f-num);text-align:right;margin-top:6px;color:var(--ink);min-height:28px;overflow-x:auto;white-space:nowrap}.sciout.wait{color:var(--muted)}
 @keyframes flash{0%{background:var(--accent-soft)}100%{}}.prim.flash{animation:flash .6s ease-out}
@@ -388,7 +407,26 @@ function numFrom(s,key,label){
 }
 
 /* ---------- reference data ---------- */
-const ATOMIC = {H:1.008,He:4.0026,Li:6.94,Be:9.0122,B:10.81,C:12.011,N:14.007,O:15.999,F:18.998,Ne:20.180,Na:22.990,Mg:24.305,Al:26.982,Si:28.085,P:30.974,S:32.06,Cl:35.45,Ar:39.95,K:39.098,Ca:40.078,Sc:44.956,Ti:47.867,V:50.942,Cr:51.996,Mn:54.938,Fe:55.845,Co:58.933,Ni:58.693,Cu:63.546,Zn:65.38,Ga:69.723,Ge:72.630,As:74.922,Se:78.971,Br:79.904,Kr:83.798,Rb:85.468,Sr:87.62,Y:88.906,Zr:91.224,Nb:92.906,Mo:95.95,Ag:107.87,Cd:112.41,In:114.82,Sn:118.71,Sb:121.76,Te:127.60,I:126.90,Xe:131.29,Cs:132.91,Ba:137.33,La:138.91,Ce:140.12,W:183.84,Pt:195.08,Au:196.97,Hg:200.59,Pb:207.2,Bi:208.98,U:238.03};
+/* Elements: CIAAW abridged standard atomic weights (2024 edition, based on Atomic Weights 2021).
+   [n] = no standard atomic weight; n is the mass number of the longest-lived isotope. */
+const ELEMENT_SRC='CIAAW (IUPAC) abridged standard atomic weights, 2024 edition (Atomic Weights 2021 with the 2024 revisions for Gd, Lu and Zr)';
+const ELEMENTS=(()=>{
+  const cat={alkali:'Li Na K Rb Cs Fr',alkaline:'Be Mg Ca Sr Ba Ra',nonmetal:'H C N O P S Se',halogen:'F Cl Br I At',noble:'He Ne Ar Kr Xe Rn',metalloid:'B Si Ge As Sb Te',post:'Al Ga In Sn Tl Pb Bi Po',uncertain:'Mt Ds Rg Cn Nh Fl Mc Lv Ts Og'};
+  const catOfEl=(sym,z)=>{for(const k in cat)if(cat[k].split(' ').includes(sym))return k;if(z>=57&&z<=71)return 'lanthanide';if(z>=89&&z<=103)return 'actinide';return 'transition'};
+  const place=z=>{ // [period, group] — group null for the f-block
+    if(z===1)return[1,1];if(z===2)return[1,18];if(z<=10)return[2,z<=4?z-2:z+8];if(z<=18)return[3,z<=12?z-10:z];
+    if(z<=36)return[4,z-18];if(z<=54)return[5,z-36];if(z<=56)return[6,z-54];if(z<=71)return[6,null];if(z<=86)return[6,z-68];
+    if(z<=88)return[7,z-86];if(z<=103)return[7,null];return[7,z-100]};
+  return '1 H hydrogen 1.0080 0.0002|2 He helium 4.0026 0.0001|3 Li lithium 6.94 0.06|4 Be beryllium 9.0122 0.0001|5 B boron 10.81 0.02|6 C carbon 12.011 0.002|7 N nitrogen 14.007 0.001|8 O oxygen 15.999 0.001|9 F fluorine 18.998 0.001|10 Ne neon 20.180 0.001|11 Na sodium 22.990 0.001|12 Mg magnesium 24.305 0.002|13 Al aluminium 26.982 0.001|14 Si silicon 28.085 0.001|15 P phosphorus 30.974 0.001|16 S sulfur 32.06 0.02|17 Cl chlorine 35.45 0.01|18 Ar argon 39.95 0.16|19 K potassium 39.098 0.001|20 Ca calcium 40.078 0.004|21 Sc scandium 44.956 0.001|22 Ti titanium 47.867 0.001|23 V vanadium 50.942 0.001|24 Cr chromium 51.996 0.001|25 Mn manganese 54.938 0.001|26 Fe iron 55.845 0.002|27 Co cobalt 58.933 0.001|28 Ni nickel 58.693 0.001|29 Cu copper 63.546 0.003|30 Zn zinc 65.38 0.02|31 Ga gallium 69.723 0.001|32 Ge germanium 72.630 0.008|33 As arsenic 74.922 0.001|34 Se selenium 78.971 0.008|35 Br bromine 79.904 0.003|36 Kr krypton 83.798 0.002|37 Rb rubidium 85.468 0.001|38 Sr strontium 87.62 0.01|39 Y yttrium 88.906 0.001|40 Zr zirconium 91.222 0.003|41 Nb niobium 92.906 0.001|42 Mo molybdenum 95.95 0.01|43 Tc technetium [97]|44 Ru ruthenium 101.07 0.02|45 Rh rhodium 102.91 0.01|46 Pd palladium 106.42 0.01|47 Ag silver 107.87 0.01|48 Cd cadmium 112.41 0.01|49 In indium 114.82 0.01|50 Sn tin 118.71 0.01|51 Sb antimony 121.76 0.01|52 Te tellurium 127.60 0.03|53 I iodine 126.90 0.01|54 Xe xenon 131.29 0.01|55 Cs caesium 132.91 0.01|56 Ba barium 137.33 0.01|57 La lanthanum 138.91 0.01|58 Ce cerium 140.12 0.01|59 Pr praseodymium 140.91 0.01|60 Nd neodymium 144.24 0.01|61 Pm promethium [145]|62 Sm samarium 150.36 0.02|63 Eu europium 151.96 0.01|64 Gd gadolinium 157.25 0.01|65 Tb terbium 158.93 0.01|66 Dy dysprosium 162.50 0.01|67 Ho holmium 164.93 0.01|68 Er erbium 167.26 0.01|69 Tm thulium 168.93 0.01|70 Yb ytterbium 173.05 0.02|71 Lu lutetium 174.97 0.01|72 Hf hafnium 178.49 0.01|73 Ta tantalum 180.95 0.01|74 W tungsten 183.84 0.01|75 Re rhenium 186.21 0.01|76 Os osmium 190.23 0.03|77 Ir iridium 192.22 0.01|78 Pt platinum 195.08 0.02|79 Au gold 196.97 0.01|80 Hg mercury 200.59 0.01|81 Tl thallium 204.38 0.01|82 Pb lead 207.2 1.1|83 Bi bismuth 208.98 0.01|84 Po polonium [209]|85 At astatine [210]|86 Rn radon [222]|87 Fr francium [223]|88 Ra radium [226]|89 Ac actinium [227]|90 Th thorium 232.04 0.01|91 Pa protactinium 231.04 0.01|92 U uranium 238.03 0.01|93 Np neptunium [237]|94 Pu plutonium [244]|95 Am americium [243]|96 Cm curium [247]|97 Bk berkelium [247]|98 Cf californium [251]|99 Es einsteinium [252]|100 Fm fermium [257]|101 Md mendelevium [258]|102 No nobelium [259]|103 Lr lawrencium [266]|104 Rf rutherfordium [267]|105 Db dubnium [268]|106 Sg seaborgium [267]|107 Bh bohrium [270]|108 Hs hassium [271]|109 Mt meitnerium [278]|110 Ds darmstadtium [281]|111 Rg roentgenium [282]|112 Cn copernicium [285]|113 Nh nihonium [286]|114 Fl flerovium [289]|115 Mc moscovium [290]|116 Lv livermorium [293]|117 Ts tennessine [294]|118 Og oganesson [294]'.split('|').map(r=>{const [z,sym,name,w,u]=r.split(' ');const Z=+z,iso=/^\[/.test(w);const [period,group]=place(Z);
+    return {z:Z,sym,name,w:iso?null:+w,u:iso?null:+u,mass:iso?+w.slice(1,-1):null,cat:catOfEl(sym,Z),period,group}});
+})();
+const ELEMENT=Object.fromEntries(ELEMENTS.map(e=>[e.sym,e]));
+const ATOMIC=Object.fromEntries(ELEMENTS.map(e=>[e.sym,e.w??e.mass]));   // weight used in molar mass
+const CAT_NAME={alkali:'Alkali metal',alkaline:'Alkaline earth metal',transition:'Transition metal',post:'Post-transition metal',metalloid:'Metalloid',nonmetal:'Non-metal',halogen:'Halogen',noble:'Noble gas',lanthanide:'Lanthanide',actinide:'Actinide',uncertain:'Superheavy (properties uncertain)'};
+function findElement(q){const t=String(q||'').trim();if(!t)return null;
+  if(/^\d+$/.test(t))return ELEMENTS[+t-1]||null;
+  const alt={aluminum:'Al',cesium:'Cs',sulphur:'S'};const l=t.toLowerCase();
+  return ELEMENTS.find(e=>e.sym.toLowerCase()===l)||ELEMENTS.find(e=>e.name===l)||(alt[l]?ELEMENT[alt[l]]:null)||ELEMENTS.find(e=>e.name.startsWith(l)&&l.length>=3)||null}
 /* Wire tables: [size, mm², ampacity A, small-conductor OCP limit A?] */
 const NEC_CU75 = {source:'NEC Table 310.16 (2023), copper, 75 °C column, ≤3 current-carrying conductors, 30 °C ambient; small-conductor limits per 240.4(D)',
   rows:[['14 AWG',2.08,20,15],['12 AWG',3.31,25,20],['10 AWG',5.26,35,30],['8 AWG',8.37,50],['6 AWG',13.3,65],['4 AWG',21.2,85],['3 AWG',26.7,100],['2 AWG',33.6,115],['1 AWG',42.4,130],['1/0 AWG',53.5,150],['2/0 AWG',67.4,175],['3/0 AWG',85.0,200],['4/0 AWG',107.2,230]]};
@@ -604,9 +642,29 @@ def({id:'dilution',cat:'chemical',title:'Dilution (C₁V₁ = C₂V₂)',kw:'sto
   compute(v){need(v.C1>0&&v.C2>0,'Concentrations must be above zero.','C1');need(v.C2<=v.C1||v.find==='V2','Final concentration cannot be higher than the stock.','C2');
     if(v.find==='V1'){const V1=v.C2*v.V/v.C1;return{results:[R('V1','Stock volume V₁',V1,{dim:'volume',primary:true,show:['mL','L']}),R('solv','Add solvent',v.V-V1,{dim:'volume',show:['mL','L']})],formula:'V₁ = C₂ × V₂ ÷ C₁',steps:[`${fmtSig(v.C2)} × ${fmtSig(v.V*1e6)} mL ÷ ${fmtSig(v.C1)} = ${fmtSig(V1*1e6)} mL`]}}
     const V2=v.C1*v.V/v.C2;return{results:[R('V2','Final volume V₂',V2,{dim:'volume',primary:true,show:['mL','L']})],formula:'V₂ = C₁ × V₁ ÷ C₂',steps:[`${fmtSig(v.C1)} × ${fmtSig(v.V*1e6)} mL ÷ ${fmtSig(v.C2)} = ${fmtSig(V2*1e6)} mL`]}}});
-def({id:'molar-mass',cat:'chemical',title:'Molecular weight',kw:'molar mass formula atomic weight',disclaimer:ENG,
-  inputs:[text('f','Chemical formula','CuSO4·5H2O',{help:'Brackets and hydrates allowed: Ca(OH)2, CuSO4·5H2O'})],
-  compute(v){const {total,detail}=molarMass(v.f);return{results:[R('M','Molar mass',total,{unitText:'g/mol',primary:true,sig:6}),R('comp','Composition',Object.entries(detail).map(([k,n])=>`${k}${n>1?'×'+n:''}`).join(' '),{kind:'text'})],formula:'M = Σ (count × atomic weight)',steps:Object.entries(detail).map(([k,n])=>`${k}: ${n} × ${ATOMIC[k]} = ${fmtSig(n*ATOMIC[k],6)}`),assumptions:['Standard atomic weights (IUPAC, conventional values).']}}});
+def({id:'molar-mass',cat:'chemical',title:'Molecular weight',kw:'molar mass formula atomic weight periodic table mass percent composition moles grams',disclaimer:ENG,
+  inputs:[text('f','Chemical formula','CuSO4·5H2O',{help:'Tap the periodic table or type. Brackets and hydrates allowed: Ca(OH)2, CuSO4·5H2O'}),
+    num('mass','Mass of a sample (optional — gives moles)',{dim:'mass',unit:'g',imp:'oz',opt:true,min:0}),num('mol','Amount wanted (optional — gives grams)',{dim:'amount',unit:'mol',imp:'mol',opt:true,min:0})],
+  compute(v){const {total,detail}=molarMass(v.f);const els=Object.entries(detail);
+    const out=[R('M','Molar mass',total,{unitText:'g/mol',primary:true,sig:6}),R('comp','Atoms per formula unit',els.map(([k,n])=>`${k}${n>1?' × '+n:''}`).join(', '),{kind:'text'})];
+    for(const [k,n] of els)out.push(R('pct_'+k,`${k} (${ELEMENT[k].name}) by mass`,n*ATOMIC[k]/total*100,{kind:'pct'}));
+    const steps=els.map(([k,n])=>`${k}: ${n} × ${ATOMIC[k]}${ELEMENT[k].w==null?' (mass number)':''} = ${fmtSig(n*ATOMIC[k],6)} g/mol (${fmtSig(n*ATOMIC[k]/total*100,4)}%)`);
+    steps.push(`Sum: M = ${fmtSig(total,6)} g/mol`);
+    if(Number.isFinite(v.mass)){const n=v.mass*1000/total;out.push(R('n','Amount in the sample',n,{dim:'amount',show:['mol','mmol']}));steps.push(`n = m ÷ M = ${fmtSig(v.mass*1000)} g ÷ ${fmtSig(total,6)} g/mol = ${fmtSig(n)} mol`)}
+    if(Number.isFinite(v.mol)){const m=v.mol*total/1000;out.push(R('m','Mass for that amount',m,{dim:'mass',show:['g','kg']}));steps.push(`m = n × M = ${fmtSig(v.mol)} mol × ${fmtSig(total,6)} g/mol = ${fmtSig(m*1000)} g`)}
+    const radio=els.filter(([k])=>ELEMENT[k].w==null).map(([k])=>`${k} [${ELEMENT[k].mass}]`);
+    const assumptions=['Standard atomic weights are the conventional values for normal terrestrial material; real samples can differ slightly (e.g. Li, B, Pb).'];
+    if(radio.length)assumptions.push(`${radio.join(', ')} ${radio.length>1?'have':'has'} no standard atomic weight; the mass number of the longest-lived isotope was used, so the result is approximate.`);
+    return{results:out,formula:'M = Σ (atoms × atomic weight) · mass % = atoms × atomic weight ÷ M × 100 · n = m ÷ M',steps,assumptions,refs:[ELEMENT_SRC]}}});
+def({id:'element',cat:'chemical',title:'Element and atomic mass lookup',kw:'periodic table element atomic mass atomic weight atomic number symbol group period',
+  inputs:[text('q','Element','Pd',{help:'Symbol (Pd), name (palladium) or atomic number (46) — or tap the table.'})],
+  compute(v){const e=findElement(v.q);need(e,`No element matches "${String(v.q).trim()}". Try a symbol (Pd), a name (palladium) or an atomic number (46).`,'q');
+    const out=[e.w!=null?R('w','Standard atomic weight',e.w,{unitText:'g/mol',primary:true,sig:6}):R('w','Mass number of the longest-lived isotope',`[${e.mass}]`,{kind:'text',primary:true}),
+      R('name','Element',`${e.name[0].toUpperCase()+e.name.slice(1)} (${e.sym})`,{kind:'text'}),R('z','Atomic number',e.z,{kind:'int'}),
+      R('pos','Position',`Period ${e.period}, ${e.group?'group '+e.group:(e.cat==='lanthanide'?'lanthanide series':'actinide series')}`,{kind:'text'}),R('cat','Type',CAT_NAME[e.cat],{kind:'text'})];
+    if(e.u!=null)out.push(R('u','Uncertainty of the abridged value',`± ${e.u} g/mol`,{kind:'text'}));
+    return{results:out,formula:e.w!=null?`Standard atomic weight of ${e.sym} = ${e.w} ± ${e.u}`:`${e.sym} has no standard atomic weight; [${e.mass}] is the mass number of its longest-lived isotope`,
+      steps:[`Matched "${String(v.q).trim()}" to ${e.name} (${e.sym}), atomic number ${e.z}.`],refs:[ELEMENT_SRC]}}});
 def({id:'ideal-gas',cat:'chemical',title:'Ideal gas law (PV = nRT)',kw:'pressure volume moles temperature gas',disclaimer:ENG,
   inputs:[sel('find','Solve for',[['V','Volume'],['P','Pressure'],['n','Amount (mol)'],['T','Temperature']]),num('P','Pressure',{dim:'pressure',unit:'atm',imp:'psi',def:1,opt:true}),num('V','Volume',{dim:'volume',unit:'L',imp:'L',opt:true}),num('n','Amount (mol)',{def:1,opt:true}),num('T','Temperature',{dim:'temp',unit:'K',imp:'K',def:273.15,opt:true})],
   compute(v){const Rg=8.314462618;const need2=k=>need(Number.isFinite(v[k])&&v[k]>0,`Enter a positive ${k==='n'?'amount':k==='T'?'temperature':k==='P'?'pressure':'volume'}.`,k);
@@ -675,7 +733,7 @@ function runCalc(id, raw={}){
   return {...out, calc:c.id, version:c.version, disclaimer:c.disclaimer};
 }
 
-if(typeof module!=='undefined') module.exports={UNITS,SYS_UNITS,ulabel,toSI,fromSI,fmtSig,fmtMoney,fmtInt,cents,CATEGORIES,CALCS,runCalc,ValErr,evalExpr,numFrom,isPlainNum,molarMass,NEC_CU75,IEC_CU_PVC_C,ENGINE_VERSION};
+if(typeof module!=='undefined') module.exports={ELEMENTS,ELEMENT,findElement,CAT_NAME,UNITS,SYS_UNITS,ulabel,toSI,fromSI,fmtSig,fmtMoney,fmtInt,cents,CATEGORIES,CALCS,runCalc,ValErr,evalExpr,numFrom,isPlainNum,molarMass,NEC_CU75,IEC_CU_PVC_C,ENGINE_VERSION};
 
 /* ================================================================
    CalcHub Pro — industry calculators (v2)
@@ -1233,6 +1291,13 @@ const GOLDEN = [
  {calc:'molar-mass', in:{f:'C6H12O6'}, expect:{M:[180.156,null,1e-4]}, ref:'Glucose 180.16 g/mol'},
  {calc:'molar-mass', in:{f:'CuSO4·5H2O'}, expect:{M:[249.68,null,1e-4]}, ref:'Copper(II) sulfate pentahydrate 249.68 g/mol'},
  {calc:'molar-mass', in:{f:'Ca(OH)2'}, expect:{M:[74.09,null,2e-4]}, ref:'Calcium hydroxide 74.09 g/mol'},
+ {calc:'molar-mass', in:{f:'PdCl2'}, expect:{M:[177.32,null,1e-6]}, ref:'CIAAW 2024: Pd 106.42 + 2 × Cl 35.45 = 177.32 g/mol'},
+ {calc:'molar-mass', in:{f:'Nd2O3'}, expect:{M:[336.477,null,1e-6]}, ref:'CIAAW 2024: 2 × 144.24 + 3 × 15.999 = 336.477 g/mol'},
+ {calc:'molar-mass', in:{f:'H2O',mass:[36.03,'g']}, expect:{pct_O:[88.8093,null,1e-5],n:[2,'mol',1e-6]}, ref:'O mass fraction 15.999 ÷ 18.015 = 88.81 %; 36.03 g ÷ 18.015 g/mol = 2.000 mol'},
+ {calc:'molar-mass', in:{f:'NaCl',mol:[0.5,'mol']}, expect:{m:[29.22,'g',1e-6]}, ref:'0.5 mol × (22.990 + 35.45) g/mol = 29.22 g'},
+ {calc:'element', in:{q:'palladium'}, expect:{w:[106.42,null,1e-9],z:[46]}, ref:'CIAAW 2024 abridged table: palladium, Z = 46, 106.42'},
+ {calc:'element', in:{q:'79'}, expect:{w:[196.97,null,1e-9],name:'Gold'}, ref:'CIAAW 2024 abridged table: Z = 79 is gold, 196.97'},
+ {calc:'element', in:{q:'Tc'}, expect:{w:'[97]'}, ref:'Technetium has no standard atomic weight; longest-lived isotope Tc-97'},
  {calc:'ideal-gas', in:{find:'V',P:[1,'atm'],V:'',n:1,T:[273.15,'K']}, expect:{V:[22.414,'L',1e-4]}, ref:'Molar volume at 0 °C, 1 atm = 22.414 L (CODATA)'},
  {calc:'ph', in:{from:'H',x:0.001}, expect:{pH:[3]}, ref:'pH = −log(10⁻³) = 3'},
  {calc:'ph', in:{from:'OH',x:0.01}, expect:{pH:[12]}, ref:'pOH 2 → pH 12 at 25 °C'},
@@ -1701,8 +1766,8 @@ function vCalc(id){
   return `<div class="crumbs"><button class="link" data-go="home">Dashboard</button> / <button class="link" data-cat="${k.id}">${esc(k.name)}</button></div>
   <div class="chead"><h1>${esc(c.title)}</h1><button class="star ${S.favs.includes(id)?'on':''}" data-act="fav" aria-pressed="${S.favs.includes(id)}" aria-label="Favourite">${S.favs.includes(id)?'★':'☆'}</button><span class="chip">v${esc(c.version)}</span>${c.disclaimer?'<span class="chip warn">Check with a licensed professional</span>':''}</div>
   <div class="guide">${c.id==='scientific'?'<span><b>1</b>Tap the keys or type an expression</span><span><b>2</b>The answer updates as you go</span><span><b>3</b>Press = to keep it in the history; download a PDF or add it to your sheet</span>':'<span><b>1</b>Enter values — sums like 12.5 + 3.75 work; change units beside each box</span><span><b>2</b>The result, formula and working update as you type</span><span><b>3</b>Download a PDF report or add it to your sheet</span>'}</div>
-  <div class="cgrid"><form class="card" id="cform" novalidate onsubmit="return false"><h2><span>Inputs</span><button class="link" type="button" data-act="reset" style="font-family:var(--f-ui);text-transform:none;letter-spacing:0;font-size:13px">Reset to defaults</button></h2><div class="fields">${c.id==='scientific'?sciForm(c):c.inputs.map(i=>inputHTML(c,i)).join('')}</div></form>
-  <section class="card res" aria-live="polite" id="result"></section></div>`;
+  <div class="cgrid"><form class="card" id="cform" novalidate onsubmit="return false"><h2><span>Inputs</span><button class="link" type="button" data-act="reset" style="font-family:var(--f-ui);text-transform:none;letter-spacing:0;font-size:13px">Reset to defaults</button></h2><div class="fields">${c.id==='scientific'?sciForm(c):c.inputs.map(i=>inputHTML(c,i)+(c.id==='molar-mass'&&i.key==='f'?ptKeys():'')).join('')}</div></form>
+  <section class="card res" aria-live="polite" id="result"></section></div>${PT_CALCS.has(c.id)?ptSection(c):''}`;
 }
 function renderResult(){
   const c=calc(form.id), el=$('#result'); if(!el) return;
@@ -1710,11 +1775,12 @@ function renderResult(){
   document.querySelectorAll('.fld').forEach(f=>f.classList.remove('bad'));document.querySelectorAll('.fld .err').forEach(e=>e.textContent='');
   const raw={};for(const i of c.inputs){raw[i.key]=i.type==='num'?(form.vals[i.key]===''?'':[form.vals[i.key],form.units[i.key]||i.unit]):form.vals[i.key]}
   try{ last={...runCalc(c.id,raw),raw:{vals:{...form.vals},units:{...form.units}}}; }
-  catch(e){ last=null;
+  catch(e){ last=null; if(PT_CALCS.has(c.id)){ptStrip();ptMark()}
     if(c.id==='scientific'){const empty=!String(form.vals.expr||'').trim();const o=$('#sciOut');if(o){o.textContent=empty?'= 0':'= …';o.classList.add('wait')}el.innerHTML=`<h2><span>Result</span><span>${esc(catOf(c.cat).name)}</span></h2><div class="prim pending"><div class="lab">${empty?'Ready':'Keep going…'}</div><div class="val">${empty?'0':sciGood!=null?esc(sciGood):'…'}</div></div><p class="muted" style="margin:8px 0 0;font-size:13.5px">${empty?'Tap the keys or type an expression.':esc(e.message)}</p>`;$('#mbar').hidden=true;return}
     if(e.key){const f=$('#f_'+e.key);if(f){f.classList.add('bad');$('#e_'+e.key).textContent=e.message}}
     el.innerHTML=`<h2>Result</h2><div class="prim err"><div class="lab">Check your inputs</div><div class="val">${esc(e.message)}</div></div>`; $('#mbar').hidden=true; return; }
   const prim=last.results.filter(r=>r.primary), rest=last.results.filter(r=>!r.primary);
+  if(PT_CALCS.has(c.id)){ptMark();ptStrip();if(c.id==='element'){const e=findElement(form.vals.q);if(e)ptInfo(e,false)}}
   if(c.id==='scientific'){sciGood=plain(fmtVal(prim[0]).main);const o=$('#sciOut');if(o){o.textContent='= '+sciGood;o.classList.remove('wait')}}
   const P=prim.map(r=>{const f=fmtVal(r);return `<div class="prim"><div class="lab">${esc(r.label)}</div><div class="val">${f.main}</div>${f.alt?`<div class="alt">= ${f.alt}</div>`:''}</div>`}).join('');
   const rows=c.conv?`<div class="convgrid">${rest.map(r=>`<div><small>${esc(r.label)}</small><b>${fmtVal(r).main}</b></div>`).join('')}</div>`
@@ -2120,6 +2186,40 @@ function sendFeedback(){
    <div style="display:flex;gap:8px;flex-wrap:wrap">${href?`<a class="btn pri" href="${esc(href)}" target="_blank" rel="noopener">Open email</a>`:''}<button class="btn" data-act="fbcopy">Copy message</button>${to?'<button class="btn" data-act="fbcopyaddr">Copy address</button>':''}<button class="btn" data-act="close">Done</button></div>
    <p class="muted" style="margin:0;font-size:12.5px">If no email app opens, copy the message and send it to ${to?`<span class="mono">${esc(to)}</span>`:'us'} from any email account. Thank you.</p>`);
 }
+/* ---------- periodic table (Molecular weight + Element lookup) ---------- */
+const PT_CALCS=new Set(['molar-mass','element']);
+const fieldCaret={};
+function ptSection(c){
+  const cell=e=>{const r=e.group?e.period:(e.cat==='lanthanide'?9:10),col=e.group||(e.cat==='lanthanide'?e.z-54:e.z-86);
+    return `<button type="button" class="pte pt-${e.cat}" data-el="${e.sym}" style="grid-row:${r};grid-column:${col}" title="${esc(e.name[0].toUpperCase()+e.name.slice(1))} — ${e.w!=null?e.w:'['+e.mass+']'}" aria-label="${esc(e.name)}, ${e.w!=null?e.w:'mass number '+e.mass}"><small>${e.z}</small><b>${e.sym}</b><i>${e.w!=null?fmtSig(e.w,5):'['+e.mass+']'}</i></button>`};
+  const legend=Object.entries(CAT_NAME).map(([k,n])=>`<span><i class="sw pt-${k}"></i>${esc(n)}</span>`).join('');
+  return `<section class="card ptcard" aria-label="Periodic table"><h2><span>Periodic table</span><span>${c.id==='element'?'Tap an element to look it up':'Tap to add to the formula'}</span></h2>
+   ${c.id==='molar-mass'?`<div class="ptform"><div class="ptfx"><small>Formula</small><b id="ptF">${esc(form.vals.f||'—')}</b></div><div class="ptmm" id="ptM"></div></div>${ptKeys()}`:''}
+   <div class="ptinfo" id="ptInfo">${c.id==='element'?'Tap any element to see its atomic weight, atomic number, position and type.':'Tap elements to build the formula; use the keys under the formula for counts, brackets and hydrates. Elements in the formula are outlined.'}</div>
+   <div class="ptwrap"><div class="ptgrid">${ELEMENTS.map(cell).join('')}<div class="ptgap" style="grid-row:6;grid-column:3">57–71</div><div class="ptgap" style="grid-row:7;grid-column:3">89–103</div><div style="grid-row:8;grid-column:1/-1;height:8px"></div></div></div>
+   <p class="pthint">Swipe sideways to see the whole table.</p>
+   <div class="ptleg">${legend}</div>
+   <p class="muted" style="font-size:12.5px;margin:8px 0 0">Values: ${esc(ELEMENT_SRC)}. [n] marks elements with no standard atomic weight; n is the mass number of the longest-lived isotope.</p></section>`;
+}
+const PT_KEYS=['(',')','·','2','3','4','5','6','7','8','9','0','1','⌫','C'];
+function ptKeys(){return `<div class="ptkeys" role="group" aria-label="Formula keys">${PT_KEYS.map(k=>`<button type="button" data-fk="${esc(k)}" ${k==='⌫'?'aria-label="Delete"':k==='C'?'aria-label="Clear"':k==='·'?'aria-label="Hydrate dot" title="Hydrate dot, as in CuSO4·5H2O"':''}>${k}</button>`).join('')}</div>`}
+function fieldSet(id,v,c){const inp=$('#in_'+id);if(!inp)return;inp.value=v;form.vals[id]=v;fieldCaret[id]=[c,c];try{if(!COARSE)inp.focus({preventScroll:true});inp.setSelectionRange(c,c)}catch(e){}renderResult()}
+function fieldInsert(id,t){const inp=$('#in_'+id);if(!inp)return;const v=inp.value;let [a,b]=document.activeElement===inp?[inp.selectionStart,inp.selectionEnd]:(fieldCaret[id]||[v.length,v.length]);if(a==null||a>v.length)a=b=v.length;
+  if(t==='C')return fieldSet(id,'',0);
+  if(t==='⌫'){if(a!==b)return fieldSet(id,v.slice(0,a)+v.slice(b),a);if(!a)return;const k=/[A-Z][a-z]$/.test(v.slice(0,a))?2:1;return fieldSet(id,v.slice(0,a-k)+v.slice(b),a-k)}
+  fieldSet(id,v.slice(0,a)+t+v.slice(b),a+t.length)}
+function ptStrip(){if(!form||form.id!=='molar-mass')return;const f=$('#ptF'),m=$('#ptM');if(!f||!m)return;f.textContent=form.vals.f||'—';
+  if(last&&last.calc==='molar-mass'){m.textContent='= '+plain(fmtVal(last.results[0]).main);m.classList.remove('wait')}else{m.textContent=String(form.vals.f||'').trim()?'check the formula':'tap elements';m.classList.add('wait')}}
+function ptMark(){if(!form||!PT_CALCS.has(form.id))return;const s=form.id==='element'?(()=>{try{const e=findElement(form.vals.q);return e?[e.sym]:[]}catch(x){return[]}})():(String(form.vals.f||'').match(/[A-Z][a-z]?/g)||[]);
+  const has=new Set(s);document.querySelectorAll('.pte').forEach(b=>b.classList.toggle('in',has.has(b.dataset.el)))}
+function ptInfo(e,added){const el=$('#ptInfo');if(!el)return;const N=e.name[0].toUpperCase()+e.name.slice(1);
+  el.innerHTML=`<span class="pti pt-${e.cat}"><b>${e.sym}</b></span><span><b>${esc(N)}</b> · atomic number ${e.z} · ${e.w!=null?`standard atomic weight <b>${e.w}</b> ± ${e.u} g/mol`:`no standard atomic weight; longest-lived isotope mass number <b>[${e.mass}]</b>`} · period ${e.period}${e.group?`, group ${e.group}`:''} · ${esc(CAT_NAME[e.cat])}${added?` · <span class="muted">added to the formula</span>`:''}</span>`}
+document.addEventListener('mousedown',e=>{if(e.target.closest('.pte,[data-fk]'))e.preventDefault()});
+document.addEventListener('click',e=>{
+  const b=e.target.closest('.pte');if(b&&form&&PT_CALCS.has(form.id)){const el=ELEMENT[b.dataset.el];if(form.id==='element'){fieldSet('q',el.sym,el.sym.length);ptInfo(el,false)}else{fieldInsert('f',el.sym);ptInfo(el,true)}return}
+  const k=e.target.closest('[data-fk]');if(k&&form&&form.id==='molar-mass'){fieldInsert('f',k.dataset.fk);return}
+});
+['keyup','click','select','input'].forEach(ev=>document.addEventListener(ev,e=>{const m=/^in_(f|q)$/.exec(e.target.id||'');if(m)fieldCaret[m[1]]=[e.target.selectionStart,e.target.selectionEnd]}));
 function doSave(){modal(`<h2 style="font-size:18px">Save calculation</h2><div class="fld"><label for="sv_name">Name</label><input type="text" id="sv_name" maxlength="80" value="${esc(calc(last.calc).title+' — '+new Date().toLocaleDateString())}"></div><p class="muted" style="margin:0;font-size:13px">${esc(summary())}</p><div style="display:flex;gap:8px"><button class="btn pri" data-act="dosave">Save</button><button class="btn" data-act="close">Cancel</button></div>`)}
 
 applyTheme();setPh();productInit();
