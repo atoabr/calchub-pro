@@ -236,7 +236,22 @@ table.t td.n{font-family:var(--f-num);font-variant-numeric:tabular-nums}
 .plan .price{font-family:var(--f-display);font-size:32px;font-weight:700;line-height:1.1}.plan .price small{font-size:15px;font-weight:500;color:var(--muted)}
 .plan .sub{margin:0;font-size:13px}.plan ul{margin:6px 0 0;padding-left:18px;font-size:14px;display:grid;gap:4px;flex:1;align-content:start}.plan .cta{margin-top:10px;display:flex;gap:6px;flex-wrap:wrap}
 .cmp td.c{text-align:center}.cmp .yes{color:var(--ok);font-weight:700}.cmp .no{color:var(--muted)}
-@media (prefers-reduced-motion:reduce){.toast{transition:none}}
+.sciin{font-size:19px!important;height:50px}
+.sbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:2px}.sbar .sp{flex:1}.sbar .seg button{min-width:52px}
+.kbtog{display:none}@media (pointer:coarse){.kbtog{display:inline-flex}}
+.skp{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin-top:10px}
+.skp button{height:46px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);font:500 16px var(--f-num);cursor:pointer;padding:0;touch-action:manipulation}
+.skp button:hover{border-color:var(--line-strong)}.skp button:active{transform:scale(.97)}.skp button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.skp .fn{background:var(--sunk);font-size:14.5px}.skp .op{color:var(--accent);font-size:18px}
+.skp .eq{background:var(--accent);border-color:var(--accent);color:var(--on-accent);font-size:20px;grid-column:span 3}
+.shist{margin-top:12px;border-top:1px solid var(--line);padding-top:10px;display:grid;gap:4px}
+.shh{display:flex;justify-content:space-between;align-items:center;font-size:13px}
+.shist>button{display:flex;justify-content:space-between;gap:10px;background:none;border:0;border-radius:6px;padding:6px 8px;font:13.5px var(--f-num);color:var(--ink);cursor:pointer;text-align:left}
+.shist>button:hover{background:var(--sunk)}.shist>button span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted)}.shist>button b{white-space:nowrap}
+.prim.pending .val{color:var(--muted)}
+.sciout{font:600 22px var(--f-num);text-align:right;margin-top:6px;color:var(--ink);min-height:28px;overflow-x:auto;white-space:nowrap}.sciout.wait{color:var(--muted)}
+@keyframes flash{0%{background:var(--accent-soft)}100%{}}.prim.flash{animation:flash .6s ease-out}
+@media (prefers-reduced-motion:reduce){.toast{transition:none}.prim.flash{animation:none}}
 @media print{ .top,.side,.noprint,.toast,.overlay,#layer,body::before{display:none!important} .layout{display:block} main{padding:0} .paper{box-shadow:none;border:0;max-width:none;padding:0} body{background:#fff;color:#000} }
 </style>
 
@@ -319,13 +334,20 @@ const fin = (x, key, label) => need(Number.isFinite(x), `${label||'This value'} 
 
 /* ---------- safe expression parser (no eval) ---------- */
 function evalExpr(src, mode='deg'){
-  const s=src.replace(/×/g,'*').replace(/÷/g,'/').replace(/π/g,'pi').trim();
+  let s=String(src).replace(/×/g,'*').replace(/÷/g,'/').replace(/[−–]/g,'-').replace(/π/g,'pi').replace(/√/g,'sqrt').replace(/∛/g,'cbrt').trim();
   need(s.length>0,'Type an expression, for example 2+3*4.','expr');
+  const open=(s.match(/\(/g)||[]).length-(s.match(/\)/g)||[]).length; if(open>0)s+=')'.repeat(open);   // close brackets the user left open
+  evalExpr.closed=Math.max(0,open);
   let i=0;
   const peek=()=>s[i], ws=()=>{while(s[i]===' ')i++};
   const ang=x=>mode==='deg'?x*Math.PI/180:x, inv=x=>mode==='deg'?x*180/Math.PI:x;
   const F={sin:x=>Math.sin(ang(x)),cos:x=>Math.cos(ang(x)),tan:x=>Math.tan(ang(x)),asin:x=>inv(Math.asin(x)),acos:x=>inv(Math.acos(x)),atan:x=>inv(Math.atan(x)),
-    sqrt:Math.sqrt,cbrt:Math.cbrt,log:Math.log10,ln:Math.log,exp:Math.exp,abs:Math.abs,round:Math.round,floor:Math.floor,ceil:Math.ceil};
+    sqrt:x=>{need(x>=0,'Square root needs a number of 0 or more.','expr');return Math.sqrt(x)},cbrt:Math.cbrt,
+    log:x=>{need(x>0,'log needs a number above 0.','expr');return Math.log10(x)},ln:x=>{need(x>0,'ln needs a number above 0.','expr');return Math.log(x)},
+    exp:Math.exp,abs:Math.abs,round:Math.round,floor:Math.floor,ceil:Math.ceil,sinh:Math.sinh,cosh:Math.cosh,tanh:Math.tanh};
+  const whole=(n,r,f)=>{need(Number.isInteger(n)&&Number.isInteger(r)&&n>=0&&r>=0&&r<=n,`${f} needs whole numbers with 0 ≤ r ≤ n, for example ${f}(5,2).`,'expr');};
+  const F2={ncr:(n,r)=>{whole(n,r,'nCr');r=Math.min(r,n-r);let v=1;for(let k=1;k<=r;k++)v=v*(n-r+k)/k;return Math.round(v)},
+    npr:(n,r)=>{whole(n,r,'nPr');let v=1;for(let k=0;k<r;k++)v*=n-k;return v}};
   const C={pi:Math.PI,e:Math.E};
   function num(){ws();const m=/^(\d+\.?\d*|\.\d+)(e[+-]?\d+)?/i.exec(s.slice(i));if(!m)return null;i+=m[0].length;return parseFloat(m[0])}
   function primary(){ws();
@@ -333,14 +355,16 @@ function evalExpr(src, mode='deg'){
     const n=num(); if(n!==null) return n;
     const m=/^[a-z]+/i.exec(s.slice(i));
     if(m){const id=m[0].toLowerCase();i+=m[0].length;ws();
-      if(F[id]){need(peek()==='(',`Use brackets after ${id}, for example ${id}(30).`,'expr');i++;const v=expr();ws();need(peek()===')','Missing closing bracket.','expr');i++;return F[id](v)}
+      if(F[id]&&peek()!=='('){need(peek()!==undefined,`Add a number after ${id}, for example ${id}(30).`,'expr');return F[id](postfix())}   // √16, sin30
+      if(F[id]){i++;const v=expr();ws();need(peek()===')','Missing closing bracket.','expr');i++;return F[id](v)}
+      if(F2[id]){const nm=id==='ncr'?'nCr':'nPr';need(peek()==='(',`Use brackets after ${nm}, for example ${nm}(5,2).`,'expr');i++;const a=expr();ws();need(peek()===',',`${nm} needs two numbers separated by a comma, for example ${nm}(5,2).`,'expr');i++;const b=expr();ws();need(peek()===')','Missing closing bracket.','expr');i++;return F2[id](a,b)}
       need(id in C,`Unknown name "${m[0]}".`,'expr');return C[id]}
     throw new ValErr(`Unexpected "${peek()??'end'}" at position ${i+1}.`,'expr');
   }
   function postfix(){let v=primary();ws();while(peek()==='!'){i++;need(Number.isInteger(v)&&v>=0&&v<=170,'Factorial needs a whole number from 0 to 170.','expr');let f=1;for(let k=2;k<=v;k++)f*=k;v=f;ws()}return v}
   function power(){const b=postfix();ws();if(peek()==='^'){i++;return Math.pow(b,unary())}return b}
   function unary(){ws();if(peek()==='-'){i++;return -unary()}if(peek()==='+'){i++;return unary()}return power()}
-  function term(){let v=unary();for(;;){ws();const c=peek();if(c==='*'){i++;v*=unary()}else if(c==='/'){i++;const d=unary();need(d!==0,'Division by zero.','expr');v/=d}else if(c==='%'){i++;v/=100}else return v}}
+  function term(){let v=unary();for(;;){ws();const c=peek();if(c==='*'){i++;v*=unary()}else if(c==='/'){i++;const d=unary();need(d!==0,'Division by zero.','expr');v/=d}else if(c==='%'){i++;v/=100}else if(c==='('||(c&&/[a-z]/i.test(c))){v*=unary()}else return v}}   // implied multiplication: 2pi, 3(4+1), 2sin(30)
   function expr(){let v=term();for(;;){ws();const c=peek();if(c==='+'){i++;v+=term()}else if(c==='-'){i++;v-=term()}else return v}}
   const v=expr(); ws(); need(i>=s.length,`Unexpected "${s[i]}" at position ${i+1}. Use * for multiplication.`,'expr');
   need(Number.isFinite(v),'The result is not a finite number.','expr'); return v;
@@ -405,8 +429,10 @@ const def = c => { c.version=c.version||'1.0.0'; CALCS.push(c); return c };
 
 /* ---------------- GENERAL ---------------- */
 def({id:'scientific',cat:'general',title:'Scientific calculator',kw:'expression math sin cos log sqrt factorial',
-  inputs:[text('expr','Expression','sqrt(16) + 2^3',{help:'Use + − * / ^ ( ) and sin cos tan asin acos atan sqrt cbrt log ln exp abs, pi, e, n!'}),sel('mode','Angles',[['deg','Degrees'],['rad','Radians']])],
-  compute(v){const x=evalExpr(v.expr,v.mode);return{results:[R('result','Result',x,{primary:true,sig:12})],formula:v.expr+' = '+fmtSig(x,12),steps:[`Parsed with standard precedence: brackets, factorial, powers (right to left), multiply/divide, add/subtract.`,`Trigonometry in ${v.mode==='deg'?'degrees':'radians'}.`]}}});
+  inputs:[text('expr','Expression','sqrt(16) + 2^3',{help:'Tap the keys or type: + − × ÷ ^ ( ) sin cos tan asin acos atan sinh cosh tanh sqrt cbrt log ln exp abs round nCr(n,r) nPr(n,r), pi, e, n!, %. 2pi means 2 × pi.'}),sel('mode','Angles',[['deg','Degrees'],['rad','Radians']])],
+  compute(v){const x=evalExpr(v.expr,v.mode),closed=evalExpr.closed;const steps=[`Parsed with standard precedence: brackets, factorial, powers (right to left), multiply/divide, add/subtract.`,`Trigonometry in ${v.mode==='deg'?'degrees':'radians'}.`];
+    if(closed)steps.push(`${closed} missing closing bracket${closed>1?'s were':' was'} added at the end.`);
+    return{results:[R('result','Result',x,{primary:true,sig:12})],formula:v.expr+(closed?')'.repeat(closed):'')+' = '+fmtSig(x,12),steps}}});
 def({id:'percentage',cat:'general',title:'Percentage',kw:'percent change increase decrease',
   inputs:[sel('mode','Question',[['of','What is X% of Y?'],['is','X is what % of Y?'],['change','% change from X to Y']]),num('x','X',{def:15}),num('y','Y',{def:200})],
   compute(v){fin(v.x,'x','X');fin(v.y,'y','Y');
@@ -1120,6 +1146,13 @@ const GOLDEN = [
  {calc:'scientific', in:{expr:'sin(30)',mode:'deg'}, expect:{result:[0.5]}, ref:'sin 30° = 1/2 (exact trigonometric value)'},
  {calc:'scientific', in:{expr:'5!',mode:'deg'}, expect:{result:[120]}, ref:'5! = 120'},
  {calc:'scientific', in:{expr:'-2^2',mode:'deg'}, expect:{result:[-4]}, ref:'Mathematical convention: −(2²)'},
+ {calc:'scientific', in:{expr:'nCr(52,5)',mode:'deg'}, expect:{result:[2598960]}, ref:'Combinations: 52! ÷ (5! × 47!) = 2,598,960 poker hands'},
+ {calc:'scientific', in:{expr:'nPr(5,2)',mode:'deg'}, expect:{result:[20]}, ref:'Permutations: 5 × 4 = 20'},
+ {calc:'scientific', in:{expr:'2pi',mode:'rad'}, expect:{result:[6.283185307179586,null,1e-12]}, ref:'Implied multiplication: 2 × π'},
+ {calc:'scientific', in:{expr:'√16 + ∛27',mode:'deg'}, expect:{result:[7]}, ref:'√16 = 4, ∛27 = 3'},
+ {calc:'scientific', in:{expr:'cosh(0) + sinh(0)',mode:'rad'}, expect:{result:[1]}, ref:'cosh 0 = 1, sinh 0 = 0'},
+ {calc:'scientific', in:{expr:'2 × (3 + 4',mode:'deg'}, expect:{result:[14]}, ref:'Missing closing bracket added: 2 × 7'},
+ {calc:'scientific', in:{expr:'asin(0.5)',mode:'deg'}, expect:{result:[30,null,1e-12]}, ref:'sin 30° = 0.5, so asin 0.5 = 30°'},
  {calc:'percentage', in:{mode:'of',x:15,y:200}, expect:{result:[30]}, ref:'15% × 200 = 30'},
  {calc:'percentage', in:{mode:'is',x:30,y:200}, expect:{result:[15]}, ref:'30 ÷ 200 = 15%'},
  {calc:'percentage', in:{mode:'change',x:80,y:100}, expect:{result:[25]}, ref:'(100 − 80) ÷ 80 = 25%'},
@@ -1645,8 +1678,8 @@ function vCalc(id){
   const k=catOf(c.cat);
   return `<div class="crumbs"><button class="link" data-go="home">Dashboard</button> / <button class="link" data-cat="${k.id}">${esc(k.name)}</button></div>
   <div class="chead"><h1>${esc(c.title)}</h1><button class="star ${S.favs.includes(id)?'on':''}" data-act="fav" aria-pressed="${S.favs.includes(id)}" aria-label="Favourite">${S.favs.includes(id)?'★':'☆'}</button><span class="chip">v${esc(c.version)}</span>${c.disclaimer?'<span class="chip warn">Check with a licensed professional</span>':''}</div>
-  <div class="guide"><span><b>1</b>Enter values — change units beside each box</span><span><b>2</b>The result, formula and working update as you type</span><span><b>3</b>Download a PDF report or add it to your sheet</span></div>
-  <div class="cgrid"><form class="card" id="cform" novalidate onsubmit="return false"><h2><span>Inputs</span><button class="link" type="button" data-act="reset" style="font-family:var(--f-ui);text-transform:none;letter-spacing:0;font-size:13px">Reset to defaults</button></h2><div class="fields">${c.inputs.map(i=>inputHTML(c,i)).join('')}</div></form>
+  <div class="guide">${c.id==='scientific'?'<span><b>1</b>Tap the keys or type an expression</span><span><b>2</b>The answer updates as you go</span><span><b>3</b>Press = to keep it in the history; download a PDF or add it to your sheet</span>':'<span><b>1</b>Enter values — change units beside each box</span><span><b>2</b>The result, formula and working update as you type</span><span><b>3</b>Download a PDF report or add it to your sheet</span>'}</div>
+  <div class="cgrid"><form class="card" id="cform" novalidate onsubmit="return false"><h2><span>Inputs</span><button class="link" type="button" data-act="reset" style="font-family:var(--f-ui);text-transform:none;letter-spacing:0;font-size:13px">Reset to defaults</button></h2><div class="fields">${c.id==='scientific'?sciForm(c):c.inputs.map(i=>inputHTML(c,i)).join('')}</div></form>
   <section class="card res" aria-live="polite" id="result"></section></div>`;
 }
 function renderResult(){
@@ -1654,9 +1687,12 @@ function renderResult(){
   document.querySelectorAll('.fld').forEach(f=>f.classList.remove('bad'));document.querySelectorAll('.fld .err').forEach(e=>e.textContent='');
   const raw={};for(const i of c.inputs){raw[i.key]=i.type==='num'?(form.vals[i.key]===''?'':[form.vals[i.key],form.units[i.key]||i.unit]):form.vals[i.key]}
   try{ last={...runCalc(c.id,raw),raw:{vals:{...form.vals},units:{...form.units}}}; }
-  catch(e){ last=null; if(e.key){const f=$('#f_'+e.key);if(f){f.classList.add('bad');$('#e_'+e.key).textContent=e.message}}
+  catch(e){ last=null;
+    if(c.id==='scientific'){const empty=!String(form.vals.expr||'').trim();const o=$('#sciOut');if(o){o.textContent=empty?'= 0':'= …';o.classList.add('wait')}el.innerHTML=`<h2><span>Result</span><span>${esc(catOf(c.cat).name)}</span></h2><div class="prim pending"><div class="lab">${empty?'Ready':'Keep going…'}</div><div class="val">${empty?'0':sciGood!=null?esc(sciGood):'…'}</div></div><p class="muted" style="margin:8px 0 0;font-size:13.5px">${empty?'Tap the keys or type an expression.':esc(e.message)}</p>`;$('#mbar').hidden=true;return}
+    if(e.key){const f=$('#f_'+e.key);if(f){f.classList.add('bad');$('#e_'+e.key).textContent=e.message}}
     el.innerHTML=`<h2>Result</h2><div class="prim err"><div class="lab">Check your inputs</div><div class="val">${esc(e.message)}</div></div>`; $('#mbar').hidden=true; return; }
   const prim=last.results.filter(r=>r.primary), rest=last.results.filter(r=>!r.primary);
+  if(c.id==='scientific'){sciGood=plain(fmtVal(prim[0]).main);const o=$('#sciOut');if(o){o.textContent='= '+sciGood;o.classList.remove('wait')}}
   const P=prim.map(r=>{const f=fmtVal(r);return `<div class="prim"><div class="lab">${esc(r.label)}</div><div class="val">${f.main}</div>${f.alt?`<div class="alt">= ${f.alt}</div>`:''}</div>`}).join('');
   const rows=c.conv?`<div class="convgrid">${rest.map(r=>`<div><small>${esc(r.label)}</small><b>${fmtVal(r).main}</b></div>`).join('')}</div>`
     :rest.length?`<table class="rtab"><tbody>${rest.map(r=>{const f=fmtVal(r);return `<tr><td>${esc(r.label)}</td><td>${f.main}${f.alt?`<small>${f.alt}</small>`:''}</td></tr>`}).join('')}</tbody></table>`:'';
@@ -1910,6 +1946,8 @@ document.addEventListener('click',async e=>{
     case'licactivate':await doActivate();break;
     case'licremove':modal(`<h2 style="font-size:18px">Remove the licence from this device?</h2><p class="muted" style="margin:0">You can activate it again later on this or another device.</p><div style="display:flex;gap:8px"><button class="btn" data-act="licremoveyes" style="color:var(--bad)">Remove</button><button class="btn" data-act="close">Keep it</button></div>`);break;
     case'licremoveyes':await removeLicense();break;
+    case'scikb':{S.sciKeyboard=!S.sciKeyboard;save();const inp=$('#in_expr');if(inp){if(S.sciKeyboard)inp.removeAttribute('inputmode');else inp.setAttribute('inputmode','none');el.textContent=S.sciKeyboard?'Use keypad':'Use keyboard';inp.blur();setTimeout(()=>inp.focus(),30)}break}
+    case'scihclear':S.sciHist=[];save();{const h=$('#sciHist');if(h)h.innerHTML=''}break;
     case'toresult':{const r=$('#result');if(r)r.scrollIntoView({behavior:'smooth',block:'start'});break}
     case'save':if(!last)return;if(!gate('save'))return;doSave();break;
     case'dosave':{const name=$('#sv_name').value.trim().slice(0,80)||calc(last.calc).title;S.saves.push({id:uid(),calc:last.calc,version:last.version,name,vals:last.raw.vals,units:last.raw.units,summary:summary(),at:Date.now()});save();closeModal();toast('Saved to History');break}
@@ -1939,8 +1977,75 @@ document.addEventListener('click',async e=>{
 function setPh(){const q=$('#q');if(!q)return;const narrow=matchMedia('(max-width:840px)').matches;q.placeholder=narrow?`Search ${CALCS.length} calculators`:'Search calculators — try “duct”, “sprinkler”, “gas pipe”, “karat”'}
 try{matchMedia('(max-width:840px)').addEventListener('change',setPh)}catch(e){}
 function watchResult(){if(!('IntersectionObserver' in window))return;if(window._io)window._io.disconnect();const el=$('#result');if(!el)return;
-  window._io=new IntersectionObserver(([en])=>{$('#mbar').hidden=en.isIntersecting||!last||view.name!=='calc'},{threshold:0.05});window._io.observe(el)}
-function updateBar(){if(!last){$('#mbar').hidden=true;return}const p=last.results.find(r=>r.primary)||last.results[0];$('#mbarL').textContent=p.label;$('#mbarV').innerHTML=fmtVal(p).main}
+  window._io=new IntersectionObserver(([en])=>{$('#mbar').hidden=en.isIntersecting||!last||view.name!=='calc'||(form&&form.id==='scientific')},{threshold:0.05});window._io.observe(el)}
+function updateBar(){if(!last||form&&form.id==='scientific'){$('#mbar').hidden=true;return}const p=last.results.find(r=>r.primary)||last.results[0];$('#mbarL').textContent=p.label;$('#mbarV').innerHTML=fmtVal(p).main}
+/* ---------- scientific calculator keypad ---------- */
+const SCI_KEYS=[['sin','sin()','fn','Sine'],['cos','cos()','fn','Cosine'],['tan','tan()','fn','Tangent'],['log','log()','fn','Logarithm, base 10'],['ln','ln()','fn','Natural logarithm'],
+ ['√x','√()','fn','Square root'],['x²','^2','fn','Square'],['xʸ','^','fn','Power'],['π','π','fn','Pi, 3.14159…'],['e','e','fn','Euler’s number, 2.71828…'],
+ ['Ans',':ans','fn','Last answer'],['1/x','1/()','fn','Reciprocal'],['10ˣ','10^','fn','Ten to the power'],['n!','!','fn','Factorial'],['%','%','fn','Percent (divides by 100)'],
+ ['7','7'],['8','8'],['9','9'],['(','(','op','Open bracket'],[')',')','op','Close bracket'],
+ ['4','4'],['5','5'],['6','6'],['×',' × ','op','Multiply'],['÷',' ÷ ','op','Divide'],
+ ['1','1'],['2','2'],['3','3'],['+',' + ','op','Add'],['−',' − ','op','Subtract'],
+ ['0','0'],['.','.','','Decimal point'],[',',',','','Comma, for nCr(n, r) and nPr(n, r)'],['⌫',':del','','Delete'],['C',':clr','','Clear'],
+ ['◀',':left','','Move cursor left'],['▶',':right','','Move cursor right'],['=',':eq','eq','Calculate and keep in history']];
+const SCI_MORE=[['asin()','asin — inverse sine'],['acos()','acos — inverse cosine'],['atan()','atan — inverse tangent'],['sinh()','sinh — hyperbolic sine'],['cosh()','cosh — hyperbolic cosine'],['tanh()','tanh — hyperbolic tangent'],
+ ['∛()','∛ cube root'],['exp()','eˣ exp — e to the power'],['abs()','|x| abs — absolute value'],['round()','round — nearest whole number'],['floor()','floor — round down'],['ceil()','ceil — round up'],
+ ['nCr(','nCr(n, r) — combinations'],['nPr(','nPr(n, r) — permutations']];
+let sciFresh=false, sciSel=null, sciGood=null;
+const COARSE=(()=>{try{return matchMedia('(pointer:coarse)').matches}catch(e){return false}})();
+function sciForm(c){
+  const mode=form.vals.mode||'deg', kb=S.sciKeyboard===true;
+  return `<div class="fld" id="f_expr"><label for="in_expr">Expression</label><input type="text" id="in_expr" data-k="expr" value="${esc(form.vals.expr??'')}" spellcheck="false" autocomplete="off" autocapitalize="off" ${COARSE&&!kb?'inputmode="none"':''} class="sciin" aria-describedby="sci_help">
+   <div class="sciout" id="sciOut" aria-live="polite"></div><div class="err" id="e_expr" aria-live="polite"></div></div>
+  <div class="sbar"><div class="seg" role="group" aria-label="Angle unit"><button type="button" data-smode="deg" class="${mode==='deg'?'on':''}">DEG</button><button type="button" data-smode="rad" class="${mode==='rad'?'on':''}">RAD</button></div>
+   <span class="muted" style="font-size:12.5px">${mode==='deg'?'Angles in degrees':'Angles in radians'}</span><span class="sp"></span>
+   <button type="button" class="btn sm ghost kbtog" data-act="scikb">${kb?'Use keypad':'Use keyboard'}</button></div>
+  <div class="skp" role="group" aria-label="Calculator keys">${SCI_KEYS.map(([l,t,cls,tt])=>`<button type="button" class="${cls||''}" data-sk="${esc(t)}" ${tt?`title="${esc(tt)}" aria-label="${esc(tt)}"`:''}>${l}</button>`).join('')}</div>
+  <select id="sciMore" aria-label="More functions" style="margin-top:8px"><option value="">More functions…</option>${SCI_MORE.map(([v,l])=>`<option value="${esc(v)}">${esc(l)}</option>`).join('')}</select>
+  <p class="help" id="sci_help" style="margin:8px 0 0;font-size:12.5px;line-height:1.5">Type or tap. Functions add their brackets for you; 2π means 2 × π; missing closing brackets are added at the end. Press Enter or = to keep a result in the history.</p>
+  <div id="sciHist">${sciHistHTML()}</div>`;
+}
+function sciHistHTML(){const h=S.sciHist||[];if(!h.length)return '';
+  return `<div class="shist"><div class="shh"><b>History</b><button type="button" class="link" data-act="scihclear" style="font-size:12.5px">Clear</button></div>${h.map((x,k)=>`<button type="button" data-sh="${k}" title="Use this calculation again"><span>${esc(x.e)}</span><b>= ${esc(x.r)}</b></button>`).join('')}</div>`}
+const sciAnsStr=()=>S.sciAns==null?'':String(+(+S.sciAns).toPrecision(12));
+function sciCaret(inp){if(document.activeElement===inp)return [inp.selectionStart,inp.selectionEnd];return sciSel||[inp.value.length,inp.value.length]}
+function sciSet(inp,v,caret){inp.value=v;form.vals.expr=v;sciSel=[caret,caret];if(!COARSE||inp.getAttribute('inputmode')==='none'){try{inp.focus({preventScroll:true})}catch(e){}}try{inp.setSelectionRange(caret,caret)}catch(e){}renderResult()}
+function sciInsert(t){
+  const inp=$('#in_expr');if(!inp)return;
+  if(t===':eq')return sciEquals();
+  if(t===':clr'){sciFresh=false;return sciSet(inp,'',0)}
+  let v=inp.value,[a,b]=sciCaret(inp);if(a==null||a>v.length)a=b=v.length;
+  if(t===':left'||t===':right'){sciFresh=false;const c=t===':left'?Math.max(0,a-1):Math.min(v.length,b+1);sciSel=[c,c];try{if(!COARSE||inp.getAttribute('inputmode')==='none')inp.focus({preventScroll:true});inp.setSelectionRange(c,c)}catch(e){}return}
+  if(t===':del'){sciFresh=false;if(a!==b){return sciSet(inp,v.slice(0,a)+v.slice(b),a)}if(a===0)return;
+    let k=1;const m=/(asin|acos|atan|sinh|cosh|tanh|sqrt|cbrt|round|floor|ceil|sin|cos|tan|log|exp|abs|nCr|nPr|ln|√|∛)\($|pi$| [×÷+−] $/.exec(v.slice(0,a));if(m)k=m[0].length;
+    const gone=v.slice(a-k,a),tail=gone.endsWith('(')&&v[b]===')'?1:0;return sciSet(inp,v.slice(0,a-k)+v.slice(b+tail),a-k)}   // an emptied function loses its ')' too
+  if(t===')'&&a===b&&v[a]===')'&&!sciFresh){const c=a+1;sciSel=[c,c];try{if(!COARSE||inp.getAttribute('inputmode')==='none')inp.focus({preventScroll:true});inp.setSelectionRange(c,c)}catch(e){}return}   // step over an auto-added ')'
+  if(t===':ans'){if(S.sciAns==null){toast('Press = first to keep an answer');return}t=sciAnsStr()}
+  const isOp=/^( [×÷+−] |\^2?|!|%)$/.test(t);
+  if(sciFresh){sciFresh=false;if(isOp&&S.sciAns!=null)v=sciAnsStr();else if(!isOp)v='';a=b=v.length}
+  const sel=v.slice(a,b);let ins=t,caret;
+  if(t.endsWith('()')){ins=sel?t.slice(0,-1)+sel+')':t;caret=a+ins.length-(sel?0:1)}
+  else if(t.includes('(,)')){ins=t.replace('(,)','('+sel+',)');caret=a+(sel?ins.indexOf(',')+1:ins.indexOf('(')+1)}
+  else caret=a+ins.length;
+  sciSet(inp,v.slice(0,a)+ins+v.slice(b),caret);
+}
+function sciEquals(){
+  if(!last||last.calc!=='scientific'){toast('Finish the expression first');return}
+  const r=last.results[0],e=($('#in_expr').value||'').trim();if(!e)return;
+  S.sciAns=r.value;const rs=plain(fmtVal(r).main);
+  S.sciHist=[{e,r:rs},...(S.sciHist||[]).filter(x=>x.e!==e)].slice(0,8);save();
+  sciFresh=true;const h=$('#sciHist');if(h)h.innerHTML=sciHistHTML();
+  const p=$('#result .prim');if(p){p.classList.remove('flash');void p.offsetWidth;p.classList.add('flash')}
+}
+document.addEventListener('mousedown',e=>{if(e.target.closest('.skp button,[data-smode]'))e.preventDefault()});
+document.addEventListener('click',e=>{
+  const k=e.target.closest('[data-sk]');if(k){sciInsert(k.dataset.sk);return}
+  const m=e.target.closest('[data-smode]');if(m&&form&&form.id==='scientific'){form.vals.mode=m.dataset.smode;document.querySelectorAll('[data-smode]').forEach(b=>b.classList.toggle('on',b===m));const lab=m.parentElement.nextElementSibling;if(lab)lab.textContent=m.dataset.smode==='deg'?'Angles in degrees':'Angles in radians';renderResult();return}
+  const h=e.target.closest('[data-sh]');if(h){const x=(S.sciHist||[])[+h.dataset.sh];const inp=$('#in_expr');if(x&&inp){sciFresh=false;sciSet(inp,x.e,x.e.length)}return}
+});
+document.addEventListener('change',e=>{if(e.target.id==='sciMore'&&e.target.value){const v=e.target.value;e.target.value='';sciInsert(v)}});
+document.addEventListener('keydown',e=>{if(e.target.id==='in_expr'&&e.key==='Enter'){e.preventDefault();sciEquals()}});
+['keyup','click','select','input'].forEach(ev=>document.addEventListener(ev,e=>{if(e.target.id==='in_expr'){sciSel=[e.target.selectionStart,e.target.selectionEnd];if(ev==='input')sciFresh=false}}));
 function doSave(){modal(`<h2 style="font-size:18px">Save calculation</h2><div class="fld"><label for="sv_name">Name</label><input type="text" id="sv_name" maxlength="80" value="${esc(calc(last.calc).title+' — '+new Date().toLocaleDateString())}"></div><p class="muted" style="margin:0;font-size:13px">${esc(summary())}</p><div style="display:flex;gap:8px"><button class="btn pri" data-act="dosave">Save</button><button class="btn" data-act="close">Cancel</button></div>`)}
 
 applyTheme();setPh();productInit();
